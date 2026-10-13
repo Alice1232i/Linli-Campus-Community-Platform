@@ -1,0 +1,132 @@
+<!--pages/user/posts/index.wxml-->
+<!--用户帖子页 - 展示指定用户（或当前用户）发布的帖子列表-->
+
+<!-- 导航栏标题动态：查看自己"我的帖子"，查看他人"作者的空间" -->
+<navigation-bar title="{{navTitle}}" back="{{true}}"></navigation-bar>
+
+<!-- 内容类型筛选：仅查看自己的帖子时展示（他人主页保持全量，不引入筛选维度） -->
+<view wx:if="{{!isOther}}" class="posts-tabs">
+  <feed-tabs tabs="{{moduleTabs}}" active="{{activeModule}}" bind:change="onTapModule"></feed-tabs>
+</view>
+
+<scroll-view
+  class="posts-scroll"
+  type="list"
+  scroll-y
+  enhanced
+  show-scrollbar="{{false}}"
+  bindscrolltolower="onReachBottom"
+>
+  <!-- 作者信息卡片（仅查看他人时显示） -->
+  <view wx:if="{{isOther && authorInfo}}" class="author-card card">
+    <!-- 头像 + 昵称行 -->
+    <view class="author-card__header">
+      <image
+        class="author-card__avatar"
+        src="{{authorInfo.avatar || '/images/icons/user.png'}}"
+        mode="aspectFill"
+      />
+      <view class="author-card__info">
+        <view class="author-card__name-row">
+          <text class="author-card__name">{{authorInfo.nickname || '匿名用户'}}</text>
+          <!-- 学生认证标识 -->
+          <view wx:if="{{authorInfo.verifyBadge}}" class="author-card__badge">认证</view>
+        </view>
+        <text wx:if="{{authorInfo.campus}}" class="author-card__campus">{{authorInfo.campus}}</text>
+        <!-- 院系信息：学院 · 专业 · 届数 -->
+        <text wx:if="{{academyText}}" class="author-card__campus">{{academyText}}</text>
+      </view>
+    </view>
+    <!-- 个人简介 -->
+    <text wx:if="{{authorInfo.bio}}" class="author-card__bio">{{authorInfo.bio}}</text>
+    <!-- 统计数据 -->
+    <view class="author-card__stats">
+      <view class="author-card__stat">
+        <text class="author-card__stat-num">{{authorInfo.stats.postCount || 0}}</text>
+        <text class="author-card__stat-label">帖子</text>
+      </view>
+      <view class="author-card__stat">
+        <text class="author-card__stat-num">{{authorInfo.stats.likeCount || 0}}</text>
+        <text class="author-card__stat-label">获赞</text>
+      </view>
+      <view class="author-card__stat">
+        <text class="author-card__stat-num">{{authorInfo.stats.followerCount || 0}}</text>
+        <text class="author-card__stat-label">粉丝</text>
+      </view>
+      <view class="author-card__stat">
+        <text class="author-card__stat-num">{{authorInfo.stats.followingCount || 0}}</text>
+        <text class="author-card__stat-label">关注</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 作者信息加载中 -->
+  <view wx:if="{{isOther && authorLoading}}" class="author-card card">
+    <loading text="加载中..."></loading>
+  </view>
+
+  <!-- 帖子列表 -->
+  <block wx:if="{{postList.length > 0}}">
+    <view
+      wx:for="{{postList}}"
+      wx:key="_id"
+      class="post-item card"
+      data-id="{{item._id}}"
+      bindtap="onTapPost"
+      bindlongpress="onLongPressPost"
+      hover-class="post-item--hover"
+    >
+      <!-- 类型标签（仅失物招领）+ 帖子标题：与社区帖混排时便于区分 -->
+      <view wx:if="{{item.title || item._typeText}}" class="post-item__head">
+        <view wx:if="{{item._typeText}}" class="post-item__type">
+          <text>{{item._typeText}}</text>
+        </view>
+        <text class="post-item__title" wx:if="{{item.title}}">{{item.title}}</text>
+      </view>
+      <!-- 帖子内容摘要 -->
+      <text class="post-item__content">{{item._contentText}}</text>
+      <!-- 图片预览（最多显示3张） -->
+      <view wx:if="{{item.images && item.images.length > 0}}" class="post-item__images">
+        <block wx:for="{{item.images}}" wx:for-item="img" wx:for-index="imgIdx" wx:key="*this">
+          <image
+            wx:if="{{imgIdx < 3}}"
+            class="post-item__image"
+            src="{{img}}"
+            mode="aspectFill"
+          />
+        </block>
+      </view>
+      <!-- 底部信息：时间 + 统计 -->
+      <view class="post-item__footer">
+        <text class="post-item__time">{{item._timeText}}</text>
+        <view class="post-item__stats">
+          <text class="post-item__stat">{{item.stats.likes}}赞</text>
+          <text class="post-item__stat">{{item.stats.comments}}评</text>
+          <text class="post-item__stat">{{item.stats.favorites}}藏</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载中 -->
+    <loading wx:if="{{loading}}" text="加载中..." />
+
+    <!-- 无更多数据 -->
+    <view wx:if="{{!hasMore && !loading}}" class="posts-end">
+      <text>没有更多了</text>
+    </view>
+  </block>
+
+  <!-- 加载中（首次加载） -->
+  <loading wx:if="{{loading && postList.length === 0}}" text="加载中..." />
+
+  <!-- 空状态 -->
+  <empty-state
+    wx:if="{{!loading && postList.length === 0}}"
+    text="{{emptyText}}"
+    sub="{{emptySub}}"
+    icon="/images/icons/edit.png"
+  />
+
+  <!-- 底部留白 -->
+  <view class="posts-bottom-space"></view>
+</scroll-view>

@@ -1,0 +1,150 @@
+<!--pages/discover/index.wxml-->
+<!--发现页 - 板块导航 + 社区热度 + 跨板块内容聚合-->
+<!--结构：页头 → 横向板块标签栏 → 板块热度榜单 → 精选内容；无轮播、无八宫格-->
+
+<view class="discover-page">
+  <navigation-bar title="发现" back="{{false}}"></navigation-bar>
+
+  <scroll-view
+    class="discover-scroll"
+    type="list"
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+  >
+    <!-- 1. 页头 -->
+    <view class="discover-header">
+      <text class="discover-header__title">探索板块</text>
+      <text class="discover-header__sub">逛逛校园各个板块，发现社区新鲜事</text>
+    </view>
+
+    <!-- 2. 横向滚动板块标签栏（单行横向滑动，点击进入对应板块帖子列表） -->
+    <scroll-view
+      class="tag-bar"
+      scroll-x
+      enhanced
+      show-scrollbar="{{false}}"
+      scroll-into-view="tag-{{activeTag}}"
+    >
+      <view class="tag-bar__inner">
+        <view
+          wx:for="{{tags}}"
+          wx:key="key"
+          id="tag-{{item.key}}"
+          class="tag-chip {{activeTag === item.key ? 'tag-chip--active' : ''}}"
+          style="background-color:{{activeTag === item.key ? item.color : item.bgColor}};color:{{activeTag === item.key ? '#FFFFFF' : item.color}};"
+          data-key="{{item.key}}"
+          data-url="{{item.navUrl}}"
+          bindtap="onTapTag"
+          hover-class="tag-chip--hover"
+        >
+          <text class="tag-chip__text">{{item.name}}</text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- 3. 板块热度榜单 -->
+    <view class="discover-card">
+      <view class="discover-card__head">
+        <text class="discover-card__title">板块热度</text>
+        <text class="discover-card__note">内容 &amp; 活跃度越高排名越靠前</text>
+      </view>
+
+      <!-- 加载中 -->
+      <view wx:if="{{hotLoading}}" class="discover-state">
+        <text class="discover-state__text">正在加载板块热度...</text>
+      </view>
+
+      <!-- 空状态 -->
+      <view wx:elif="{{!hotSections.length}}" class="discover-state">
+        <text class="discover-state__text">暂无板块数据，快去发一条帖子吧</text>
+      </view>
+
+      <!-- 榜单列表 -->
+      <view wx:else>
+        <view
+          wx:for="{{hotSections}}"
+          wx:key="key"
+          class="hot-item {{index === hotSections.length - 1 ? 'hot-item--last' : ''}}"
+          data-url="{{item.navUrl}}"
+          bindtap="onTapHotSection"
+          hover-class="hot-item--hover"
+        >
+          <!-- 排名：前三名奖牌色，其余灰 -->
+          <view class="hot-item__rank hot-item__rank--{{index < 3 ? index + 1 : 'rest'}}">
+            <text class="hot-item__rank-num">{{index + 1}}</text>
+          </view>
+
+          <view class="hot-item__main">
+            <!-- 板块标签 + 帖子总数 + 本周活跃人数 -->
+            <view class="hot-item__row">
+              <text class="hot-item__tag" style="color:{{item.color}};background-color:{{item.bgColor}};">{{item.name}}</text>
+              <text class="hot-item__stats">{{item.total}} 篇 · {{item.active}} 人本周活跃</text>
+            </view>
+            <!-- 最新帖子动态 -->
+            <view class="hot-item__latest">
+              <text class="hot-item__latest-label">最新</text>
+              <text class="hot-item__latest-text">{{item.latestText}}</text>
+              <text wx:if="{{item.latestTime}}" class="hot-item__latest-time">{{item.latestTime}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 4. 精选内容（每个热门板块取 2 条最热帖子预览） -->
+    <view class="discover-card">
+      <view class="discover-card__head">
+        <text class="discover-card__title">精选内容</text>
+        <text class="discover-card__note">各热门板块最热帖子</text>
+      </view>
+
+      <!-- 加载中 -->
+      <view wx:if="{{featuredLoading}}" class="discover-state">
+        <text class="discover-state__text">正在加载精选内容...</text>
+      </view>
+
+      <!-- 空状态 -->
+      <view wx:elif="{{!featured.length}}" class="discover-state">
+        <text class="discover-state__text">暂无精选内容，发布你的第一条帖子吧</text>
+      </view>
+
+      <!-- 按板块分组的精选帖 -->
+      <block wx:else>
+        <view wx:for="{{featured}}" wx:key="section" class="feat-group">
+          <!-- 板块标签（分组标题） -->
+          <view class="feat-group__head">
+            <text class="feat-group__tag" style="color:{{item.color}};background-color:{{item.bgColor}};">{{item.name}}</text>
+            <text class="feat-group__hint">热门板块</text>
+          </view>
+
+          <view
+            wx:for="{{item.posts}}"
+            wx:key="_id"
+            wx:for-item="post"
+            class="feat-post {{index === item.posts.length - 1 ? 'feat-post--last' : ''}}"
+            data-postid="{{post._id}}"
+            bindtap="onTapPost"
+            hover-class="feat-post--hover"
+          >
+            <!-- 头像 -->
+            <image class="feat-post__avatar" src="{{post.avatar}}" mode="aspectFill" />
+            <view class="feat-post__body">
+              <view class="feat-post__head">
+                <text class="feat-post__name">{{post.nickname}}</text>
+                <text class="feat-post__time">{{post.timeText}}</text>
+              </view>
+              <!-- 文字摘要 -->
+              <text class="feat-post__excerpt">{{post.excerpt}}</text>
+            </view>
+            <!-- 有图则展示缩略图 -->
+            <image wx:if="{{post.thumb}}" class="feat-post__thumb" src="{{post.thumb}}" mode="aspectFill" lazy-load />
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <!-- 底部留白：为固定的自定义 TabBar（88rpx + 安全区）让位 -->
+    <view class="discover-bottom-space"></view>
+  </scroll-view>
+</view>

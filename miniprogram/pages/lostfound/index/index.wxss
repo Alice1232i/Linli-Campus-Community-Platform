@@ -1,0 +1,220 @@
+/* pages/lostfound/index/index.wxss */
+/* 招领中心列表样式 */
+
+/* 类型筛选 tabs：吸顶 */
+.lf-tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-bg-card);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.lf-tab {
+  flex: 1;
+  padding: var(--space-xs) 0;
+  text-align: center;
+  border-radius: var(--radius-full);
+  margin: 0 var(--space-xs);
+}
+
+.lf-tab--active {
+  background-color: var(--color-primary);
+}
+
+.lf-tab--hover {
+  opacity: 0.8;
+}
+
+.lf-tab__text {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+.lf-tab--active .lf-tab__text {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* 滚动容器 */
+/* Skyline 不支持 vh：page 纵向 flex，滚动区 flex:1 自适应导航栏与 Tab 真实高度 */
+page {
+  display: flex;
+  flex-direction: column;
+}
+
+.lf-scroll {
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: var(--space-sm) var(--space-md) var(--space-xl);
+}
+
+/* 招领卡片 */
+.lf-card {
+  margin-bottom: var(--space-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.lf-card--hover {
+  opacity: 0.85;
+  transform: scale(0.99);
+}
+
+/* 主区域：缩略图 + 信息 */
+.lf-card__main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* 缩略图：120rpx 方形圆角 */
+.lf-card__thumb {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  background-color: var(--color-bg-page);
+}
+
+.lf-card__thumb--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lf-card__thumb-icon {
+  width: 56rpx;
+  height: 56rpx;
+  opacity: 0.4;
+}
+
+/* 信息区 */
+.lf-card__info {
+  flex: 1;
+  margin-left: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.lf-card__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lf-card__name {
+  flex: 1;
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-right: var(--space-sm);
+}
+
+.lf-card__kind {
+  flex-shrink: 0;
+  padding: 4rpx var(--space-sm);
+  font-size: var(--font-xs);
+  border-radius: var(--radius-full);
+  line-height: 1.4;
+}
+
+/* 地点信息 */
+.lf-card__meta {
+  margin-top: var(--space-xs);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.lf-card__icon {
+  width: 28rpx;
+  height: 28rpx;
+  margin-right: var(--space-xs);
+  flex-shrink: 0;
+}
+
+.lf-card__location {
+  flex: 1;
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+.lf-card__time {
+  margin-top: var(--space-xs);
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* 底部没有更多 */
+.lf-end {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg) 0;
+}
+
+.lf-end__text {
+  font-size: var(--font-sm);
+  color: var(--color-text-placeholder);
+}
+
+/* 封禁用户提示 */
+.lf-banned {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.lf-banned__text {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-danger);
+  margin-bottom: 16rpx;
+}
+
+.lf-banned__sub {
+  font-size: var(--font-sm);
+  color: var(--color-text-placeholder);
+}
+
+/* 悬浮发布按钮（与板块专区页统一：图标+文字胶囊） */
+.lf-fab {
+  position: fixed;
+  right: var(--space-md);
+  bottom: 120rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-primary);
+  border-radius: 999rpx;
+  box-shadow: 0 8rpx 24rpx rgba(74, 144, 217, 0.4);
+  z-index: 99;
+}
+
+.lf-fab--hover {
+  opacity: 0.8;
+  transform: scale(0.95);
+}
+
+.lf-fab__icon {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.lf-fab__text {
+  margin-left: var(--space-xs);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: #FFFFFF;
+}

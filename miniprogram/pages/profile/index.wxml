@@ -1,0 +1,88 @@
+<!--pages/profile/index.wxml-->
+<!--我的页 - 用户信息卡片 + 统计数据 + 功能入口列表-->
+
+<navigation-bar title="我的" back="{{false}}"></navigation-bar>
+
+<view class="profile-page">
+  <scroll-view class="profile-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+
+    <!-- ============ 顶部用户信息卡片（渐变背景） ============ -->
+    <view class="user-card" bindtap="onTapUserCard" hover-class="user-card--hover">
+      <!-- 头像：120rpx 圆形带边框 -->
+      <image class="user-card__avatar" src="{{userInfo.avatar}}" mode="aspectFill" />
+      <view class="user-card__info">
+        <view class="user-card__name-row">
+          <text class="user-card__name">{{userInfo.nickname}}</text>
+          <!-- 学生认证徽章 -->
+          <view wx:if="{{userInfo.verifyBadge}}" class="user-card__badge">
+            <text>已认证</text>
+          </view>
+          <!-- 封禁/禁言状态标签 -->
+          <view wx:if="{{accountStatus === 'banned'}}" class="user-card__status user-card__status--banned">
+            <text>已封禁</text>
+          </view>
+          <view wx:elif="{{accountStatus === 'muted'}}" class="user-card__status user-card__status--muted">
+            <text>已禁言</text>
+          </view>
+        </view>
+        <!-- 院系信息：学院 · 专业 · 届数（编辑资料填写后展示） -->
+        <text wx:if="{{collegeText}}" class="user-card__meta">{{collegeText}}</text>
+        <text class="user-card__sub">{{isLoggedIn ? '点击编辑资料' : '点击登录享受更多服务'}}</text>
+      </view>
+    </view>
+
+    <!-- ============ 封禁/禁言提示横幅 ============ -->
+    <view wx:if="{{accountStatus === 'banned'}}" class="account-notice account-notice--banned">
+      <text class="account-notice__title">账号已被封禁</text>
+      <text class="account-notice__desc">封禁期间无法发帖、评论、点赞、收藏及浏览社区内容</text>
+    </view>
+    <view wx:elif="{{accountStatus === 'muted'}}" class="account-notice account-notice--muted">
+      <text class="account-notice__title">账号已被禁言</text>
+      <text class="account-notice__desc">禁言期间无法发帖和评论，但可以点赞和收藏</text>
+    </view>
+
+    <!-- ============ 统计数据条：帖子 / 收藏 / 订单（点击可跳转对应页面） ============ -->
+    <view class="stats-bar">
+      <view class="stats-item" bindtap="onTapStatPosts" hover-class="stats-item--hover" hover-stay-time="100">
+        <text class="stats-item__num">{{stats.posts}}</text>
+        <text class="stats-item__label">帖子</text>
+      </view>
+      <view class="stats-divider"></view>
+      <view class="stats-item" bindtap="onTapStatFavorites" hover-class="stats-item--hover" hover-stay-time="100">
+        <text class="stats-item__num">{{stats.favorites}}</text>
+        <text class="stats-item__label">收藏</text>
+      </view>
+    </view>
+
+    <!-- ============ 功能入口列表 ============ -->
+    <view class="entry-list card">
+      <block wx:for="{{entries}}" wx:key="key">
+        <view
+          wx:if="{{item.key !== 'verify' || verifyEnabled}}"
+          class="entry-item {{index === entries.length - 1 ? 'entry-item--last' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onTapEntry"
+          hover-class="entry-item--hover"
+        >
+          <image class="entry-item__icon" src="{{item.icon}}" mode="aspectFit" />
+          <text class="entry-item__name">{{item.name}}</text>
+          <!-- 学生认证：未认证显示「未认证」标签；其余入口支持通用附加标签（如意见箱「公测」） -->
+          <view wx:if="{{item.key === 'verify' && !userInfo.verifyBadge}}" class="entry-item__tag">
+            <text>未认证</text>
+          </view>
+          <view wx:elif="{{item.tag}}" class="entry-item__tag">
+            <text>{{item.tag}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <!-- ============ 退出登录按钮（仅登录态显示） ============ -->
+    <view wx:if="{{isLoggedIn}}" class="logout-btn" bindtap="onLogout" hover-class="logout-btn--hover">
+      <text>退出登录</text>
+    </view>
+
+    <!-- 底部占位（避开固定 TabBar + 安全区） -->
+    <view class="bottom-spacer"></view>
+  </scroll-view>
+</view>

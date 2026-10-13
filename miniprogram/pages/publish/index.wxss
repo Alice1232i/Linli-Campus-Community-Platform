@@ -1,0 +1,90 @@
+/* pages/publish/index.wxss */
+/* 发布页 - 发布中心样式（无导航栏） */
+
+.publish-page {
+  min-height: 100%;
+  padding: var(--space-lg) var(--space-md) var(--tabbar-height);
+  box-sizing: border-box;
+}
+
+/* 顶部标题区 */
+.publish-header {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-lg) 0 var(--space-md);
+}
+
+.publish-header__title {
+  font-size: var(--font-xxl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.publish-header__sub {
+  margin-top: var(--space-xs);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+/* 发布选项列表 */
+.publish-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.publish-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 120rpx;
+  padding: 0 var(--space-md);
+}
+
+.publish-item--hover {
+  opacity: 0.7;
+  transform: scale(0.99);
+}
+
+/* 图标容器：主色浅底圆角 */
+.publish-item__icon-wrap {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.publish-item__icon {
+  width: 64rpx;
+  height: 64rpx;
+}
+
+/* 文本信息 */
+.publish-item__info {
+  flex: 1;
+  margin-left: var(--space-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.publish-item__name {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.publish-item__desc {
+  margin-top: 4rpx;
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+/* 右侧箭头 */
+.publish-item__arrow {
+  width: 32rpx;
+  height: 32rpx;
+  flex-shrink: 0;
+}

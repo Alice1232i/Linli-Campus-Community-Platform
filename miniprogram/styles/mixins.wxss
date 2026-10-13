@@ -1,0 +1,130 @@
+/**
+ * mixins.wxss
+ * 通用样式混入（wxss 不支持 mixin，统一以 class 形式复用）
+ * 通过在节点上叠加 class 即可应用对应样式
+ */
+
+/* ============ Flex 布局类 ============ */
+/* flex 水平+垂直居中 */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* flex 两端对齐 */
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 纵向 flex */
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============ 卡片样式 ============ */
+.card {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-md);
+  box-sizing: border-box;
+}
+
+/* ============ 标签样式 ============ */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx var(--space-sm);
+  font-size: var(--font-xs);
+  color: var(--color-primary);
+  background-color: var(--color-primary-10);
+  border-radius: var(--radius-full);
+  line-height: 1.4;
+}
+
+/* ============ 按钮 ============ */
+/* 主按钮：活力蓝实心 */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--font-md);
+  color: #FFFFFF;
+  background-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+
+/* 次按钮：白底描边 */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--font-md);
+  color: var(--color-primary);
+  background-color: var(--color-bg-card);
+  border: 2rpx solid var(--color-primary);
+  border-radius: var(--radius-full);
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+
+/* ============ 文本省略 ============ */
+/* 单行省略 */
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 两行省略（Skyline 不支持 -webkit-box 和 line-clamp，使用简单溢出隐藏） */
+.text-ellipsis-2 {
+  overflow: hidden;
+}
+
+/* ============ 安全区 ============ */
+/* 底部安全区（适配 Home 指示器） */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 顶部安全区（适配状态栏） */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* ============ 加载失败态（页面级错误占位，P0-4）============ */
+/* 详情/表单页加载失败时展示，替代「永久空白页」；配合「重新加载」按钮使用。
+   宿主 page 为纵向 flex 时 flex:1 自动占满导航栏以下区域并垂直居中。 */
+.load-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 160rpx var(--space-lg) var(--space-xl);
+  box-sizing: border-box;
+}
+
+.load-error__text {
+  font-size: var(--font-md);
+  color: var(--color-text-secondary);
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: var(--space-lg);
+}
+
+.load-error__btn {
+  min-width: 240rpx;
+}
+
+.load-error__btn--hover {
+  opacity: 0.85;
+}

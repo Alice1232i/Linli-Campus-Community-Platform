@@ -1,0 +1,103 @@
+/* pages/setting/index.wxss */
+/* 设置页样式 */
+
+/* 滚动容器：page 纵向 flex，占满除导航栏外的剩余空间（自适应真实高度） */
+page {
+  display: flex;
+  flex-direction: column;
+}
+
+.setting-scroll {
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: var(--space-md);
+  background-color: var(--color-bg-page);
+}
+
+/* ============ 区块标题 ============ */
+.setting-block-title {
+  padding: var(--space-xs) var(--space-xs) var(--space-sm);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ============ 设置项卡片 ============ */
+.setting-card {
+  margin-bottom: var(--space-md);
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ============ 拉黑列表项：88rpx 高 ============ */
+.block-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 88rpx;
+  padding: 0 var(--space-md);
+  border-bottom: 2rpx solid var(--color-divider);
+}
+.block-item--last {
+  border-bottom: none;
+}
+.block-item__avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background-color: var(--color-bg-page);
+  flex-shrink: 0;
+}
+.block-item__name {
+  flex: 1;
+  margin-left: var(--space-md);
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* 解除拉黑按钮：红色文字 */
+.block-item__unblock {
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  background-color: rgba(255, 107, 107, 0.1);
+  flex-shrink: 0;
+}
+.block-item__unblock text {
+  font-size: var(--font-sm);
+  color: var(--color-secondary);
+}
+.block-item__unblock--hover {
+  opacity: 0.6;
+}
+
+/* ============ 其他设置项：88rpx 高 ============ */
+.setting-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 88rpx;
+  padding: 0 var(--space-md);
+  border-bottom: 2rpx solid var(--color-divider);
+}
+.setting-item--last {
+  border-bottom: none;
+}
+.setting-item--hover {
+  background-color: var(--color-bg-page);
+}
+.setting-item__name {
+  flex: 1;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+.setting-item__arrow {
+  font-size: var(--font-lg);
+  color: var(--color-text-placeholder);
+}
+
+/* 底部占位 */
+.setting-bottom-space {
+  height: var(--space-lg);
+}

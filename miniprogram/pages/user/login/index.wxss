@@ -1,0 +1,378 @@
+/* pages/user/login/index.wxss */
+/* 登录引导页：品牌区（上）+ 价值点（中）+ 登录操作（贴底）
+   布局要点：
+   1. navigation-bar 放在 .login-page 内部（此前在外部），使 flex 链完整，
+      .login-body 才能拿到确定高度，从而把操作区压到底部
+   2. 全部使用 flex 撑高，不依赖百分比 min-height（Skyline 下对滚动容器子级不可靠） */
+
+/* ===== 页面容器：纵向 flex，占满一屏 ===== */
+/* 2026-10-11 二次修正（此前只删了 min-height:100vh，问题依旧）：
+   Skyline 下 min-height:100%（含 vh 单位）不会给 flex 容器建立「确定高度」，
+   容器高度仍按内容计算 → 子项的 flex:1 分不到剩余空间 → 内容整体顶在页面上方
+   （完善资料步骤内容少，空隙最明显；登录引导步骤只是不易察觉）。
+   必须用 height:100% 建立确定高度，与 verify / discover / profile 等页保持一致
+   （见 app.wxss 全局约定「height:100% + flex 链」）。
+   内容超出屏幕时 .login-body 为 flex-shrink:0，会溢出到页面滚动区，不会被裁切。 */
+.login-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-bg-page);
+}
+
+/* 内容区：撑满导航栏以下的剩余空间 */
+/* flex-basis:auto + grow:1 → 内容少于屏高时铺满，多于屏高时不被压缩（页面可滚动） */
+.login-body {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--space-lg);
+  padding-bottom: calc(var(--space-lg) + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+/* ===== 品牌区 ===== */
+/* flex:1 吸收剩余空间，使品牌标记在其区域内垂直居中 */
+.login-hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 320rpx;
+}
+
+/* 品牌标识：Logo 图片为「圆形内切于方形底」，此处圆角裁切掉四角底色得到干净圆形 */
+.brand-logo {
+  width: 176rpx;
+  height: 176rpx;
+  /* 圆形裁切，同时使投影也呈圆形，避免出现方块阴影 */
+  border-radius: 50%;
+  box-shadow: 0 12rpx 32rpx rgba(74, 144, 217, 0.28);
+}
+
+/* 应用名 */
+.login-app-name {
+  margin-top: var(--space-lg);
+  font-size: 48rpx;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+}
+
+/* 副标题 / Slogan */
+.login-slogan {
+  margin-top: var(--space-xs);
+  font-size: var(--font-md);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+/* ===== 价值点列表（白色卡片） ===== */
+.login-features {
+  flex: none;
+  margin-bottom: var(--space-lg);
+  padding: var(--space-xs) var(--space-md);
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  /* 白卡叠在近白色页面底上，需一层轻投影才有边界感，否则显得糊在一起 */
+  box-shadow: var(--shadow-card);
+}
+
+.feature {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 18rpx 0;
+}
+
+/* 对勾圆点：主色 10% 底 + 主色对勾（CSS 绘制，避免引入风格不一致的图标） */
+.feature__dot {
+  flex: none;
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--color-primary-10);
+}
+
+.feature__tick {
+  width: 8rpx;
+  height: 15rpx;
+  margin-top: -4rpx;
+  border-right: 3rpx solid var(--color-primary);
+  border-bottom: 3rpx solid var(--color-primary);
+  transform: rotate(45deg);
+}
+
+.feature__text {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-sm);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+/* ===== 操作区（贴底） ===== */
+.login-actions {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 主按钮：微信官方绿 #07C160，避免自绘配色引起「冒充授权」误解 */
+.login-btn {
+  width: 100%;
+  height: 96rpx;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: #07C160;
+  color: #FFFFFF;
+  font-size: var(--font-lg);
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* ⚠️ 必须用后代选择器提高权重，否则宽度不生效：
+   app.json 中 "style": "v2" 会给内置 button 注入
+     button:not([size='mini']) { width: 184px; min-height: 40px; margin: 0 auto; }
+   该规则权重 (0,1,1) 高于 .login-btn (0,1,0) → 上面的 width:100% 被压成 184px 并居中。
+   (.login-actions .login-btn) 权重 (0,2,0) 才能稳定覆盖内置默认值。 */
+.login-actions .login-btn {
+  width: 100%;
+  margin: 0;
+}
+
+/* 抹掉小程序 button 自带的 1px 边框伪元素 */
+.login-btn::after {
+  border: none;
+}
+
+.login-btn--hover {
+  opacity: 0.85;
+}
+
+/* 禁用态保持底色，仅降低透明度 */
+.login-btn[disabled] {
+  opacity: 0.6;
+  background-color: #07C160;
+  color: #FFFFFF;
+}
+
+.login-btn__inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-btn__text {
+  font-size: var(--font-lg);
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+/* 微信标识：两个错位气泡（大方块 + 带绿描边的小方块），比单圆环更接近微信双气泡形态 */
+.wx-mark {
+  position: relative;
+  width: 46rpx;
+  height: 38rpx;
+  margin-right: 14rpx;
+}
+
+.wx-mark__big {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32rpx;
+  height: 26rpx;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+}
+
+.wx-mark__small {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 28rpx;
+  height: 22rpx;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  /* 用按钮底色描边，使两个气泡相互区分 */
+  box-shadow: 0 0 0 3rpx #07C160;
+}
+
+/* ===== 协议同意 ===== */
+.login-agree {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: var(--space-md);
+}
+
+/* 勾选框：默认未选中（合规要求主动同意，不接受默认勾选） */
+.login-agree__box {
+  flex: none;
+  width: 34rpx;
+  height: 34rpx;
+  margin-right: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid var(--color-border);
+  border-radius: 50%;
+  background-color: var(--color-bg-card);
+  box-sizing: border-box;
+}
+
+.login-agree__box--hover {
+  opacity: 0.7;
+}
+
+.login-agree__box.is-checked {
+  background-color: #07C160;
+  border-color: #07C160;
+}
+
+/* 对勾：两条边框旋转绘制，避免依赖图标资源 */
+.login-agree__tick {
+  width: 10rpx;
+  height: 18rpx;
+  margin-top: -4rpx;
+  border-right: 3rpx solid #FFFFFF;
+  border-bottom: 3rpx solid #FFFFFF;
+  transform: rotate(45deg);
+}
+
+/* 协议文案：flex-wrap 让 4 段文案在同一行内自然排布并整体居中 */
+.login-agree__text {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.login-agree__label {
+  font-size: var(--font-sm);
+  line-height: 1.6;
+  color: var(--color-text-placeholder);
+}
+
+.login-agree__link {
+  font-size: var(--font-sm);
+  line-height: 1.6;
+  color: var(--color-primary);
+}
+
+/* ==================== 步骤二：完善资料 ==================== */
+
+/* 标题区不再吸收剩余空间，改为固定高度，把中部让给资料表单 */
+.login-hero--profile {
+  flex: none;
+  min-height: 0;
+  padding: var(--space-lg) 0 0;
+}
+
+.profile-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-btn {
+  width: 160rpx;
+  height: 160rpx;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--color-primary-10);
+}
+
+/* ⚠️ 头像变椭圆的直接原因：
+   内置 button 默认 width:184px（见上方 .login-actions .login-btn 的说明）权重 (0,1,1)，
+   压过了 .avatar-btn 的 width:160rpx (0,1,0)；而 height:160rpx 无同属性默认值干扰，
+   于是渲染成 184px × 160rpx 的椭圆。这里用 (0,2,0) 的后代选择器强制回 160rpx 正方。 */
+.profile-card .avatar-btn {
+  width: 160rpx;
+  margin: 0;
+}
+
+.avatar-btn::after {
+  border: none;
+}
+
+.avatar-btn--hover {
+  opacity: 0.85;
+}
+
+.avatar-img {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+}
+
+.avatar-tip {
+  margin-top: var(--space-sm);
+  font-size: var(--font-sm);
+  color: var(--color-text-placeholder);
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 96rpx;
+  margin-top: var(--space-xl);
+  padding: 0 var(--space-md);
+  box-sizing: border-box;
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.profile-field__label {
+  flex: none;
+  width: 100rpx;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+
+.profile-field__input {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+
+.profile-field__ph {
+  color: var(--color-text-placeholder);
+}
+
+/* 跳过入口 */
+.login-skip {
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.login-skip--hover {
+  opacity: 0.7;
+}
+
+.login-skip text {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}

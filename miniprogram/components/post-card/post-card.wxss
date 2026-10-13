@@ -1,0 +1,285 @@
+/* components/post-card/post-card.wxss */
+/* 帖子列表项样式（无卡片，底边线分隔，参考校园墙布局） */
+/* 全量使用设计 token（2026-10-11 收编：此前本文件 0 个 var() 自成灰阶） */
+
+/* 整体容器：flex 横向布局，头像左 + 内容右 */
+.post-item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 20rpx 24rpx;
+  /* 底边线分隔，替代卡片阴影 */
+  border-bottom: 1rpx solid var(--color-divider);
+  background-color: var(--color-bg-card);
+}
+
+.post-item--hover {
+  background-color: var(--color-bg-page);
+}
+
+.post-item--sold {
+  opacity: 0.6;
+}
+
+/* ===== 左侧头像 ===== */
+.post-item__avatar-wrap {
+  flex-shrink: 0;
+  margin-right: 20rpx;
+  padding-top: 4rpx;
+}
+
+.post-item__avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background-color: var(--color-bg-page);
+}
+
+/* ===== 右侧内容区 ===== */
+.post-item__main {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* 第一行：用户名 + 板块标签 + 时间 */
+.post-item__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+/* 用户名 */
+.post-item__name {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+  max-width: 300rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 板块小标签：浅底色 + 深色文字（彩色药丸标签风格） */
+.post-item__section-tag {
+  flex-shrink: 0;
+  margin-left: 12rpx;
+  padding: 0 10rpx;
+  font-size: var(--font-xs);
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  line-height: 1.6;
+}
+
+/* 置顶/精华标识小标签 */
+.post-item__badge {
+  flex-shrink: 0;
+  margin-left: 12rpx;
+  padding: 0 10rpx;
+  font-size: var(--font-xs);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  line-height: 1.6;
+}
+
+/* 置顶：红色底 + 白字 */
+.post-item__badge--top {
+  color: #FFFFFF;
+  background-color: var(--color-danger);
+}
+
+/* 精华：金色底 + 白字 */
+.post-item__badge--essence {
+  color: #FFFFFF;
+  background-color: var(--color-warning);
+}
+
+/* 二手价格标签 */
+.post-item__price-tag {
+  flex-shrink: 0;
+  margin-left: 12rpx;
+  padding: 2rpx 10rpx;
+  font-size: var(--font-sm);
+  font-weight: 700;
+  color: #FFFFFF;
+  background-color: var(--color-danger);
+  border-radius: var(--radius-sm);
+  line-height: 1.5;
+}
+
+.post-item__price-tag--sold {
+  background-color: var(--color-text-placeholder);
+}
+
+/* 时间：灰色小字，跟在标签后面（--color-text-time 保证可读性，字号 ≥24rpx） */
+.post-item__time {
+  margin-left: 12rpx;
+  font-size: var(--font-sm);
+  color: var(--color-text-time);
+  flex-shrink: 0;
+}
+
+/* ===== 标题 ===== */
+.post-item__title {
+  display: block;
+  margin-top: 8rpx;
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+/* ===== 正文摘要 ===== */
+/* 注意：Skyline 渲染模式不支持 line-clamp，此处 -webkit-line-clamp 仅作 WebView 兜底；
+   Skyline 下的实际截断由 post-card.js 的 truncateContent() 按字符数完成 */
+.post-item__content {
+  display: block;
+  margin-top: 8rpx;
+  font-size: var(--font-md);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+/* 单图布局：正文左 + 图片右 */
+.post-item__body {
+  margin-top: 4rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.post-item__content--inline {
+  flex: 1;
+  margin-top: 0;
+}
+
+/* 单图缩略图容器：relative 定位，供多图角标绝对定位 */
+.post-item__img-wrap {
+  position: relative;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+/* 单图缩略图
+   容器是 180x140（非正方形），若用 aspectFill 会把图片裁掉上下/左右，
+   竖图或方图尤其明显（例如 1:1 的图会被裁掉约 25% 高度）。
+   改用 aspectFit 完整显示整张图，留白用页面底色填充。 */
+.post-item__img--single {
+  width: 180rpx;
+  height: 140rpx;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-page);
+}
+
+/* 多图角标：右下角半透明背景，显示图片总数 */
+.post-item__img-badge {
+  position: absolute;
+  right: 8rpx;
+  bottom: 8rpx;
+  padding: 2rpx 10rpx;
+  background-color: rgba(0, 0, 0, 0.55);
+  border-radius: var(--radius-sm);
+}
+
+.post-item__img-badge text {
+  font-size: var(--font-xs);
+  color: #FFFFFF;
+  line-height: 1.4;
+}
+
+/* 多图网格 */
+.post-item__images {
+  margin-top: 4rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.post-item__img {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: var(--radius-sm);
+}
+
+/* ===== 热评前置 ===== */
+.post-item__hotc {
+  margin-top: 8rpx;
+  padding: 8rpx 12rpx;
+  background-color: var(--color-bg-page);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.post-item__hotc-label {
+  flex-shrink: 0;
+  margin-right: 8rpx;
+  font-size: var(--font-xs);
+  line-height: 1.6;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.post-item__hotc-text {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-xs);
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* ===== 底部操作栏 ===== */
+.post-item__footer {
+  margin-top: 12rpx;
+  display: flex;
+  align-items: center;
+  gap: 40rpx;
+}
+
+.post-item__action {
+  display: flex;
+  align-items: center;
+  padding: 4rpx 8rpx;
+  border-radius: var(--radius-sm);
+}
+
+.post-item__action--hover {
+  background-color: var(--color-primary-10);
+}
+
+.post-item__action-icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.post-item__action-text {
+  margin-left: 8rpx;
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+.post-item__action-text--active {
+  color: var(--color-primary);
+  font-weight: 600;
+}

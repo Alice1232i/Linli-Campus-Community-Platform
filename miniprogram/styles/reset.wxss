@@ -1,0 +1,36 @@
+/**
+ * reset.wxss
+ * 全局重置样式
+ * 统一默认表现，消除各端差异
+ */
+
+/* 清除默认 margin / padding，统一盒模型 */
+view, text, image, scroll-view, swiper, button, input, textarea,
+navigator, icon, form, picker, slider, switch, label, canvas {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* image 默认 block，消除底部基线间隙 */
+image {
+  display: block;
+}
+
+/* button 去除默认边框与背景，统一由各业务样式控制 */
+button {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  line-height: normal;
+}
+
+/* 设置 page 基础样式：背景色 + 字体 */
+page {
+  background-color: var(--color-bg-page);
+  color: var(--color-text-primary);
+  font-size: var(--font-md);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+}

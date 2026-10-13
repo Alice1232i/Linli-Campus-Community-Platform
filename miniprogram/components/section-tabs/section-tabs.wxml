@@ -1,0 +1,24 @@
+<!--components/section-tabs/section-tabs.wxml-->
+<!--板块切换组件-->
+
+<scroll-view
+  class="section-tabs"
+  scroll-x
+  enhanced
+  show-scrollbar="{{false}}"
+  scroll-into-view="sec-{{activeKey}}"
+>
+  <view class="section-tabs__inner">
+    <view
+      wx:for="{{sections}}"
+      wx:key="key"
+      id="sec-{{item.key}}"
+      class="section-tabs__item {{activeKey === item.key ? 'section-tabs__item--active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="onTapItem"
+      hover-class="section-tabs__item--hover"
+    >
+      <text class="section-tabs__text">{{item.name}}</text>
+    </view>
+  </view>
+</scroll-view>

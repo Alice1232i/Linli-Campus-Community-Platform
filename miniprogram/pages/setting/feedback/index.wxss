@@ -1,0 +1,274 @@
+/* pages/setting/feedback/index.wxss */
+/* 意见箱 - 收集测试版本意见与问题 */
+
+/* Skyline 不支持 vh：page 纵向 flex，滚动区 flex:1 自适应导航栏真实高度 */
+page {
+  display: flex;
+  flex-direction: column;
+}
+
+.feedback-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.feedback-scroll {
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: var(--space-sm) var(--space-md);
+}
+
+/* ===== 说明卡片 ===== */
+.feedback-intro {
+  padding: var(--space-md);
+}
+
+.feedback-intro__title-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.feedback-intro__icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: var(--space-xs);
+}
+
+.feedback-intro__title {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.feedback-intro__desc {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: var(--font-sm);
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+/* ===== 提交表单 ===== */
+.feedback-form {
+  margin-top: var(--space-sm);
+  padding: var(--space-md);
+}
+
+.feedback-form__label {
+  display: block;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* 类型选择：横排胶囊，选中走主色实底 */
+.feedback-types {
+  display: flex;
+  flex-direction: row;
+  margin-top: var(--space-xs);
+}
+
+.feedback-type {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64rpx;
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-page);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+.feedback-type + .feedback-type {
+  margin-left: var(--space-sm);
+}
+
+.feedback-type--hover {
+  opacity: 0.7;
+}
+
+.feedback-type.is-active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* 内容输入 */
+.feedback-textarea-wrap {
+  position: relative;
+  margin-top: var(--space-xs);
+  padding: var(--space-sm);
+  background-color: var(--color-bg-page);
+  border-radius: var(--radius-md);
+}
+
+.feedback-textarea {
+  width: 100%;
+  height: 240rpx;
+  font-size: var(--font-sm);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+.feedback-placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.feedback-count {
+  position: absolute;
+  right: var(--space-sm);
+  bottom: var(--space-xs);
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* 联系方式 */
+.feedback-contact {
+  margin-top: var(--space-xs);
+  height: 80rpx;
+  padding: 0 var(--space-sm);
+  background-color: var(--color-bg-page);
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+}
+
+/* 提交按钮：与登录页主按钮同语言（主色实底 + 胶囊） */
+.feedback-submit {
+  width: 100%;
+  height: 88rpx;
+  margin-top: var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-size: var(--font-lg);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.feedback-submit::after {
+  border: none;
+}
+
+.feedback-submit--hover {
+  opacity: 0.85;
+}
+
+.feedback-submit[disabled] {
+  opacity: 0.6;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+/* ===== 我的反馈 ===== */
+.feedback-mine-title {
+  margin: var(--space-md) 0 var(--space-xs);
+  padding: 0 var(--space-xs);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.feedback-item {
+  padding: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.feedback-item__head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feedback-item__type {
+  padding: 0 10rpx;
+  height: 32rpx;
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary-10);
+  color: var(--color-primary);
+  font-size: var(--font-xs);
+  line-height: 1;
+}
+
+.feedback-item__time {
+  font-size: var(--font-xs);
+  color: var(--color-text-time);
+}
+
+.feedback-item__content {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: var(--font-sm);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+.feedback-item__status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: var(--space-xs);
+}
+
+.feedback-item__status-dot {
+  width: 12rpx;
+  height: 12rpx;
+  margin-right: 8rpx;
+  border-radius: 50%;
+  background-color: var(--color-warning);
+}
+
+.feedback-item__status-dot.is-handled {
+  background-color: var(--color-success);
+}
+
+.feedback-item__status-text {
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+}
+
+/* 官方回复块 */
+.feedback-item__reply {
+  margin-top: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  background-color: var(--color-primary-10);
+  border-radius: var(--radius-sm);
+}
+
+.feedback-item__reply-label {
+  display: block;
+  font-size: var(--font-xs);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.feedback-item__reply-text {
+  display: block;
+  margin-top: 4rpx;
+  font-size: var(--font-xs);
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+/* 无更多数据 */
+.feedback-end {
+  text-align: center;
+  padding: var(--space-lg) 0;
+  font-size: var(--font-sm);
+  color: var(--color-text-placeholder);
+}
+
+/* 底部留白 */
+.feedback-bottom-space {
+  height: var(--space-xl);
+}

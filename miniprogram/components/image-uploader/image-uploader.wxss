@@ -1,0 +1,75 @@
+/* components/image-uploader/image-uploader.wxss */
+/* 图片上传组件样式 */
+
+.image-uploader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.image-uploader__item {
+  position: relative;
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.image-uploader__img {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bg-page);
+}
+
+.image-uploader__del {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0 var(--radius-md) 0 var(--radius-md);
+}
+
+/* 按压反馈 */
+.image-uploader__del--hover {
+  opacity: 0.5;
+}
+
+.image-uploader__del-icon {
+  color: #FFFFFF;
+  font-size: 32rpx;
+  line-height: 1;
+}
+
+.image-uploader__add {
+  width: 200rpx;
+  height: 200rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-page);
+  border: 2rpx dashed var(--color-border);
+  border-radius: var(--radius-md);
+  box-sizing: border-box;
+}
+
+.image-uploader__add--hover {
+  opacity: 0.7;
+}
+
+.image-uploader__add-icon {
+  font-size: 56rpx;
+  color: var(--color-text-placeholder);
+  line-height: 1;
+}
+
+.image-uploader__add-text {
+  margin-top: var(--space-xs);
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}

@@ -1,0 +1,98 @@
+<!--pages/lostfound/index/index.wxml-->
+<!--招领中心 - 失物招领 / 寻物启事 列表-->
+
+<!-- 自定义导航栏，标题"招领中心" -->
+<navigation-bar title="招领中心" back="{{true}}"></navigation-bar>
+
+<!-- 类型筛选 tabs（吸顶） -->
+<view class="lf-tabs">
+  <view
+    wx:for="{{tabs}}"
+    wx:key="key"
+    class="lf-tab {{currentTab === item.key ? 'lf-tab--active' : ''}}"
+    data-key="{{item.key}}"
+    bindtap="onTabChange"
+    hover-class="lf-tab--hover"
+  >
+    <text class="lf-tab__text">{{item.name}}</text>
+  </view>
+</view>
+
+<!-- 滚动列表 -->
+<scroll-view
+  class="lf-scroll"
+  type="list"
+  scroll-y
+  enhanced
+  show-scrollbar="{{false}}"
+  bindscrolltolower="onLoadMore"
+  refresher-enabled="{{true}}"
+  refresher-triggered="{{refreshing}}"
+  refresher-default-style="black"
+  bindrefresherrefresh="onRefresh"
+>
+  <!-- 封禁用户提示 -->
+  <view wx:if="{{isBanned}}" class="lf-banned">
+    <text class="lf-banned__text">您的账号已被封禁</text>
+    <text class="lf-banned__sub">封禁期间无法浏览社区内容</text>
+  </view>
+
+  <!-- 首次加载 -->
+  <loading wx:elif="{{firstLoading}}" text="加载中..."></loading>
+
+  <!-- 列表 -->
+  <block wx:elif="{{list.length}}">
+    <view
+      wx:for="{{list}}"
+      wx:key="_id"
+      class="lf-card card"
+      data-id="{{item._id}}"
+      bindtap="onTapItem"
+      hover-class="lf-card--hover"
+    >
+      <!-- 顶部：缩略图 + 物品名 + 类型标签 -->
+      <view class="lf-card__main">
+        <image
+          wx:if="{{item.images && item.images.length}}"
+          class="lf-card__thumb"
+          src="{{item.images[0]}}"
+          mode="aspectFill"
+        />
+        <view wx:else class="lf-card__thumb lf-card__thumb--empty">
+          <image class="lf-card__thumb-icon" src="/images/icons/clipboard.png" mode="aspectFit" />
+        </view>
+
+        <view class="lf-card__info">
+          <view class="lf-card__header">
+            <text class="lf-card__name text-ellipsis">{{item.itemName || '未命名物品'}}</text>
+            <text class="lf-card__kind" style="color:{{item._kindColor}};background-color:{{item._kindColor}}1A;">{{item._kindName}}</text>
+          </view>
+          <view class="lf-card__meta">
+            <image class="lf-card__icon" src="/images/icons/location.png" mode="aspectFit" />
+            <text class="lf-card__location text-ellipsis">{{item.location || '未知地点'}}</text>
+          </view>
+          <text class="lf-card__time" wx:if="{{item._timeText}}">{{item._timeText}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部加载更多 / 没有更多 -->
+    <loading wx:if="{{loading}}" text="加载更多..."></loading>
+    <view wx:elif="{{!hasMore}}" class="lf-end">
+      <text class="lf-end__text">没有更多了</text>
+    </view>
+  </block>
+
+  <!-- 空状态 -->
+  <empty-state
+    wx:else
+    text="暂无招领信息"
+    sub="快来发布第一条吧"
+  ></empty-state>
+</scroll-view>
+
+<!-- 悬浮发布按钮（与板块专区页统一样式：图标+文字胶囊） -->
+<view class="lf-fab" bindtap="onPublish" hover-class="lf-fab--hover">
+  <image class="lf-fab__icon" src="/images/icons/edit.png" mode="aspectFit" />
+  <text class="lf-fab__text">发帖</text>
+</view>

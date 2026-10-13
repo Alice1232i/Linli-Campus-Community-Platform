@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "navigation-bar": "../../../components/navigation-bar/navigation-bar",
+    "comment-item": "../../../components/comment-item/comment-item",
+    "image-uploader": "../../../components/image-uploader/image-uploader",
+    "empty-state": "../../../components/empty-state/empty-state",
+    "loading": "../../../components/loading/loading"
+  }
+}

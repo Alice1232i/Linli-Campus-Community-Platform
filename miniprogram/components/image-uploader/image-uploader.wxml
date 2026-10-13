@@ -1,0 +1,38 @@
+<!--components/image-uploader/image-uploader.wxml-->
+<!--图片上传组件-->
+
+<view class="image-uploader">
+  <!-- 已选图片网格 -->
+  <view
+    wx:for="{{images}}"
+    wx:key="*this"
+    class="image-uploader__item"
+  >
+    <image
+      class="image-uploader__img"
+      src="{{item}}"
+      mode="aspectFill"
+      data-src="{{item}}"
+      bindtap="onPreview"
+    />
+    <view
+      class="image-uploader__del"
+      hover-class="image-uploader__del--hover"
+      data-index="{{index}}"
+      catchtap="onRemove"
+    >
+      <text class="image-uploader__del-icon">×</text>
+    </view>
+  </view>
+
+  <!-- 添加按钮（未达上限时显示） -->
+  <view
+    wx:if="{{images.length < max}}"
+    class="image-uploader__add"
+    bindtap="onChoose"
+    hover-class="image-uploader__add--hover"
+  >
+    <text class="image-uploader__add-icon">+</text>
+    <text class="image-uploader__add-text">{{images.length}}/{{max}}</text>
+  </view>
+</view>

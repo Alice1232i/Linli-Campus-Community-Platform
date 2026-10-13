@@ -1,0 +1,9 @@
+{
+  "name": "delivery",
+  "version": "1.0.0",
+  "description": "跑腿代拿模块云函数 - 发布/任务大厅/详情/接单/完成/取消（事务同步 posts）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

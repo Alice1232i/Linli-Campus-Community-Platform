@@ -1,0 +1,169 @@
+/* pages/report/submit/index.wxss */
+/* 举报提交页样式 */
+
+/* 滚动容器：page 纵向 flex 自适应导航栏真实高度，底部 padding 让位固定提交按钮 */
+page {
+  display: flex;
+  flex-direction: column;
+}
+
+.report-scroll {
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: var(--space-md);
+  padding-bottom: calc(var(--space-md) + 140rpx);
+  background-color: var(--color-bg-page);
+}
+
+/* ============ 区块卡片 ============ */
+.report-section {
+  margin-bottom: var(--space-md);
+}
+.report-section__title {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+/* ============ 举报理由 radio 列表 ============ */
+.reason-group {
+  display: flex;
+  flex-direction: column;
+}
+/* radio 项 88rpx 高 */
+.reason-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 88rpx;
+  border-bottom: 2rpx solid var(--color-divider);
+}
+.reason-item--last {
+  border-bottom: none;
+}
+.reason-item--hover {
+  background-color: var(--color-bg-page);
+}
+.reason-item__label {
+  margin-left: var(--space-sm);
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+
+/* ============ 详细描述 textarea ============ */
+.report-textarea {
+  width: 100%;
+  min-height: 200rpx;
+  padding: var(--space-sm);
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-page);
+  border-radius: var(--radius-sm);
+  box-sizing: border-box;
+  line-height: 1.5;
+}
+.report-textarea__placeholder {
+  color: var(--color-text-placeholder);
+}
+.report-textarea__count {
+  margin-top: var(--space-xs);
+  text-align: right;
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* ============ 证据图片网格 ============ */
+.evidence-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+.evidence-item {
+  position: relative;
+  width: 180rpx;
+  height: 180rpx;
+}
+.evidence-item__img {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-page);
+}
+.evidence-item__del {
+  position: absolute;
+  top: -12rpx;
+  right: -12rpx;
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background-color: var(--color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.evidence-item__del-text {
+  color: #FFFFFF;
+  font-size: var(--font-md);
+  line-height: 1;
+}
+.evidence-add {
+  width: 180rpx;
+  height: 180rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-page);
+  border: 2rpx dashed var(--color-border);
+  border-radius: var(--radius-sm);
+}
+.evidence-add--hover {
+  opacity: 0.6;
+}
+.evidence-add__icon {
+  font-size: var(--font-xxl);
+  color: var(--color-text-placeholder);
+  line-height: 1;
+}
+.evidence-add__text {
+  margin-top: var(--space-xs);
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* 底部留白 */
+.report-bottom-space {
+  height: var(--space-md);
+}
+
+/* ============ 底部固定提交按钮 ============ */
+.report-submit-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-bg-card);
+  border-top: 2rpx solid var(--color-divider);
+  z-index: 100;
+}
+/* 提交按钮：主色 */
+.report-submit-btn {
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-size: var(--font-md);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+}
+.report-submit-btn--disabled {
+  opacity: 0.6;
+}
+.report-submit-btn--hover {
+  opacity: 0.85;
+}

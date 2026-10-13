@@ -1,0 +1,9 @@
+{
+  "name": "migrate",
+  "version": "1.0.0",
+  "description": "数据库迁移云函数：清除帖子/评论历史冗余 author 字段，补充 users.profileVersion",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

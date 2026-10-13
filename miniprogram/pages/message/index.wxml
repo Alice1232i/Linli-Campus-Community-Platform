@@ -1,0 +1,116 @@
+<!--pages/message/index.wxml-->
+<!--消息页 - 通知入口-->
+
+<navigation-bar title="消息" back="{{false}}"></navigation-bar>
+
+<scroll-view
+  class="msg-scroll"
+  type="list"
+  scroll-y
+  enhanced
+  show-scrollbar="{{false}}"
+  refresher-enabled="{{true}}"
+  refresher-triggered="{{refreshing}}"
+  refresher-default-style="black"
+  bindrefresherrefresh="onRefresh"
+  bindscrolltolower="onLoadMore"
+  lower-threshold="80"
+>
+  <!-- ============ 通知内容 ============ -->
+  <!-- 通知类型入口行 -->
+  <view class="notice-row">
+    <view
+      wx:for="{{notifyTypes}}"
+      wx:key="key"
+      class="notice-item"
+      data-key="{{item.key}}"
+      bindtap="onTapNotifyType"
+      hover-class="notice-item--hover"
+    >
+      <view class="notice-item__icon-wrap" style="background-color:{{item.color}}1A;">
+        <image class="notice-item__icon" src="{{item.icon}}" mode="aspectFit" />
+        <view wx:if="{{item.unread > 0}}" class="notice-item__badge">{{item.unread > 99 ? '99+' : item.unread}}</view>
+      </view>
+      <text class="notice-item__name">{{item.name}}</text>
+    </view>
+  </view>
+
+  <!-- 操作按钮行：全部已读 + 清空 -->
+  <view wx:if="{{notifyList.length > 0}}" class="notice-actions">
+    <view wx:if="{{unreadTotal > 0}}" class="notice-action" bindtap="onMarkAllRead">
+      <text>全部已读</text>
+    </view>
+    <view class="notice-action notice-action--danger" bindtap="onClearAll">
+      <text>清空通知</text>
+    </view>
+  </view>
+
+  <!-- 通知列表 -->
+  <block wx:if="{{notifyList.length > 0}}">
+    <view
+      wx:for="{{notifyList}}"
+      wx:key="_id"
+      class="swipe-item"
+    >
+      <!-- 删除按钮（固定在右侧） -->
+      <view class="swipe-item__action" hover-class="swipe-item__action--hover" data-id="{{item._id}}" data-index="{{index}}" bindtap="onDeleteNotify">
+        <text>删除</text>
+      </view>
+      <!-- 可滑动的内容层 -->
+      <view
+        class="swipe-item__content {{item._swipeOpen ? 'swipe-item__content--open' : ''}}"
+        data-id="{{item._id}}"
+        data-reftype="{{item.refType}}"
+        data-refid="{{item.refId}}"
+        data-index="{{index}}"
+        bindtap="onTapNotification"
+        bindtouchstart="onSwipeTouchStart"
+        bindtouchmove="onSwipeTouchMove"
+        bindtouchend="onSwipeTouchEnd"
+        hover-class="notify-item--hover"
+      >
+        <!-- 未读标记圆点 -->
+        <view wx:if="{{!item.read}}" class="notify-item__dot"></view>
+        <!-- 系统通知：显示举报警告图标（红色三角形） -->
+        <view wx:if="{{item.type === 'system'}}" class="notify-item__sys-icon">
+          <image class="notify-item__sys-icon-img" src="/images/icons/report_warn.png" mode="aspectFit" />
+        </view>
+        <!-- 其他通知：显示触发者头像 -->
+        <image
+          wx:else
+          class="notify-item__avatar"
+          src="{{item.senderAvatar || '/images/icons/user.png'}}"
+          mode="aspectFill"
+        />
+        <view class="notify-item__content">
+          <text class="notify-item__title">{{item.title}}</text>
+          <text class="notify-item__body">{{item.body}}</text>
+          <text class="notify-item__time">{{item._timeText}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部加载更多 / 没有更多（P1：触底分页） -->
+    <loading wx:if="{{loadingMore}}" text="加载更多..."></loading>
+    <view wx:elif="{{!hasMore}}" class="msg-end">
+      <text class="msg-end__text">没有更多了</text>
+    </view>
+  </block>
+
+  <!-- 加载失败：区分「失败」与「确实为空」（P1，避免网络错误时误显示暂无通知） -->
+  <view wx:if="{{loadError && !notifyLoading && !loadingMore}}" class="load-error">
+    <text class="load-error__text">通知加载失败，请检查网络后重试</text>
+    <view class="btn-secondary load-error__btn" hover-class="load-error__btn--hover" bindtap="onRetryNotify">重新加载</view>
+  </view>
+
+  <!-- 空状态 -->
+  <empty-state
+    wx:if="{{!notifyLoading && !loadError && notifyList.length === 0}}"
+    text="暂无通知"
+    sub="有新消息时会在这里提醒你"
+    icon="/images/icons/megaphone.png"
+  ></empty-state>
+
+  <!-- 底部占位（避开 TabBar） -->
+  <view class="msg-bottom-space"></view>
+</scroll-view>

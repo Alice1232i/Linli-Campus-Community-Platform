@@ -1,0 +1,166 @@
+/* pages/lostfound/publish/index.wxss */
+/* 发布招领页样式 */
+
+/* 右侧发布按钮 */
+.lfp-nav-btn {
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+}
+
+.lfp-nav-btn--disabled {
+  opacity: 0.5;
+}
+
+.lfp-nav-btn--hover {
+  opacity: 0.85;
+}
+
+.lfp-nav-btn__text {
+  font-size: var(--font-sm);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* 滚动容器 */
+/* Skyline 不支持 vh：page 纵向 flex，滚动区 flex:1 自适应导航栏真实高度 */
+page {
+  display: flex;
+  flex-direction: column;
+}
+
+.lfp-scroll {
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+/* 类型提示 */
+.lfp-kind-tip {
+  padding: var(--space-sm) var(--space-md);
+}
+
+.lfp-kind-tip__text {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+/* 表单卡片 */
+.lfp-form {
+  margin: var(--space-sm) var(--space-md);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 通用行 */
+.lfp-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: var(--space-sm) 0;
+  border-bottom: 2rpx solid var(--color-divider);
+}
+
+.lfp-row__label {
+  width: 120rpx;
+  font-size: var(--font-md);
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.lfp-row__picker {
+  flex: 1;
+}
+
+.lfp-row__value {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+
+.lfp-row__arrow {
+  font-size: var(--font-lg);
+  color: var(--color-text-placeholder);
+}
+
+.lfp-input {
+  flex: 1;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+
+.lfp-placeholder {
+  color: var(--color-text-placeholder);
+}
+
+/* 地图定位按钮 */
+.lfp-locate-btn {
+  flex-shrink: 0;
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: var(--space-sm);
+}
+
+.lfp-locate-btn__icon {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.lfp-locate-btn--hover {
+  opacity: 0.6;
+}
+
+/* 区块标题 */
+.lfp-section-title {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+/* 描述 textarea */
+.lfp-textarea {
+  width: 100%;
+  min-height: 200rpx;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+/* 底部发布按钮 */
+.lfp-submit-wrap {
+  padding: var(--space-md) var(--space-md) var(--space-xl);
+}
+
+.lfp-submit {
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-card);
+}
+
+.lfp-submit--disabled {
+  opacity: 0.5;
+}
+
+.lfp-submit--hover {
+  opacity: 0.85;
+  transform: scale(0.99);
+}
+
+.lfp-submit__text {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: #FFFFFF;
+}

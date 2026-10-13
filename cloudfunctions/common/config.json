@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "openapi": []
+  },
+  "timeout": 10,
+  "triggers": [
+    {
+      "name": "archiveLikesTimer",
+      "type": "timer",
+      "config": "0 0 3 * * * *"
+    }
+  ]
+}

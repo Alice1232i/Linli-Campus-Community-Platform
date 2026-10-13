@@ -1,0 +1,28 @@
+/* pages/post/favorites/index.wxss */
+/* 我的收藏页样式 */
+
+/* Skyline 不支持 vh：page 纵向 flex，滚动区 flex:1 自适应导航栏真实高度 */
+page {
+  display: flex;
+  flex-direction: column;
+}
+
+.favorites-scroll {
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  padding-top: var(--space-sm);
+}
+
+/* 底部「没有更多」 */
+.favorites-end {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg) 0;
+}
+
+.favorites-end__text {
+  font-size: var(--font-sm);
+  color: var(--color-text-placeholder);
+}

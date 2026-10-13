@@ -1,0 +1,116 @@
+<!--pages/setting/feedback/index.wxml-->
+<!--意见箱 - 收集测试版本意见与问题，提交后同步至管理后台-->
+
+<navigation-bar title="意见箱" back="{{true}}"></navigation-bar>
+
+<view class="feedback-page">
+  <scroll-view
+    class="feedback-scroll"
+    type="list"
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    bindscrolltolower="onReachBottom"
+  >
+    <!-- ============ 说明卡片 ============ -->
+    <view class="feedback-intro card">
+      <view class="feedback-intro__title-row">
+        <image class="feedback-intro__icon" src="/images/icons/megaphone.png" mode="aspectFit" />
+        <text class="feedback-intro__title">当前为公测版本</text>
+      </view>
+      <text class="feedback-intro__desc">你的每一条意见我们都会认真看。功能建议、体验问题、奇思妙想都可以写在这里，处理结果会在下方「我的反馈」中展示。</text>
+    </view>
+
+    <!-- ============ 提交表单 ============ -->
+    <view class="feedback-form card">
+      <!-- 反馈类型 -->
+      <text class="feedback-form__label">反馈类型</text>
+      <view class="feedback-types">
+        <view
+          wx:for="{{types}}"
+          wx:key="key"
+          class="feedback-type {{form.type === item.key ? 'is-active' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onTypeTap"
+          hover-class="feedback-type--hover"
+        >
+          <text>{{item.name}}</text>
+        </view>
+      </view>
+
+      <!-- 反馈内容 -->
+      <text class="feedback-form__label">反馈内容</text>
+      <view class="feedback-textarea-wrap">
+        <textarea
+          class="feedback-textarea"
+          value="{{form.content}}"
+          maxlength="500"
+          placeholder="说说你的想法，或描述遇到的问题（5-500 字）"
+          placeholder-class="feedback-placeholder"
+          bindinput="onContentInput"
+        ></textarea>
+        <text class="feedback-count">{{form.content.length}}/500</text>
+      </view>
+
+      <!-- 联系方式（选填） -->
+      <text class="feedback-form__label">联系方式（选填）</text>
+      <input
+        class="feedback-contact"
+        value="{{form.contact}}"
+        maxlength="50"
+        placeholder="手机号 / 微信号，方便我们回访"
+        placeholder-class="feedback-placeholder"
+        bindinput="onContactInput"
+      />
+
+      <!-- 提交 -->
+      <button
+        class="feedback-submit"
+        hover-class="feedback-submit--hover"
+        loading="{{submitting}}"
+        disabled="{{submitting}}"
+        bindtap="onSubmit"
+      >提交反馈</button>
+    </view>
+
+    <!-- ============ 我的反馈 ============ -->
+    <view class="feedback-mine-title">
+      <text>我的反馈</text>
+    </view>
+
+    <block wx:if="{{list.length > 0}}">
+      <view wx:for="{{list}}" wx:key="id" class="feedback-item card">
+        <view class="feedback-item__head">
+          <view class="feedback-item__type">
+            <text>{{item._typeText}}</text>
+          </view>
+          <text class="feedback-item__time">{{item._timeText}}</text>
+        </view>
+        <text class="feedback-item__content">{{item.content}}</text>
+        <view class="feedback-item__status">
+          <view class="feedback-item__status-dot {{item.status === 'handled' ? 'is-handled' : ''}}"></view>
+          <text class="feedback-item__status-text">{{item.status === 'handled' ? '已处理' : '待处理'}}</text>
+        </view>
+        <view wx:if="{{item.reply}}" class="feedback-item__reply">
+          <text class="feedback-item__reply-label">官方回复</text>
+          <text class="feedback-item__reply-text">{{item.reply}}</text>
+        </view>
+      </view>
+
+      <loading wx:if="{{loading}}" text="加载中..." />
+      <view wx:if="{{!hasMore && !loading}}" class="feedback-end">
+        <text>没有更多了</text>
+      </view>
+    </block>
+
+    <empty-state
+      wx:elif="{{!loading}}"
+      text="还没有提交过反馈"
+      sub="第一条意见就从上面开始吧"
+      icon="/images/icons/megaphone.png"
+    />
+
+    <!-- 底部留白 -->
+    <view class="feedback-bottom-space"></view>
+  </scroll-view>
+</view>

@@ -1,0 +1,32 @@
+<!--pages/publish/index.wxml-->
+<!--发布页 - 发布中心（无导航栏）-->
+
+<view class="publish-page safe-area-top">
+  <!-- 顶部标题区 -->
+  <view class="publish-header">
+    <text class="publish-header__title">发布</text>
+    <text class="publish-header__sub">选择你要发布的内容类型</text>
+  </view>
+
+  <!-- 发布选项列表 -->
+  <view class="publish-list">
+    <view
+      wx:for="{{publishOptions}}"
+      wx:key="key"
+      class="publish-item card"
+      data-url="{{item.url}}"
+      bindtap="onTapOption"
+      hover-class="publish-item--hover"
+    >
+      <!-- 图标容器：使用模块主色浅底 -->
+      <view class="publish-item__icon-wrap" style="background-color:{{item.color}}1A;">
+        <image class="publish-item__icon" src="{{item.icon}}" mode="aspectFit" />
+      </view>
+      <view class="publish-item__info">
+        <text class="publish-item__name">{{item.name}}</text>
+        <text class="publish-item__desc">{{item.desc}}</text>
+      </view>
+      <image class="publish-item__arrow" src="/images/icons/arrow_right.png" mode="aspectFit" />
+    </view>
+  </view>
+</view>

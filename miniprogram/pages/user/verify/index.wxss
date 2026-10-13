@@ -1,0 +1,162 @@
+/* pages/user/verify/index.wxss */
+/* 学生认证页 - 认证成功居中大号图标，未认证表单卡片 */
+
+/* 页面容器：纵向 flex 占满整屏 */
+.verify-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* 滚动区：占据剩余空间 */
+.verify-scroll {
+  flex: 1;
+  padding: var(--space-md);
+  box-sizing: border-box;
+}
+
+/* ============ 认证功能关闭 ============ */
+.verify-disabled {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-xl) var(--space-md);
+}
+.verify-disabled__icon {
+  width: 140rpx;
+  height: 140rpx;
+}
+.verify-disabled__title {
+  margin-top: var(--space-lg);
+  font-size: var(--font-xxl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+.verify-disabled__desc {
+  margin-top: var(--space-md);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* ============ 认证成功 ============ */
+.verify-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-xl) var(--space-md);
+}
+.verify-success__icon {
+  width: 160rpx;
+  height: 160rpx;
+}
+.verify-success__title {
+  margin-top: var(--space-lg);
+  font-size: var(--font-xxl);
+  font-weight: 700;
+  color: var(--color-success);
+}
+.verify-success__email {
+  margin-top: var(--space-sm);
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+.verify-success__tip {
+  margin-top: var(--space-md);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ============ 说明卡片 ============ */
+.verify-intro {
+  margin-bottom: var(--space-md);
+}
+.verify-intro__title-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.verify-intro__icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: var(--space-sm);
+}
+.verify-intro__title {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.verify-intro__desc {
+  margin-top: var(--space-sm);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* ============ 输入区卡片 ============ */
+.verify-form {
+  padding: 0 var(--space-md);
+}
+.verify-form__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 96rpx;
+}
+.verify-form__item--border {
+  border-top: 2rpx solid var(--color-divider);
+}
+.verify-form__label {
+  width: 140rpx;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+}
+.verify-form__input {
+  flex: 1;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+.verify-form__placeholder {
+  color: var(--color-text-placeholder);
+}
+
+/* 发送验证码 / 倒计时按钮 */
+.verify-form__send {
+  flex-shrink: 0;
+  margin-left: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-sm);
+  color: var(--color-primary);
+  background-color: var(--color-primary-10);
+  border-radius: var(--radius-full);
+}
+.verify-form__send--disabled {
+  color: var(--color-text-placeholder);
+  background-color: var(--color-divider);
+}
+
+/* ============ 提交按钮 ============ */
+.verify-action {
+  margin-top: var(--space-lg);
+  padding: 0 var(--space-md);
+}
+.verify-btn {
+  width: 100%;
+  height: 96rpx;
+  line-height: 96rpx;
+  font-size: var(--font-lg);
+  color: #FFFFFF;
+  background-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  text-align: center;
+}
+.verify-btn--hover {
+  opacity: 0.85;
+}
+.verify-btn[disabled] {
+  opacity: 0.6;
+  color: #FFFFFF;
+  background-color: var(--color-primary);
+}

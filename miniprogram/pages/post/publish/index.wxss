@@ -1,0 +1,483 @@
+/* pages/post/publish/index.wxss */
+/* 发帖页样式 */
+
+/* 右侧发布按钮 */
+.publish-nav-btn {
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+}
+
+.publish-nav-btn--disabled {
+  opacity: 0.5;
+}
+
+.publish-nav-btn--hover {
+  opacity: 0.85;
+}
+
+.publish-nav-btn__text {
+  font-size: var(--font-sm);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* 滚动容器 */
+/* Skyline 不支持 vh：page 纵向 flex，滚动区 flex:1 自适应导航栏真实高度 */
+page {
+  display: flex;
+  flex-direction: column;
+}
+
+.publish-scroll {
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+/* 表单卡片 */
+.publish-form {
+  margin: var(--space-md);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 通用行 */
+.publish-row {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm) 0;
+  border-bottom: 2rpx solid var(--color-divider);
+}
+
+.publish-row--title {
+  border-bottom: none;
+  padding-top: var(--space-md);
+}
+
+.publish-row--tags {
+  margin-top: var(--space-md);
+}
+
+/* 匿名发帖开关行 */
+.publish-row--anonymous {
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+}
+
+/* 匿名行标签：覆盖默认 100rpx 宽度，允许自适应避免文字换行 */
+.publish-row--anonymous .publish-row__label {
+  width: auto;
+  white-space: nowrap;
+}
+
+.publish-row--anonymous switch {
+  flex-shrink: 0;
+  transform: scale(0.85);
+  transform-origin: right center;
+}
+
+.publish-row__label {
+  width: 100rpx;
+  font-size: var(--font-md);
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.publish-row__picker {
+  flex: 1;
+}
+
+.publish-row__value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+
+.publish-row__arrow {
+  font-size: var(--font-lg);
+  color: var(--color-text-placeholder);
+}
+
+/* 板块未选择时的占位文案 */
+.publish-row__placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.publish-input {
+  flex: 1;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+
+.publish-placeholder {
+  color: var(--color-text-placeholder);
+}
+
+/* 正文 textarea */
+.publish-textarea {
+  width: 100%;
+  min-height: 300rpx;
+  margin-top: var(--space-sm);
+  padding: var(--space-sm) 0;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+/* 底部留白 */
+.publish-bottom-space {
+  height: var(--space-xl);
+}
+
+/* ===== 二手交易信息卡片 ===== */
+.publish-trade {
+  margin-top: var(--space-sm);
+}
+
+/* 交易类型切换按钮组 */
+.trade-type-switch {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--color-bg-page);
+  border-radius: var(--radius-sm);
+  padding: 4rpx;
+}
+
+.trade-type-option {
+  padding: var(--space-xs) var(--space-lg);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-sm);
+}
+
+.trade-type-option--active {
+  background-color: #FFFFFF;
+  color: var(--color-primary);
+  font-weight: 600;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+}
+
+/* 按压反馈 */
+.trade-type-option--hover {
+  color: var(--color-primary);
+}
+
+/* 价格输入框 */
+.trade-price-input {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.trade-price-symbol {
+  font-size: var(--font-md);
+  font-weight: 700;
+  color: var(--color-danger);
+}
+
+.trade-price-field {
+  flex: 1;
+  margin-left: var(--space-xs);
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-danger);
+}
+
+/* 编辑模式提示条 */
+.publish-edit-tip {
+  margin: 16rpx 24rpx 0;
+  padding: 16rpx 20rpx;
+  background-color: #FFF7ED;
+  border: 1rpx solid #FDE68A;
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  color: #92400E;
+  line-height: 1.5;
+}
+
+/* ================= 小红书式编辑页版式（pe-*） ================= */
+
+/* 页面：纵向 flex，滚动区 + 底部固定操作条 */
+.pe-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.pe-scroll {
+  flex: 1;
+  min-height: 0;
+  background-color: var(--color-bg-card);
+}
+
+/* 编辑模式提示 */
+.pe-edit-tip {
+  margin: var(--space-md) var(--space-md) 0;
+  padding: var(--space-sm) var(--space-md);
+  background-color: #FFFBEB;
+  border: 1rpx solid #FDE68A;
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  color: #92400E;
+  line-height: 1.5;
+}
+
+/* ===== 图片横滑条 ===== */
+/* Skyline 下横向 scroll-view 不按内容撑高：不显式给 height 会塌缩为 0，
+   后续标题/正文随之上移压到图片区，表现为「文字重叠、排版错乱」。
+   高度 = 方块 200rpx + 上内边距 24rpx + 下内边距 16rpx */
+.pe-images {
+  width: 100%;
+  height: 240rpx;
+  white-space: nowrap;
+  padding: var(--space-md) var(--space-md) var(--space-sm);
+  box-sizing: border-box;
+}
+
+/* inline-flex：横向 scroll-view 的内容需为行内级，才能撑出横向滚动宽度 */
+.pe-images__row {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  padding-right: var(--space-md);
+}
+
+.pe-images__item {
+  position: relative;
+  width: 200rpx;
+  height: 200rpx;
+  flex-shrink: 0;
+  margin-right: var(--space-sm);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.pe-images__img {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bg-page);
+}
+
+.pe-images__del {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 44rpx;
+  height: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0 var(--radius-md) 0 var(--radius-md);
+}
+
+.pe-images__del--hover {
+  opacity: 0.6;
+}
+
+.pe-images__del-icon {
+  color: #FFFFFF;
+  font-size: 32rpx;
+  line-height: 1;
+}
+
+/* 多图顺序角标 */
+.pe-images__order {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  min-width: 40rpx;
+  height: 40rpx;
+  padding: 0 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0 var(--radius-md) 0 0;
+}
+
+.pe-images__order text {
+  font-size: var(--font-xs);
+  color: #FFFFFF;
+}
+
+/* 添加按钮：虚线方块 */
+.pe-images__add {
+  width: 200rpx;
+  height: 200rpx;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-page);
+  border: 2rpx dashed var(--color-border);
+  border-radius: var(--radius-md);
+  box-sizing: border-box;
+}
+
+.pe-images__add--hover {
+  background-color: var(--color-divider);
+}
+
+.pe-images__add-icon {
+  font-size: 56rpx;
+  color: var(--color-text-placeholder);
+  line-height: 1;
+}
+
+.pe-images__add-text {
+  margin-top: 4rpx;
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* ===== 标题 / 正文（无边框） ===== */
+.pe-title {
+  width: 100%;
+  box-sizing: border-box;
+  /* Skyline 下 input 需要确定高度，否则占位文字会被压扁成一条线 */
+  min-height: 96rpx;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.pe-content {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--space-sm) var(--space-md) var(--space-lg);
+  min-height: 260rpx;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+
+.pe-placeholder {
+  color: var(--color-text-placeholder);
+}
+
+/* ===== 行（板块 / 话题 / 匿名） ===== */
+.pe-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 var(--space-md);
+  padding: var(--space-md) 0;
+  border-top: 1rpx solid var(--color-divider);
+}
+
+.pe-row__label {
+  flex-shrink: 0;
+  margin-right: var(--space-md);
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+
+.pe-row__picker {
+  flex: 1;
+  min-width: 0;
+}
+
+.pe-row__value {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+
+.pe-row__arrow {
+  margin-left: var(--space-xs);
+  font-size: var(--font-lg);
+  color: var(--color-text-placeholder);
+}
+
+.pe-row__placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.pe-row__input {
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+
+/* 二手交易卡片 */
+.pe-trade {
+  margin: var(--space-md) var(--space-md) 0;
+}
+
+/* 底部留白 */
+.pe-bottom-space {
+  height: 40rpx;
+}
+
+/* ===== 底部固定操作条 ===== */
+.pe-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md) calc(var(--space-sm) + env(safe-area-inset-bottom));
+  background-color: var(--color-bg-card);
+  border-top: 1rpx solid var(--color-divider);
+}
+
+.pe-bar__draft {
+  flex-shrink: 0;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-page);
+}
+
+.pe-bar__draft text {
+  font-size: var(--font-md);
+  color: var(--color-text-secondary);
+}
+
+.pe-bar__draft--hover {
+  opacity: 0.7;
+}
+
+.pe-bar__submit {
+  flex: 1;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+}
+
+.pe-bar__submit text {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.pe-bar__submit--hover {
+  opacity: 0.85;
+}
+
+.pe-bar__submit--disabled {
+  background-color: var(--color-border);
+}
+
+.pe-bar__submit--disabled text {
+  color: #FFFFFF;
+  opacity: 0.9;
+}

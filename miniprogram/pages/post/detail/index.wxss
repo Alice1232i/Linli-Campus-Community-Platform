@@ -1,0 +1,441 @@
+/* pages/post/detail/index.wxss */
+/* 帖子详情页样式 */
+
+/* 加载占位 */
+.detail-loading-wrap {
+  padding-top: var(--space-xl);
+}
+
+/* 滚动容器：page 纵向 flex 自适应导航栏真实高度，底部 padding 让位固定输入栏 */
+page {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-scroll {
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  padding-bottom: 120rpx;
+}
+
+/* 帖子正文区 */
+.detail-post {
+  margin: var(--space-md);
+  padding: var(--space-md);
+}
+
+/* 作者信息行 */
+.detail-author {
+  display: flex;
+  align-items: center;
+}
+
+.detail-author__avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background-color: var(--color-bg-page);
+  flex-shrink: 0;
+}
+
+.detail-author__info {
+  flex: 1;
+  margin-left: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.detail-author__name {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.detail-author__time {
+  margin-top: 4rpx;
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* 板块彩色标签：底色由内联 style 控制，白字圆角，与帖子卡片风格统一 */
+.detail-author__section-tag {
+  flex-shrink: 0;
+  margin-left: var(--space-sm);
+  padding: 4rpx 16rpx;
+  font-size: var(--font-xs);
+  font-weight: 500;
+  color: #FFFFFF;
+  border-radius: var(--radius-sm);
+  line-height: 1.5;
+}
+
+/* 置顶/精华标识标签 */
+.detail-author__badge {
+  flex-shrink: 0;
+  margin-left: var(--space-sm);
+  padding: 4rpx 16rpx;
+  font-size: var(--font-xs);
+  font-weight: 600;
+  color: #FFFFFF;
+  border-radius: var(--radius-sm);
+  line-height: 1.5;
+}
+
+/* 置顶：红色 */
+.detail-author__badge--top {
+  background-color: var(--color-danger);
+}
+
+/* 精华：金色 */
+.detail-author__badge--essence {
+  background-color: var(--color-warning);
+}
+
+/* 标题 */
+.detail-title {
+  display: block;
+  margin-top: var(--space-md);
+  font-size: var(--font-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+/* 正文 */
+.detail-content {
+  display: block;
+  margin-top: var(--space-sm);
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+
+/* 图片网格 */
+.detail-images {
+  margin-top: var(--space-md);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.detail-images__img {
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-page);
+  margin-right: 8rpx;
+  margin-bottom: 8rpx;
+}
+
+/* 第3个、第6个、第9个不需要右边距（Skyline 不支持 :nth-child，改用条件 class） */
+.detail-images__img--last-col {
+  margin-right: 0;
+}
+
+/* 单图：按原始宽高比完整展示，不裁切
+   此前固定 480x360（约 4:3）配 aspectFill，正方形的图会被裁掉约 28% 高度。
+   改用 widthFix 让高度随原图比例自适应（配合 wxml 里的 mode 绑定）。 */
+.detail-images__img--one {
+  width: 100%;
+  max-width: 480rpx;
+  height: auto;
+}
+
+/* 三张一行：容器可用宽度 = 750 - 48(margin) - 48(padding) = 654rpx
+   (654 - 16) / 3 ≈ 212rpx，确保三张图 + 两个间距刚好放下一行 */
+.detail-images__img--multi {
+  width: 212rpx;
+  height: 212rpx;
+}
+
+/* 标签 */
+.detail-tags {
+  margin-top: var(--space-sm);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+/* ===== 二手交易信息卡片 ===== */
+.detail-trade {
+  margin-top: var(--space-md);
+  padding: var(--space-md);
+  background-color: rgba(255, 107, 107, 0.05);
+  border-radius: var(--radius-md);
+  border: 2rpx solid rgba(255, 107, 107, 0.15);
+}
+
+.detail-trade__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.detail-trade__type-tag {
+  padding: 4rpx var(--space-sm);
+  font-size: var(--font-xs);
+  font-weight: 600;
+  color: #FFFFFF;
+  border-radius: var(--radius-sm);
+  line-height: 1.4;
+}
+
+/* 出售：橙色 */
+.detail-trade__type-tag--sell {
+  background-color: var(--color-danger);
+}
+
+/* 求购：蓝色 */
+.detail-trade__type-tag--buy {
+  background-color: #4A90D9;
+}
+
+.detail-trade__sold-badge {
+  margin-left: var(--space-sm);
+  padding: 4rpx var(--space-sm);
+  font-size: var(--font-xs);
+  color: #9CA3AF;
+  background-color: rgba(156, 163, 175, 0.15);
+  border-radius: var(--radius-sm);
+}
+
+.detail-trade__price-row {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin-top: var(--space-sm);
+}
+
+.detail-trade__price {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  color: var(--color-danger);
+}
+
+.detail-trade__condition {
+  margin-left: var(--space-md);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+.detail-trade__hint {
+  margin-top: var(--space-sm);
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* 底部操作栏：左侧互动组（点赞/评论/收藏），右侧操作组（分享/举报） */
+.detail-actions {
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 2rpx solid var(--color-divider);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 操作项分组：组内紧挨排列，组间分散两侧 */
+.detail-actions__group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* 右侧操作组（分享/举报）：组内无间距，紧贴排列 */
+.detail-actions__group--right {
+  gap: 0;
+}
+
+/* 右侧组内按钮：去掉横向 padding，仅保留点击区域 */
+.detail-actions__group--right .detail-actions__item {
+  padding: 12rpx 8rpx;
+}
+
+/* 单个操作项：透明轻质感容器，纵向布局保证图标对齐 */
+.detail-actions__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12rpx 20rpx;
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  line-height: 1.2;
+  /* 统一最小高度，无数字的项也占位对齐 */
+  min-height: 80rpx;
+}
+
+/* 点击态：轻微蓝色背景 */
+.detail-actions__item--hover {
+  background-color: rgba(74, 144, 217, 0.08);
+}
+
+/* 图标统一 56rpx × 56rpx */
+.detail-actions__icon {
+  width: 56rpx;
+  height: 56rpx;
+}
+
+/* 举报图标比其他图标大 20% */
+.detail-actions__icon--report {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+/* 举报文字：紧贴图标下方，间距比其他项更小 */
+.detail-actions__item--report-num {
+  margin-top: 0;
+}
+
+/* 数字文字（点赞数 / 评论数） */
+.detail-actions__num {
+  margin-top: 4rpx;
+  font-size: 20rpx;
+  color: var(--color-text-secondary, #6B7280);
+  line-height: 1.2;
+}
+
+/* 点赞激活态数字 */
+.detail-actions__num--active {
+  color: var(--color-primary, #4A90D9);
+  font-weight: 600;
+}
+
+/* 占位文字：不可见但占据空间，保证图标垂直对齐 */
+.detail-actions__num--placeholder {
+  visibility: hidden;
+}
+
+/* 分享按钮重置（button 组件需去除默认样式） */
+.detail-actions__share {
+  margin: 0;
+  padding: 12rpx 20rpx;
+  border: none;
+  background-color: transparent;
+  line-height: 1.2;
+}
+
+.detail-actions__share::after {
+  border: none;
+}
+
+/* 评论区分隔线 */
+.detail-comments-header {
+  display: flex;
+  align-items: center;
+  padding: var(--space-md) var(--space-md) var(--space-sm);
+}
+
+.detail-comments-header__text {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.detail-comments-header__count {
+  margin-left: var(--space-xs);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+/* 评论列表卡片 */
+.detail-comments {
+  margin: 0 var(--space-md) var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+}
+
+/* 没有更多评论 */
+.detail-comments-end {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) 0;
+}
+
+.detail-comments-end__text {
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* 底部留白 */
+.detail-bottom-space {
+  height: var(--space-md);
+}
+
+/* 底部固定评论输入栏 */
+.detail-comment-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-bg-card);
+  border-top: 2rpx solid var(--color-border);
+  z-index: 100;
+}
+
+.detail-comment-bar__inner {
+  display: flex;
+  align-items: center;
+  padding: var(--space-sm) var(--space-md);
+}
+
+.detail-comment-bar__input-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-comment-bar__hint {
+  font-size: var(--font-xs);
+  color: var(--color-primary);
+  margin-bottom: 4rpx;
+}
+
+.detail-comment-bar__input {
+  width: 100%;
+  height: 64rpx;
+  padding: 0 var(--space-md);
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-page);
+  border-radius: var(--radius-full);
+  box-sizing: border-box;
+}
+
+.detail-comment-bar__placeholder {
+  color: var(--color-text-placeholder);
+}
+
+.detail-comment-bar__send {
+  margin-left: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.detail-comment-bar__send--disabled {
+  opacity: 0.5;
+}
+
+.detail-comment-bar__send--hover {
+  opacity: 0.85;
+}
+
+.detail-comment-bar__send-text {
+  font-size: var(--font-sm);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* 导航栏编辑按钮 */
+.detail-nav-edit {
+  color: var(--color-primary);
+  font-size: var(--font-lg);
+  padding: 0 8rpx;
+}
+
+/* 按压反馈 */
+.detail-nav-edit--hover {
+  opacity: 0.5;
+}

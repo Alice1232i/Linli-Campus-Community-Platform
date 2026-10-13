@@ -1,0 +1,47 @@
+<!--pages/post/favorites/index.wxml-->
+<!--我的收藏页-->
+
+<!-- 自定义导航栏，标题"我的收藏" -->
+<navigation-bar title="我的收藏" back="{{true}}"></navigation-bar>
+
+<!-- 滚动列表 -->
+<scroll-view
+  class="favorites-scroll"
+  type="list"
+  scroll-y
+  enhanced
+  show-scrollbar="{{false}}"
+  bindscrolltolower="onLoadMore"
+  refresher-enabled="{{true}}"
+  refresher-triggered="{{refreshing}}"
+  refresher-default-style="black"
+  bindrefresherrefresh="onRefresh"
+>
+  <!-- 加载中（首次） -->
+  <loading wx:if="{{firstLoading}}" text="加载中..."></loading>
+
+  <!-- 收藏列表 -->
+  <block wx:elif="{{list.length}}">
+    <post-card
+      wx:for="{{list}}"
+      wx:key="_id"
+      post="{{item}}"
+      liked="{{likedMap[item._id]}}"
+      bind:cardtap="onPostTap"
+      bind:liketap="onLikeTap"
+    ></post-card>
+
+    <!-- 底部加载更多 / 没有更多 -->
+    <loading wx:if="{{loading}}" text="加载更多..."></loading>
+    <view wx:elif="{{!hasMore}}" class="favorites-end">
+      <text class="favorites-end__text">没有更多了</text>
+    </view>
+  </block>
+
+  <!-- 空状态 -->
+  <empty-state
+    wx:else
+    text="还没有收藏"
+    sub="收藏感兴趣的帖子吧"
+  ></empty-state>
+</scroll-view>

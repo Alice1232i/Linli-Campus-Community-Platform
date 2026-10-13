@@ -1,0 +1,223 @@
+/* pages/message/index.wxss */
+/* 消息页 - 通知入口样式 */
+
+/* 滚动容器：page 纵向 flex 占满剩余空间，底部 padding 让位 TabBar */
+page {
+  display: flex;
+  flex-direction: column;
+}
+
+.msg-scroll {
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  padding-bottom: var(--tabbar-height);
+  background-color: var(--color-bg-page);
+}
+
+/* ============ 通知入口行 ============ */
+.notice-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: var(--space-md);
+  background-color: var(--color-bg-card);
+  border-bottom: 2rpx solid var(--color-divider);
+}
+.notice-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-xs);
+}
+.notice-item--hover {
+  opacity: 0.7;
+}
+.notice-item__icon-wrap {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background-color: var(--color-primary-10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.notice-item__icon {
+  width: 72rpx;
+  height: 72rpx;
+}
+.notice-item__name {
+  margin-top: var(--space-xs);
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+}
+/* 通知类型未读徽章 */
+.notice-item__badge {
+  position: absolute;
+  top: -4rpx;
+  right: -4rpx;
+  min-width: 28rpx;
+  height: 28rpx;
+  padding: 0 6rpx;
+  border-radius: var(--radius-full);
+  background-color: var(--color-secondary);
+  color: #FFFFFF;
+  font-size: var(--font-xs);
+  line-height: 28rpx;
+  text-align: center;
+}
+
+/* ============ 操作按钮行 ============ */
+.notice-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-bg-card);
+  border-bottom: 2rpx solid var(--color-divider);
+}
+.notice-action {
+  margin-left: var(--space-md);
+}
+.notice-action text {
+  font-size: var(--font-sm);
+  color: var(--color-primary);
+  font-weight: 500;
+}
+.notice-action--danger text {
+  color: var(--color-secondary);
+}
+
+/* ============ 左滑删除容器 ============ */
+.swipe-item {
+  position: relative;
+  overflow: hidden;
+}
+/* 删除按钮：固定在右侧 */
+.swipe-item__action {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 140rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-danger);
+}
+.swipe-item__action text {
+  font-size: var(--font-sm);
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+/* 按压反馈 */
+.swipe-item__action--hover {
+  opacity: 0.8;
+}
+/* 可滑动内容层 */
+.swipe-item__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: var(--space-md);
+  background-color: var(--color-bg-card);
+  border-bottom: 2rpx solid var(--color-divider);
+  transition: transform 0.25s ease;
+  transform: translateX(0);
+}
+.swipe-item__content--open {
+  transform: translateX(-140rpx);
+}
+
+/* ============ 通知列表项内部样式 ============ */
+.notify-item--hover {
+  background-color: var(--color-bg-page);
+}
+.notify-item--unread {
+  background-color: rgba(74, 144, 217, 0.03);
+}
+/* 未读标记圆点 */
+.notify-item__dot {
+  width: 16rpx;
+  height: 16rpx;
+  margin-top: var(--space-xs);
+  margin-right: var(--space-sm);
+  border-radius: 50%;
+  background-color: var(--color-secondary);
+  flex-shrink: 0;
+}
+/* 触发者头像 */
+.notify-item__avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background-color: var(--color-bg-page);
+  flex-shrink: 0;
+  margin-right: var(--space-sm);
+}
+/* 系统通知图标容器（红色三角形警告图标） */
+.notify-item__sys-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-color: rgba(255, 107, 107, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: var(--space-sm);
+}
+.notify-item__sys-icon-img {
+  width: 64rpx;
+  height: 64rpx;
+}
+.notify-item__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.notify-item__title {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.notify-item__body {
+  margin-top: var(--space-xs);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.notify-item__time {
+  margin-top: var(--space-xs);
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* 底部占位 */
+.msg-bottom-space {
+  height: var(--space-md);
+}
+
+/* 底部「没有更多了」（与 feed/favorites 等列表页保持一致） */
+.msg-end {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg) 0;
+}
+
+.msg-end__text {
+  font-size: var(--font-sm);
+  color: var(--color-text-placeholder);
+}

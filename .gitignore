@@ -1,0 +1,31 @@
+# macOS 系统文件
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# 编辑器/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 依赖目录（可通过 npm install 重新安装）
+node_modules/
+
+# 构建产物（可重新构建）
+admin/admin-web/dist/
+
+# 环境变量（含敏感信息）
+.env
+.env.local
+admin/admin-server/.env
+
+# 临时文件
+*.log
+*.tmp
+*.bak
+
+# ===== 补充 =====
+miniprogram/miniprogram_npm/
+project.private.config.json

@@ -1,0 +1,235 @@
+/* pages/user/posts/index.wxss */
+/* 我的帖子页样式 */
+
+/* Skyline 不支持 vh：page 纵向 flex，滚动区 flex:1 自适应导航栏真实高度 */
+page {
+  display: flex;
+  flex-direction: column;
+}
+
+.posts-scroll {
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  background-color: var(--color-bg-page);
+  padding: var(--space-sm) var(--space-md);
+}
+
+/* 内容类型筛选 Tab（在滚动区之外，不随列表滚动） */
+.posts-tabs {
+  margin: var(--space-sm) var(--space-md) 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* 帖子列表项 */
+.post-item {
+  padding: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.post-item--hover {
+  opacity: 0.7;
+  transform: scale(0.99);
+}
+
+.post-item__title {
+  display: block;
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xs);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 类型标签 + 标题同一行（标题占满剩余宽度） */
+.post-item__head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: var(--space-xs);
+}
+
+.post-item__type {
+  flex: none;
+  margin-right: var(--space-xs);
+  padding: 0 10rpx;
+  height: 32rpx;
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary-10);
+  color: var(--color-primary);
+  font-size: var(--font-xs);
+  line-height: 1;
+}
+
+/* 标题已由 .post-item__head 提供下边距，避免双重间距 */
+.post-item__head .post-item__title {
+  flex: 1;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.post-item__content {
+  display: block;
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.5;
+}
+
+/* 图片预览 */
+.post-item__images {
+  display: flex;
+  flex-direction: row;
+  margin-top: var(--space-sm);
+}
+
+.post-item__image {
+  width: 160rpx;
+  height: 160rpx;
+  margin-right: var(--space-xs);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-page);
+}
+
+/* 底部信息 */
+.post-item__footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: var(--space-sm);
+}
+
+.post-item__time {
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+.post-item__stats {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.post-item__stat {
+  margin-left: var(--space-sm);
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* ===== 作者信息卡片（查看他人帖子时顶部展示） ===== */
+.author-card {
+  padding: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+/* 头像 + 昵称行 */
+.author-card__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.author-card__avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background-color: var(--color-bg-page);
+  flex-shrink: 0;
+}
+
+.author-card__info {
+  flex: 1;
+  margin-left: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.author-card__name-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.author-card__name {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* 认证标识 */
+.author-card__badge {
+  margin-left: var(--space-xs);
+  padding: 2rpx 12rpx;
+  font-size: var(--font-xs);
+  font-weight: 500;
+  color: #FFFFFF;
+  background-color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  line-height: 1.5;
+}
+
+.author-card__campus {
+  margin-top: 4rpx;
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+/* 个人简介 */
+.author-card__bio {
+  display: block;
+  margin-top: var(--space-sm);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+/* 统计数据 */
+.author-card__stats {
+  display: flex;
+  flex-direction: row;
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 2rpx solid var(--color-divider);
+}
+
+.author-card__stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.author-card__stat-num {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.author-card__stat-label {
+  margin-top: 4rpx;
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* 无更多数据 */
+.posts-end {
+  text-align: center;
+  padding: var(--space-lg) 0;
+  font-size: var(--font-sm);
+  color: var(--color-text-placeholder);
+}
+
+/* 底部留白 */
+.posts-bottom-space {
+  height: var(--space-xl);
+}

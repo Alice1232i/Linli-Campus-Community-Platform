@@ -1,0 +1,201 @@
+/* pages/user/edit/index.wxss */
+/* 编辑资料页 - 卡片式表单分组 */
+
+/* 页面容器：纵向 flex 占满整屏 */
+.edit-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* 滚动区：占据剩余空间 */
+.edit-scroll {
+  flex: 1;
+  padding: var(--space-md);
+  box-sizing: border-box;
+}
+
+/* ============ 底部保存栏（替代原导航栏右侧「保存」） ============ */
+/* 用 position:fixed 钉在视口底部：不依赖 .edit-page 的高度链路与 flex 布局。
+   （此前放在 flex 容器里，若 height:100% 未生效，scroll-view 会按内容撑开并把底栏
+     顶到视口外，而 scroll-view 又会吞掉纵向滚动手势 → 底栏永远看不到。） */
+.edit-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  padding: var(--space-sm) var(--space-md);
+  /* 适配全面屏底部安全区 */
+  padding-bottom: calc(var(--space-sm) + env(safe-area-inset-bottom));
+  background-color: #FFFFFF;
+  border-top: 2rpx solid var(--color-divider);
+}
+
+/* 保存按钮：用 view 实现（规避 style:v2 对 button 的 width:184px 注入）。
+   选择器特意写成 .edit-footer .edit-footer__btn（0,2,0），即使日后改回 button 也能压过注入规则 */
+.edit-footer .edit-footer__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 88rpx;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-size: var(--font-md);
+  font-weight: 600;
+}
+
+.edit-footer__btn--hover { opacity: 0.85; }
+.edit-footer__btn--disabled { opacity: 0.6; }
+
+/* 底部占位：为 fixed 保存栏预留空间（88rpx 按钮 + 上下内边距），避免最后一张卡片被遮挡 */
+.edit-bottom-space {
+  height: 160rpx;
+}
+
+/* ============ 头像选择卡片 ============ */
+.avatar-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-lg) var(--space-md);
+}
+.avatar-card__label {
+  font-size: var(--font-md);
+  color: var(--color-text-secondary);
+}
+
+/* chooseAvatar 按钮：160rpx 正圆形，内部承载头像
+   ⚠️ 必须用 .avatar-card .avatar-btn 提升权重到 (0,2,0)：
+   app.json "style":"v2" 会注入 button:not([size='mini']) { width:184px; min-height:40px }
+   （权重 0,1,1 > 单类 0,1,0），若只用 .avatar-btn，宽度会被顶成 184px 而高度仍 160rpx
+   → 头像被拉成「椭圆」。这里同时显式覆盖 min-height 与 padding。 */
+.avatar-card .avatar-btn {
+  width: 160rpx;
+  height: 160rpx;
+  min-height: 160rpx;
+  margin-top: var(--space-md);
+  padding: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--color-divider);
+}
+/* 去掉 button 自带的边框伪元素 */
+.avatar-card .avatar-btn::after {
+  border: none;
+}
+.avatar-btn--hover {
+  opacity: 0.85;
+}
+.avatar-img {
+  width: 160rpx;
+  height: 160rpx;
+}
+.avatar-tip {
+  margin-top: var(--space-sm);
+  font-size: var(--font-sm);
+  color: var(--color-text-placeholder);
+}
+
+/* ============ 表单卡片 ============ */
+.form-card {
+  margin-top: var(--space-md);
+  padding: 0 var(--space-md);
+}
+
+/* 表单项：左标签右输入 */
+.form-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 96rpx;
+}
+.form-item--border {
+  border-bottom: 2rpx solid var(--color-divider);
+}
+/* 简介项：纵向布局 */
+.form-item--column {
+  flex-direction: column;
+  align-items: stretch;
+  padding: var(--space-md) 0;
+}
+
+/* 左侧标签 */
+.form-label {
+  width: 140rpx;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+}
+/* 简介项标签宽度自适应 */
+.form-item--column .form-label {
+  width: auto;
+  margin-bottom: var(--space-sm);
+}
+
+/* 输入框 */
+.form-input {
+  flex: 1;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+.form-placeholder {
+  color: var(--color-text-placeholder);
+}
+
+/* 性别单选组 */
+.form-radio-group {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.radio-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: var(--space-lg);
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+.radio-item text {
+  margin-left: var(--space-xs);
+}
+
+/* 简介输入框 */
+.form-textarea {
+  width: 100%;
+  min-height: 120rpx;
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+
+/* ============ 院系信息：picker 行（学院 / 专业 / 届数） ============ */
+.form-picker {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48rpx;
+}
+
+.form-picker__text {
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+
+/* 未选择时显示占位色 */
+.form-picker--placeholder .form-picker__text {
+  color: var(--color-text-placeholder);
+}
+
+.form-picker__arrow {
+  margin-left: var(--space-xs);
+  font-size: var(--font-lg);
+  color: var(--color-text-placeholder);
+}

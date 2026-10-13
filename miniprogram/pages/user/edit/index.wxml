@@ -1,0 +1,149 @@
+<!--pages/user/edit/index.wxml-->
+<!--编辑资料页 - 头像 / 昵称 / 性别 / 学院 / 专业 / 届数 / 简介-->
+<!--保存按钮位于页面底部长条（拇指可达），不再放在导航栏右侧-->
+
+<!-- 自定义导航栏 -->
+<navigation-bar title="编辑资料" back="{{true}}"></navigation-bar>
+
+<!-- 加载失败：提供「重新加载」入口，避免展示空白表单（P0-4） -->
+<view wx:if="{{loadError}}" class="edit-page">
+  <view class="load-error">
+    <text class="load-error__text">{{loadErrorText || '加载失败，请检查网络后重试'}}</text>
+    <view class="btn-secondary load-error__btn" hover-class="load-error__btn--hover" bindtap="onRetry">重新加载</view>
+  </view>
+</view>
+
+<view wx:else class="edit-page">
+  <scroll-view class="edit-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+
+    <!-- 头像选择区：button open-type="chooseAvatar"（正圆形，见 wxss 的 .avatar-card .avatar-btn） -->
+    <view class="card avatar-card">
+      <text class="avatar-card__label">头像</text>
+      <button
+        class="avatar-btn"
+        open-type="chooseAvatar"
+        bind:chooseavatar="onChooseAvatar"
+        hover-class="avatar-btn--hover"
+      >
+        <image class="avatar-img" src="{{avatar || defaultAvatar}}" mode="aspectFill" />
+      </button>
+      <text class="avatar-tip">点击修改</text>
+    </view>
+
+    <!-- 昵称 -->
+    <view class="card form-card">
+      <view class="form-item">
+        <text class="form-label">昵称</text>
+        <input
+          class="form-input"
+          type="nickname"
+          placeholder="请输入昵称"
+          placeholder-class="form-placeholder"
+          value="{{nickname}}"
+          bindinput="onNicknameInput"
+          bindchange="onNicknameInput"
+        />
+      </view>
+    </view>
+
+    <!-- 性别 + 简介 -->
+    <view class="card form-card">
+      <!-- 性别选择：radio-group -->
+      <view class="form-item form-item--border">
+        <text class="form-label">性别</text>
+        <radio-group class="form-radio-group" bindchange="onGenderChange">
+          <label class="radio-item">
+            <radio value="0" checked="{{gender === 0}}" color="#4A90D9" />
+            <text>保密</text>
+          </label>
+          <label class="radio-item">
+            <radio value="1" checked="{{gender === 1}}" color="#4A90D9" />
+            <text>男</text>
+          </label>
+          <label class="radio-item">
+            <radio value="2" checked="{{gender === 2}}" color="#4A90D9" />
+            <text>女</text>
+          </label>
+        </radio-group>
+      </view>
+
+      <!-- 个人简介：textarea -->
+      <view class="form-item form-item--column">
+        <text class="form-label">个人简介</text>
+        <textarea
+          class="form-textarea"
+          placeholder="介绍一下自己吧"
+          placeholder-class="form-placeholder"
+          maxlength="100"
+          show-confirm-bar
+          value="{{bio}}"
+          bindinput="onBioInput"
+        />
+      </view>
+    </view>
+
+    <!-- 院系信息：学院 / 专业（联动）/ 届数 -->
+    <view class="card form-card">
+      <view class="form-item form-item--border">
+        <text class="form-label">学院</text>
+        <picker
+          mode="selector"
+          range="{{collegeNames}}"
+          value="{{collegeIndex}}"
+          bindchange="onCollegeChange"
+        >
+          <view class="form-picker {{college ? '' : 'form-picker--placeholder'}}">
+            <text class="form-picker__text">{{college || '请选择学院'}}</text>
+            <text class="form-picker__arrow">›</text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item form-item--border">
+        <text class="form-label">专业</text>
+        <picker
+          mode="selector"
+          range="{{majorOptions}}"
+          value="{{majorIndex}}"
+          disabled="{{!college}}"
+          bindchange="onMajorChange"
+        >
+          <view class="form-picker {{major ? '' : 'form-picker--placeholder'}}">
+            <text class="form-picker__text">{{major || (college ? '请选择专业' : '请先选择学院')}}</text>
+            <text class="form-picker__arrow">›</text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">届数</text>
+        <picker
+          mode="selector"
+          range="{{gradeYears}}"
+          value="{{gradeIndex}}"
+          bindchange="onGradeChange"
+        >
+          <view class="form-picker {{grade ? '' : 'form-picker--placeholder'}}">
+            <text class="form-picker__text">{{grade ? grade + ' 届' : '请选择届数（毕业年份）'}}</text>
+            <text class="form-picker__arrow">›</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 底部占位：避免内容被固定保存栏遮挡 -->
+    <view class="edit-bottom-space"></view>
+
+  </scroll-view>
+
+  <!-- ============ 底部保存栏（固定，占满整行） ============ -->
+  <!-- 用 view 而非 button：app.json "style":"v2" 会给所有 button 注入 width:184px（权重 0,1,1），
+       会把 width:100% 压成 184px；保存动作不需要 button 的任何原生能力，改用 view 彻底规避 -->
+  <view class="edit-footer">
+    <view
+      class="edit-footer__btn {{saving ? 'edit-footer__btn--disabled' : ''}}"
+      hover-class="edit-footer__btn--hover"
+      bindtap="onSave"
+    >{{saving ? '保存中...' : '保存'}}</view>
+  </view>
+</view>

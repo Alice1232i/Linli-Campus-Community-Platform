@@ -1,0 +1,128 @@
+<!--pages/lostfound/publish/index.wxml-->
+<!--发布招领页 - 失物招领 / 寻物启事-->
+
+<!-- 自定义导航栏，标题"发布招领"，右侧发布按钮 -->
+<navigation-bar title="发布招领" back="{{true}}">
+  <view
+    slot="right"
+    class="lfp-nav-btn {{(!itemName || submitting) ? 'lfp-nav-btn--disabled' : ''}}"
+    bindtap="onSubmit"
+    hover-class="lfp-nav-btn--hover"
+  >
+    <text class="lfp-nav-btn__text">发布</text>
+  </view>
+</navigation-bar>
+
+<scroll-view
+  class="lfp-scroll"
+  type="list"
+  scroll-y
+  enhanced
+  show-scrollbar="{{false}}"
+>
+  <!-- 类型提示 -->
+  <view class="lfp-kind-tip">
+    <text class="lfp-kind-tip__text">当前类型：{{kindText}}</text>
+  </view>
+
+  <!-- 表单卡片 -->
+  <view class="lfp-form card">
+    <!-- 物品名称 -->
+    <view class="lfp-row">
+      <text class="lfp-row__label">物品名</text>
+      <input
+        class="lfp-input"
+        value="{{itemName}}"
+        placeholder="如：黑色钱包"
+        placeholder-class="lfp-placeholder"
+        maxlength="30"
+        bindinput="onItemNameInput"
+      />
+    </view>
+
+    <!-- 分类选择 -->
+    <view class="lfp-row">
+      <text class="lfp-row__label">分类</text>
+      <picker
+        class="lfp-row__picker"
+        mode="selector"
+        range="{{categoryOptions}}"
+        value="{{categoryIndex}}"
+        bindchange="onCategoryInput"
+      >
+        <view class="lfp-row__value">
+          <text>{{categoryOptions[categoryIndex]}}</text>
+          <text class="lfp-row__arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 地点（地图定位 + 手动输入双重方式） -->
+    <view class="lfp-row">
+      <text class="lfp-row__label">地点</text>
+      <input
+        class="lfp-input"
+        value="{{location}}"
+        placeholder="丢失 / 拾到地点"
+        placeholder-class="lfp-placeholder"
+        maxlength="50"
+        bindinput="onLocationInput"
+      />
+      <view class="lfp-locate-btn" bindtap="onChooseLocation" hover-class="lfp-locate-btn--hover">
+        <image class="lfp-locate-btn__icon" src="/images/icons/location.png" mode="aspectFit" />
+      </view>
+    </view>
+
+    <!-- 事件时间 -->
+    <view class="lfp-row">
+      <text class="lfp-row__label">时间</text>
+      <picker
+        class="lfp-row__picker"
+        mode="date"
+        value="{{eventTimeText}}"
+        bindchange="onEventTimeChange"
+      >
+        <view class="lfp-row__value">
+          <text wx:if="{{eventTimeText}}">{{eventTimeText}}</text>
+          <text wx:else class="lfp-placeholder">选择日期</text>
+          <text class="lfp-row__arrow">›</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 描述卡片 -->
+  <view class="lfp-form card">
+    <text class="lfp-section-title">详细描述</text>
+    <textarea
+      class="lfp-textarea"
+      value="{{description}}"
+      placeholder="补充物品特征、颜色、品牌等细节..."
+      placeholder-class="lfp-placeholder"
+      maxlength="500"
+      auto-height
+      bindinput="onDescInput"
+    ></textarea>
+  </view>
+
+  <!-- 图片上传卡片 -->
+  <view class="lfp-form card">
+    <text class="lfp-section-title">物品图片</text>
+    <image-uploader
+      images="{{images}}"
+      max="{{9}}"
+      bind:change="onImagesChange"
+    ></image-uploader>
+  </view>
+
+  <!-- 底部发布按钮 -->
+  <view class="lfp-submit-wrap">
+    <view
+      class="lfp-submit {{(!itemName || submitting) ? 'lfp-submit--disabled' : ''}}"
+      bindtap="onSubmit"
+      hover-class="lfp-submit--hover"
+    >
+      <text class="lfp-submit__text">{{submitting ? '发布中...' : '发布'}}</text>
+    </view>
+  </view>
+</scroll-view>

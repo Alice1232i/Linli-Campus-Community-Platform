@@ -1,0 +1,18 @@
+<!--components/feed-tabs/feed-tabs.wxml-->
+<!--内容排序 Tab（下划线风格）：推荐 / 最新 / 热门 / 同校-->
+
+<view class="feed-tabs">
+  <view class="feed-tabs__inner">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="feed-tabs__item {{activeKey === item.key ? 'feed-tabs__item--active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="onTapTab"
+      hover-class="feed-tabs__item--hover"
+    >
+      <text class="feed-tabs__text">{{item.name}}</text>
+      <view class="feed-tabs__underline"></view>
+    </view>
+  </view>
+</view>

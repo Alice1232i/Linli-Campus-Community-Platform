@@ -1,0 +1,150 @@
+{
+  "pages": [
+    "pages/feed/index",
+    "pages/discover/index",
+    "pages/publish/index",
+    "pages/message/index",
+    "pages/profile/index",
+    "pages/search/index",
+    "pages/agreement/index"
+  ],
+  "subpackages": [
+    {
+      "root": "pages/user",
+      "name": "user",
+      "pages": [
+        "login/index",
+        "edit/index",
+        "verify/index",
+        "posts/index"
+      ]
+    },
+    {
+      "root": "pages/post",
+      "name": "post",
+      "pages": [
+        "detail/index",
+        "publish/index",
+        "favorites/index"
+      ]
+    },
+    {
+      "root": "pages/lostfound",
+      "name": "lostfound",
+      "pages": [
+        "index/index",
+        "detail/index",
+        "publish/index"
+      ]
+    },
+    {
+      "root": "pages/section",
+      "name": "section",
+      "pages": [
+        "list/index"
+      ]
+    },
+    {
+      "root": "pages/report",
+      "name": "report",
+      "pages": [
+        "submit/index"
+      ]
+    },
+    {
+      "root": "pages/setting",
+      "name": "setting",
+      "pages": [
+        "index",
+        "feedback/index"
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/profile/index": {
+      "network": "all",
+      "packages": [
+        "user",
+        "setting"
+      ]
+    },
+    "pages/feed/index": {
+      "network": "all",
+      "packages": [
+        "post"
+      ]
+    },
+    "pages/discover/index": {
+      "network": "all",
+      "packages": [
+        "section",
+        "lostfound"
+      ]
+    }
+  },
+  "window": {
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#6B7280",
+    "selectedColor": "#4A90D9",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/feed/index",
+        "text": "首页",
+        "iconPath": "images/icons/home.png",
+        "selectedIconPath": "images/icons/home.png"
+      },
+      {
+        "pagePath": "pages/discover/index",
+        "text": "发现",
+        "iconPath": "images/icons/search.png",
+        "selectedIconPath": "images/icons/search.png"
+      },
+      {
+        "pagePath": "pages/publish/index",
+        "text": "发布",
+        "iconPath": "images/icons/edit.png",
+        "selectedIconPath": "images/icons/edit.png"
+      },
+      {
+        "pagePath": "pages/message/index",
+        "text": "消息",
+        "iconPath": "images/icons/chat_dots.png",
+        "selectedIconPath": "images/icons/chat_dots.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "images/icons/user.png",
+        "selectedIconPath": "images/icons/user.png"
+      }
+    ]
+  },
+  "renderer": "skyline",
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true,
+      "defaultContentBox": true,
+      "disableABTest": true,
+      "sdkVersionBegin": "3.0.0",
+      "sdkVersionEnd": "15.255.255"
+    }
+  },
+  "componentFramework": "glass-easel",
+  "lazyCodeLoading": "requiredComponents",
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "requiredPrivateInfos": [
+    "chooseLocation"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于在失物招领中选择地点"
+    }
+  }
+}

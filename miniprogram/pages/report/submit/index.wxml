@@ -1,0 +1,95 @@
+<!--pages/report/submit/index.wxml-->
+<!--举报提交页-->
+
+<navigation-bar title="举报" back="{{true}}"></navigation-bar>
+
+<scroll-view
+  class="report-scroll"
+  type="list"
+  scroll-y
+  enhanced
+  show-scrollbar="{{false}}"
+>
+  <!-- 举报理由 -->
+  <view class="report-section card">
+    <view class="report-section__title">举报理由</view>
+    <radio-group class="reason-group" bindchange="onReasonChange">
+      <label
+        wx:for="{{reasonOptions}}"
+        wx:key="value"
+        class="reason-item {{index === reasonOptions.length - 1 ? 'reason-item--last' : ''}}"
+        hover-class="reason-item--hover"
+      >
+        <radio value="{{item.value}}" color="var(--color-primary)" checked="{{reason === item.value}}" />
+        <text class="reason-item__label">{{item.label}}</text>
+      </label>
+    </radio-group>
+  </view>
+
+  <!-- 详细描述 -->
+  <view class="report-section card">
+    <view class="report-section__title">详细描述</view>
+    <textarea
+      class="report-textarea"
+      value="{{detail}}"
+      placeholder="请描述具体违规情况..."
+      placeholder-class="report-textarea__placeholder"
+      maxlength="500"
+      auto-height
+      bindinput="onDetailInput"
+    />
+    <view class="report-textarea__count">{{detail.length}}/500</view>
+  </view>
+
+  <!-- 证据图片（可选） -->
+  <view class="report-section card">
+    <view class="report-section__title">证据图片（可选）</view>
+    <view class="evidence-grid">
+      <!-- 已选图片 -->
+      <view
+        wx:for="{{evidence}}"
+        wx:key="*this"
+        class="evidence-item"
+      >
+        <image
+          class="evidence-item__img"
+          src="{{item}}"
+          mode="aspectFill"
+          data-src="{{item}}"
+          bindtap="onPreviewEvidence"
+        />
+        <view
+          class="evidence-item__del"
+          data-index="{{index}}"
+          catchtap="onRemoveEvidence"
+        >
+          <text class="evidence-item__del-text">×</text>
+        </view>
+      </view>
+      <!-- 添加按钮 -->
+      <view
+        wx:if="{{evidence.length < 3}}"
+        class="evidence-add"
+        hover-class="evidence-add--hover"
+        bindtap="onChooseEvidence"
+      >
+        <text class="evidence-add__icon">+</text>
+        <text class="evidence-add__text">添加图片</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部留白（避开固定提交按钮） -->
+  <view class="report-bottom-space"></view>
+</scroll-view>
+
+<!-- 底部固定提交按钮 -->
+<view class="report-submit-bar safe-area-bottom">
+  <view
+    class="report-submit-btn {{(submitting || !canSubmit) ? 'report-submit-btn--disabled' : ''}}"
+    hover-class="report-submit-btn--hover"
+    bindtap="onSubmit"
+  >
+    <text>{{submitting ? '提交中...' : '提交举报'}}</text>
+  </view>
+</view>

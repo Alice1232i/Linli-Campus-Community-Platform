@@ -1,0 +1,187 @@
+/* pages/agreement/index.wxss */
+/* 用户协议与隐私政策展示页 */
+
+/* Skyline 不支持 vh：page 纵向 flex，滚动区 flex:1 自适应导航栏真实高度 */
+page {
+  display: flex;
+  flex-direction: column;
+}
+
+.agree-scroll {
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.agree-content {
+  margin: var(--space-md);
+  padding: var(--space-md);
+}
+
+.agree-title {
+  display: block;
+  font-size: var(--font-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.agree-update {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+.agree-h2 {
+  display: block;
+  margin-top: var(--space-md);
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.agree-p {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+/* ===== 强调提示框（协议首页的公益声明 / 特别提示） ===== */
+.agree-note {
+  display: flex;
+  flex-direction: row;
+  margin-top: var(--space-md);
+  padding: var(--space-md);
+  background-color: var(--color-primary-10);
+  border-left: 6rpx solid var(--color-primary);
+  border-radius: var(--radius-md);
+}
+
+.agree-note__text {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-sm);
+  line-height: 1.7;
+  color: var(--color-text-primary);
+}
+
+/* ===== 关于我们 · 品牌区 ===== */
+.about-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-md) 0 var(--space-lg);
+}
+
+/* Logo 为「圆形内切于方形底」的图，四角用圆角裁掉（与登录页 brand-logo 同款处理） */
+.about-hero__logo {
+  width: 176rpx;
+  height: 176rpx;
+  border-radius: 50%;
+  box-shadow: 0 12rpx 32rpx rgba(74, 144, 217, 0.28);
+}
+
+.about-hero__name {
+  margin-top: var(--space-md);
+  font-size: var(--font-xl);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+}
+
+.about-hero__slogan {
+  margin-top: var(--space-xs);
+  font-size: var(--font-md);
+  color: var(--color-text-secondary);
+}
+
+.about-hero__version {
+  margin-top: var(--space-sm);
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* ===== 关于我们 · 公益承诺列表 ===== */
+.about-pledge {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+  padding: var(--space-md);
+  background-color: var(--color-bg-page);
+  border-radius: var(--radius-md);
+}
+
+.about-pledge__item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+/* 实心圆点：与协议正文的层级拉开，不引入图资源 */
+.about-pledge__dot {
+  flex: none;
+  width: 12rpx;
+  height: 12rpx;
+  margin: 14rpx var(--space-sm) 0 0;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+}
+
+.about-pledge__text {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-sm);
+  line-height: 1.7;
+  color: var(--color-text-primary);
+}
+
+/* ===== 关于我们 · 能力清单（对勾样式，与登录页价值点一致） ===== */
+.about-feature {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.about-feature__item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.about-feature__dot {
+  flex: none;
+  width: 32rpx;
+  height: 32rpx;
+  margin: 6rpx var(--space-sm) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--color-primary-10);
+}
+
+.about-feature__tick {
+  width: 8rpx;
+  height: 15rpx;
+  margin-top: -4rpx;
+  border-right: 3rpx solid var(--color-primary);
+  border-bottom: 3rpx solid var(--color-primary);
+  transform: rotate(45deg);
+}
+
+.about-feature__text {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-sm);
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.agree-bottom-space {
+  height: var(--space-xl);
+}

@@ -1,0 +1,89 @@
+<!--pages/user/verify/index.wxml-->
+<!--学生认证页 - 已认证展示徽章，未认证引导邮箱验证-->
+
+<!-- 自定义导航栏，标题「学生认证」 -->
+<navigation-bar title="学生认证" back="{{true}}"></navigation-bar>
+
+<view class="verify-page">
+  <scroll-view class="verify-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+
+    <!-- ============ 认证功能关闭 ============ -->
+    <view wx:if="{{!verifyEnabled}}" class="verify-disabled">
+      <image class="verify-disabled__icon" src="/images/icons/info_circle.png" mode="aspectFit" />
+      <text class="verify-disabled__title">认证功能暂时关闭</text>
+      <text class="verify-disabled__desc">学生认证功能正在维护中，暂时无法进行认证。您仍可正常使用各项功能，如有疑问请联系管理员。</text>
+    </view>
+
+    <!-- ============ 已认证状态 ============ -->
+    <view wx:elif="{{status === 'approved'}}" class="verify-success">
+      <!-- 大号认证徽章 -->
+      <image class="verify-success__icon" src="/images/icons/check_circle.png" mode="aspectFit" />
+      <text class="verify-success__title">已认证</text>
+      <text class="verify-success__email">{{verifiedEmail}}</text>
+      <text class="verify-success__tip">你已完成学生认证，可使用全部功能</text>
+    </view>
+
+    <!-- ============ 未认证状态 ============ -->
+    <block wx:else>
+      <!-- 说明卡片：解释学生认证的作用 -->
+      <view class="card verify-intro">
+        <view class="verify-intro__title-row">
+          <image class="verify-intro__icon" src="/images/icons/info_circle.png" mode="aspectFit" />
+          <text class="verify-intro__title">为什么要学生认证？</text>
+        </view>
+        <text class="verify-intro__desc">完成学生认证后，你可以发帖、接单、下单，享受完整的校园生活服务。我们通过校园邮箱验证你的学生身份。</text>
+      </view>
+
+      <!-- 邮箱 + 验证码输入区 -->
+      <view class="card verify-form">
+        <!-- 校园邮箱输入 -->
+        <view class="verify-form__item">
+          <text class="verify-form__label">校园邮箱</text>
+          <input
+            class="verify-form__input"
+            type="text"
+            placeholder="请输入校园邮箱，如 xxx@xxx.edu.cn"
+            placeholder-class="verify-form__placeholder"
+            value="{{email}}"
+            bindinput="onEmailInput"
+          />
+          <!-- 发送验证码 / 倒计时 -->
+          <view
+            class="verify-form__send {{(sending || countdown > 0) ? 'verify-form__send--disabled' : ''}}"
+            bindtap="onSendCode"
+          >
+            <text wx:if="{{countdown > 0}}">{{countdown}}s</text>
+            <text wx:elif="{{sending}}">发送中</text>
+            <text wx:else>发送验证码</text>
+          </view>
+        </view>
+
+        <!-- 验证码输入（发送后显示） -->
+        <view wx:if="{{codeSent}}" class="verify-form__item verify-form__item--border">
+          <text class="verify-form__label">验证码</text>
+          <input
+            class="verify-form__input"
+            type="number"
+            maxlength="6"
+            placeholder="请输入6位验证码"
+            placeholder-class="verify-form__placeholder"
+            value="{{code}}"
+            bindinput="onCodeInput"
+          />
+        </view>
+      </view>
+
+      <!-- 提交认证按钮（发送验证码后显示） -->
+      <view wx:if="{{codeSent}}" class="verify-action">
+        <button
+          class="verify-btn"
+          hover-class="verify-btn--hover"
+          loading="{{submitting}}"
+          disabled="{{submitting}}"
+          bindtap="onSubmit"
+        >提交认证</button>
+      </view>
+    </block>
+
+  </scroll-view>
+</view>

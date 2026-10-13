@@ -1,0 +1,50 @@
+<!--components/comment-item/comment-item.wxml-->
+<!--评论项组件-->
+
+<view class="comment-item">
+  <!-- 头像 -->
+  <image
+    class="comment-item__avatar"
+    src="{{comment.author.avatar || comment.author.avatarUrl || '/images/icons/user.png'}}"
+    mode="aspectFill"
+  />
+
+  <view class="comment-item__body">
+    <!-- 昵称 + 时间 -->
+    <view class="comment-item__header">
+      <text class="comment-item__name">{{comment.author.nickname || comment.author.nickName || '匿名用户'}}</text>
+      <text class="comment-item__time">{{timeText}}</text>
+    </view>
+
+    <!-- 回复对象提示 -->
+    <view wx:if="{{comment.replyTo.nickname}}" class="comment-item__reply-to">
+      回复 @{{comment.replyTo.nickname}}
+    </view>
+
+    <!-- 评论内容 -->
+    <text class="comment-item__content">{{comment.content}}</text>
+
+    <!-- 操作行 -->
+    <view class="comment-item__footer">
+      <view class="comment-item__action" bindtap="onTapReply" hover-class="comment-item__action--hover">
+        <text class="comment-item__action-text">回复</text>
+      </view>
+      <view class="comment-item__action" bindtap="onTapLike" hover-class="comment-item__action--hover">
+        <image
+          class="comment-item__action-icon"
+          src="{{liked ? '/images/icons/detail/like_filled.png' : '/images/icons/detail/like_outline.png'}}"
+          mode="aspectFit"
+        />
+        <text class="comment-item__action-text {{liked ? 'comment-item__action-text--active' : ''}}">{{likeText}}</text>
+      </view>
+      <view
+        wx:if="{{isOwner}}"
+        class="comment-item__action"
+        bindtap="onTapDelete"
+        hover-class="comment-item__action--hover"
+      >
+        <text class="comment-item__action-text comment-item__action-text--danger">删除</text>
+      </view>
+    </view>
+  </view>
+</view>

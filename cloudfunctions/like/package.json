@@ -1,0 +1,9 @@
+{
+  "name": "like",
+  "version": "1.0.0",
+  "description": "点赞模块云函数 - 点赞/取消点赞/批量检查",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

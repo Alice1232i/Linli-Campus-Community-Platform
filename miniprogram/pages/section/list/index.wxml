@@ -1,0 +1,104 @@
+<!--pages/section/list/index.wxml-->
+<!--板块专区页 - 每个板块的独立内容页面-->
+
+<view class="section-page">
+  <!-- 顶部导航栏：带返回按钮 -->
+  <navigation-bar title="{{sectionName}}" back="{{true}}"></navigation-bar>
+
+  <!-- 滚动区 -->
+  <scroll-view
+    class="section-scroll"
+    type="list"
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    bindscrolltolower="onLoadMore"
+    refresher-enabled="{{true}}"
+    refresher-triggered="{{refresherTriggered}}"
+    bindrefresherrefresh="onRefresherRefresh"
+    refresher-default-style="black"
+  >
+    <!-- 板块页头：紧凑白底一行式（小图标 + 名称 + 色点标识 + 关注按钮 + 帖子数） -->
+    <view class="section-head">
+      <view class="section-head__icon" style="background-color: {{sectionColor}}1A;">
+        <image class="section-head__icon-img" src="{{sectionIcon}}" mode="aspectFit" />
+      </view>
+      <view class="section-head__info">
+        <view class="section-head__name-row">
+          <text class="section-head__name">{{sectionName}}</text>
+          <view class="section-head__dot" style="background-color: {{sectionColor}};"></view>
+        </view>
+        <text class="section-head__meta">{{total || '0'}} 篇帖子</text>
+      </view>
+      <view
+        class="section-follow {{followed ? 'section-follow--on' : ''}}"
+        hover-class="section-follow--hover"
+        bindtap="onToggleFollow"
+      >
+        <text>{{followed ? '已关注' : '+ 关注'}}</text>
+      </view>
+    </view>
+
+    <!-- 置顶公告条：推荐流置顶帖（板块守则/公告），点击查看详情 -->
+    <view
+      wx:if="{{pinnedPost}}"
+      class="section-pinned"
+      hover-class="section-pinned--hover"
+      bindtap="onPinnedTap"
+    >
+      <text class="section-pinned__label">置顶</text>
+      <text class="section-pinned__text">{{pinnedPost._pinText}}</text>
+    </view>
+
+    <!-- 排序 Tab -->
+    <view class="section-tabs-bar">
+      <feed-tabs
+        tabs="{{sortTabs}}"
+        active="{{currentSort}}"
+        bind:change="onSortChange"
+      ></feed-tabs>
+    </view>
+
+    <!-- 封禁用户提示 -->
+    <view wx:if="{{isBanned}}" class="section-banned">
+      <text class="section-banned__text">您的账号已被封禁</text>
+      <text class="section-banned__sub">封禁期间无法浏览社区内容</text>
+    </view>
+
+    <!-- 帖子列表 -->
+    <loading wx:elif="{{firstLoading}}" text="加载中..."></loading>
+
+    <block wx:elif="{{posts.length}}">
+      <post-card
+        wx:for="{{posts}}"
+        wx:key="_id"
+        post="{{item}}"
+        liked="{{likedMap[item._id]}}"
+        bind:cardtap="onPostTap"
+        bind:liketap="onLikeTap"
+      ></post-card>
+
+      <!-- 底部加载更多 / 没有更多 -->
+      <loading wx:if="{{loading}}" text="加载更多..."></loading>
+      <view wx:elif="{{!hasMore}}" class="section-end">
+        <text class="section-end__text">没有更多了</text>
+      </view>
+    </block>
+
+    <!-- 空状态 -->
+    <empty-state
+      wx:else
+      text="{{sectionName}}还没有帖子"
+      sub="快来发布第一条吧"
+    ></empty-state>
+
+    <!-- 底部留白 -->
+    <view class="section-bottom-space"></view>
+  </scroll-view>
+
+  <!-- 右下角浮动发帖按钮 -->
+  <view class="section-fab" bindtap="onTapPublish" hover-class="section-fab--hover">
+    <image class="section-fab__icon" src="/images/icons/edit.png" mode="aspectFit" />
+    <text class="section-fab__text">发帖</text>
+  </view>
+</view>

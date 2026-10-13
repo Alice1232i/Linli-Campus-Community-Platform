@@ -1,0 +1,176 @@
+<!--pages/agreement/index.wxml-->
+<!--文档展示页：用户协议 / 隐私政策 / 关于我们（三种文档共用一个页面）-->
+
+<navigation-bar title="{{pageTitle}}" back="{{true}}"></navigation-bar>
+
+<scroll-view class="agree-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+
+  <!-- ==================== 一、隐私政策 ==================== -->
+  <view wx:if="{{type === 'privacy'}}" class="agree-content card">
+    <text class="agree-title">临里校园 隐私政策</text>
+    <text class="agree-update">更新日期：{{updatedAtText}}</text>
+
+    <view class="agree-note">
+      <text class="agree-note__text">临里校园是面向高校学生的纯公益社区平台。我们遵循「最小必要」原则，只收集实现功能所必需的信息，不将你的个人信息用于商业目的，不对外出售。</text>
+    </view>
+
+    <text class="agree-h2">引言</text>
+    <text class="agree-p">欢迎使用临里校园（以下简称「本平台」「我们」）。我们非常重视你的个人信息保护。本政策说明我们在你使用本小程序过程中如何收集、使用、存储、共享与保护你的个人信息，以及你享有的权利。请在注册登录、发布内容前仔细阅读，并主动勾选同意《用户协议》与本政策。</text>
+
+    <text class="agree-h2">一、我们收集与使用的信息</text>
+    <text class="agree-p">1. 微信身份标识（OpenID）：你使用小程序时，微信会向本平台提供你在本小程序内的唯一标识，仅用于识别账号、区分不同用户与鉴权。该标识不对外展示，其他用户无法获取。</text>
+    <text class="agree-p">2. 昵称与头像：我们不会主动读取你的微信昵称、头像。仅在你于登录引导页或「我的 → 编辑资料」中主动选择并提交后，我们才会获得并展示你选择的内容，你可随时修改。</text>
+    <text class="agree-p">3. 校园邮箱与验证码：仅在你主动申请学生认证时收集，用于验证学生身份、确认所属学校（依据邮箱域名），并在认证通过后展示认证标识。验证码以哈希方式存储、限制尝试次数、设置有效期。未完成认证不影响浏览社区内容。</text>
+    <text class="agree-p">4. 你主动发布的内容：帖子与评论的文字及图片、失物招领信息、举报说明与举证图片、资料中填写的个人简介等。</text>
+    <text class="agree-p">5. 联系方式：你在发布二手交易、失物招领等信息时主动填写的手机号或微信号。该信息仅在详情页按需展示，不会出现在列表页；失物招领中的联系方式以加密方式存储。</text>
+    <text class="agree-p">6. 位置信息：仅当你于失物招领发布页主动点击「选择地点」时，通过微信 chooseLocation 获取你所选地点的名称与经纬度，用于地点标注与地图导航。我们不会在后台获取你的位置，也不会持续追踪你的行动轨迹。</text>
+    <text class="agree-p">7. 相册与相机：仅在你主动上传图片（如发帖配图、举报举证）时通过微信 chooseMedia 读取你所选中的图片，我们不会读取相册中的其他内容，也不会在后台调用相机。</text>
+    <text class="agree-p">8. 设备与运行日志：为保障服务稳定与安全风控，我们可能记录设备型号、操作系统版本、网络状态、接口调用与错误日志。此类信息不含你的聊天内容与支付信息。</text>
+
+    <text class="agree-h2">二、我们如何使用信息</text>
+    <text class="agree-p">1. 提供并维护社区互动、板块内容、失物招领等各项功能。</text>
+    <text class="agree-p">2. 完成学生认证，确定你的校园归属。</text>
+    <text class="agree-p">3. 对文字与图片进行内容安全审核，处置违规内容。</text>
+    <text class="agree-p">4. 发送与你相关的互动通知与结果通知（站内消息、订阅消息）。</text>
+    <text class="agree-p">5. 安全风控、故障排查与服务体验优化（优化分析仅使用去标识化或汇总数据）。</text>
+    <text class="agree-p">我们承诺不将你的个人信息用于商业广告投放、用户画像营销，或对外出售、出租。</text>
+
+    <text class="agree-h2">三、权限与授权说明</text>
+    <text class="agree-p">1. 位置权限（scope.userLocation / chooseLocation）：用于失物招领中选择地点与查看地点导航。仅在你主动使用该功能时申请，你可以拒绝，拒绝不影响浏览、发帖等其他功能。</text>
+    <text class="agree-p">2. 相册与相机（chooseMedia）：用于上传图片。隐私授权弹窗由微信官方提供，你可随时在微信「设置 → 隐私」中管理。</text>
+    <text class="agree-p">3. 订阅消息：在你主动授权后，用于发送认证结果、举报处理结果等通知，你可在微信「服务通知」中退订。</text>
+    <text class="agree-p">我们不申请也不使用通讯录、日历、麦克风、蓝牙、后台定位等权限。</text>
+
+    <text class="agree-h2">四、信息的存储与保护</text>
+    <text class="agree-p">1. 存储位置：你的信息存储于微信云开发（腾讯云）服务器，位于中华人民共和国境内，不进行跨境传输。</text>
+    <text class="agree-p">2. 存储期限：在你使用本平台期间保存；你申请注销或删除后，我们将删除或匿名化处理，法律法规要求留存的除外。</text>
+    <text class="agree-p">3. 安全措施：传输加密、云函数鉴权（仅本人可修改自己的数据）、敏感字段加密存储、验证码哈希存储与尝试次数限制、管理后台操作日志留痕。</text>
+    <text class="agree-p">4. 安全事件：如发生个人信息泄露、篡改、丢失等安全事件，我们将依法及时告知你并向有关部门报告。</text>
+
+    <text class="agree-h2">五、信息的共享、转让与公开</text>
+    <text class="agree-p">1. 我们不会将你的个人信息共享给第三方用于其自身的营销推广。</text>
+    <text class="agree-p">2. 为实现基本功能，必要范围内会使用微信开放平台能力（微信登录、内容安全接口）与腾讯云（数据存储，作为受托处理方），除法律法规另有规定外不作其他对外提供。</text>
+    <text class="agree-p">3. 依法配合：根据法律法规规定，或应行政、司法机关依法定程序的要求，我们可能提供必要信息。</text>
+    <text class="agree-p">4. 公开范围：你在社区发布的内容，以及你的昵称、头像、认证学校，在本平台内对其他用户可见。请勿在公开内容中填写身份证号、学号、详细住址、支付密码等敏感信息。</text>
+
+    <text class="agree-h2">六、你的权利</text>
+    <text class="agree-p">1. 查阅与更正：可在「我的 → 编辑资料」查看并修改昵称、头像、简介等信息。</text>
+    <text class="agree-p">2. 删除：可删除自己发布的帖子与评论；更换头像后旧头像文件不再被引用。</text>
+    <text class="agree-p">3. 撤回授权：可在微信「设置 → 隐私 → 授权管理」中关闭已授予本小程序的权限；可通过本小程序「设置 → 清除缓存」清除本机缓存数据。</text>
+    <text class="agree-p">4. 注销账号：可通过「联系我们」提出注销申请，我们将在核实身份后删除账号及关联数据（法律法规要求留存的除外）。注销后数据不可恢复，请谨慎操作。</text>
+
+    <text class="agree-h2">七、未成年人保护</text>
+    <text class="agree-p">本平台面向高校学生群体，不面向未满 14 周岁的儿童。若你未满 18 周岁，请在监护人指导下使用，并在监护人同意后提交个人信息。如未成年人在未经监护人同意的情况下提交了信息，监护人可联系我们删除。</text>
+
+    <text class="agree-h2">八、政策的更新</text>
+    <text class="agree-p">本政策更新后，我们会在本页面更新「更新日期」，涉及权利变化的重大变更将以显著方式提示。若你继续使用本平台，即视为你接受更新后的政策；如不接受，请停止使用并可申请注销。</text>
+
+    <text class="agree-h2">九、联系我们</text>
+    <text class="agree-p">如你对本政策有疑问、投诉或需行使上述权利，可通过「设置 → 联系客服」或社区内任意内容的「举报」入口与我们联系。我们将在核实你的身份后 15 个工作日内答复。</text>
+    <text wx:if="{{contactEmail}}" class="agree-p">联系邮箱：{{contactEmail}}</text>
+  </view>
+
+  <!-- ==================== 二、用户协议 ==================== -->
+  <view wx:elif="{{type === 'agreement'}}" class="agree-content card">
+    <text class="agree-title">临里校园 用户协议</text>
+    <text class="agree-update">更新日期：{{updatedAtText}}</text>
+
+    <view class="agree-note">
+      <text class="agree-note__text">特别提示：临里校园是面向高校学生的纯公益社区校园平台，不以营利为目的。平台不向用户收取任何费用，不投放商业广告，不参与任何交易、不提供交易担保、不代收代付任何款项。请在使用前仔细阅读并同意本协议。</text>
+    </view>
+
+    <text class="agree-h2">一、关于本平台</text>
+    <text class="agree-p">1. 临里校园为公益运营的校园社区平台，向用户免费提供信息发布、展示与互动服务，不设会员、充值、付费解锁等收费项目，不进行流量变现。</text>
+    <text class="agree-p">2. 平台内的二手交易、兼职信息、拼车搭子、活动组队等内容，均由用户自行发布，属于用户之间的自发信息交流。平台仅提供信息发布与展示的技术服务，不参与交易过程，不介入资金与物品交付。</text>
+    <text class="agree-p">3. 本协议是你与平台运营方之间就使用本平台服务达成的约定。你开始使用即视为已阅读并同意本协议。</text>
+
+    <text class="agree-h2">二、服务内容</text>
+    <text class="agree-p">1. 社区板块：闲聊吐槽、二手交易、求助问答、学习打卡、表白墙、校园资讯、兼职信息、拼车搭子、活动组队。</text>
+    <text class="agree-p">2. 失物招领：发布与查找失物信息，支持地点标注与地图导航。</text>
+    <text class="agree-p">3. 帖子互动：浏览、点赞、评论、收藏、举报、拉黑。</text>
+    <text class="agree-p">4. 学生认证与消息通知：校园邮箱认证学生身份，接收互动提醒与结果通知。</text>
+    <text class="agree-p">因维护、升级或资源调整，部分功能可能暂不可用或停止提供，我们将尽可能提前在小程序内公告。</text>
+
+    <text class="agree-h2">三、账号与登录</text>
+    <text class="agree-p">1. 本平台通过微信授权登录，无需设置账号密码。你的账号与你微信在本小程序内的身份标识绑定，同一微信身份对应一个账号。</text>
+    <text class="agree-p">2. 请妥善保管你的微信账号与设备，因账号被他人使用产生的行为由你自行承担。账号不得出借、转让、售卖。</text>
+    <text class="agree-p">3. 你可随时停止使用本平台；如需注销账号并删除全部数据，可通过「联系我们」提出申请。</text>
+
+    <text class="agree-h2">四、用户行为规范</text>
+    <text class="agree-p">1. 不得发布违反法律法规或校园管理规定的内容，包括但不限于：涉黄、涉暴、涉赌、涉毒、诈骗、传销、谣言及其他违法有害信息。</text>
+    <text class="agree-p">2. 不得侵犯他人合法权益：不得人身攻击、侮辱诽谤、恶意曝光他人隐私（手机号、住址、学号、身份证、照片等），不得侵犯他人知识产权。</text>
+    <text class="agree-p">3. 不得破坏平台秩序：不得刷量、恶意骚扰、批量发布广告或导流站外，不得冒用他人或校方名义。</text>
+    <text class="agree-p">4. 不得利用本平台从事代写代考、论文买卖、违禁物品交易、刷单、非法借贷、博彩等违法违规活动。</text>
+
+    <text class="agree-h2">五、内容审核与违规处置</text>
+    <text class="agree-p">1. 我们依据法律法规要求，对用户发布的文字与图片进行内容安全检测，并对举报内容进行人工复核。</text>
+    <text class="agree-p">2. 违规内容将被拒绝发布、下架或屏蔽；对多次违规或情节严重的账号，我们有权视情况限制功能、禁言或封禁。</text>
+    <text class="agree-p">3. 你对所发布内容的真实性、合法性与准确性负责。平台将尽合理努力处置违规内容，但不对全部用户内容作事先审查或担保。</text>
+
+    <text class="agree-h2">六、风险提示与免责声明</text>
+    <text class="agree-p">1. 用户之间的二手交易、兼职、拼车、组队等行为，平台不参与、不担保、不收款，不承担由此产生的交易纠纷、财产损失或人身损害责任。</text>
+    <text class="agree-p">2. 请优先在校内公共场所当面交易，切勿提前支付款项、泄露验证码或支付密码、扫描来历不明的二维码。</text>
+    <text class="agree-p">3. 兼职信息仅为信息展示，请自行核实用人单位资质，警惕押金、培训费、刷单返利等常见骗局。</text>
+    <text class="agree-p">4. 用户发布的内容代表其个人观点，不代表本平台立场。因不可抗力、网络故障、系统维护等原因导致服务中断或数据延迟，我们将尽力恢复，但不承担由此产生的损失。</text>
+
+    <text class="agree-h2">七、知识产权</text>
+    <text class="agree-p">1. 你对自己发布的内容保留著作权，并授权平台在提供服务所必需的范围内（存储、展示、缓存、审核、备份）使用该内容。</text>
+    <text class="agree-p">2. 本平台的名称、标识、界面设计与自研程序归平台运营方所有，未经许可不得用于商业用途。</text>
+    <text class="agree-h2">八、协议的变更与终止</text>
+    <text class="agree-p">1. 我们可能根据法律法规与运营需要修订本协议，修订后将在本页面更新「更新日期」；涉及重大权益变化的，将以显著方式提示。</text>
+    <text class="agree-p">2. 修订后你继续使用本平台，即视为接受修订内容；如不接受，请停止使用并可申请注销账号。</text>
+
+    <text class="agree-h2">九、法律适用与争议解决</text>
+    <text class="agree-p">本协议的订立、效力、解释与争议解决适用中华人民共和国法律。因本协议产生的争议，双方应先友好协商；协商不成的，可向有管辖权的人民法院提起诉讼。</text>
+
+    <text class="agree-h2">十、联系我们</text>
+    <text class="agree-p">如对本协议有疑问、意见或投诉，可通过「设置 → 联系客服」或社区内任意内容的「举报」入口与我们联系。</text>
+    <text wx:if="{{contactEmail}}" class="agree-p">联系邮箱：{{contactEmail}}</text>
+  </view>
+
+  <!-- ==================== 三、关于我们 ==================== -->
+  <view wx:else class="agree-content card">
+    <view class="about-hero">
+      <image class="about-hero__logo" src="/images/logo.png" mode="aspectFit" />
+      <text class="about-hero__name">临里校园</text>
+      <text class="about-hero__slogan">纯公益社区校园平台</text>
+      <text class="about-hero__version">版本 {{version}} · 更新于 {{updatedAtText}}</text>
+    </view>
+
+    <text class="agree-h2">我们是什么</text>
+    <text class="agree-p">临里校园是一个面向高校学生的公益校园社区：把同学之间的信息交流集中到一个干净、免费、有序的地方——发帖聊校园、找失物、发二手、找搭子。它不追求变现，只希望身边的信息不再散落在各种群里。</text>
+
+    <text class="agree-h2">公益承诺</text>
+    <view class="about-pledge">
+      <view wx:for="{{pledges}}" wx:key="*this" class="about-pledge__item">
+        <view class="about-pledge__dot"></view>
+        <text class="about-pledge__text">{{item}}</text>
+      </view>
+    </view>
+
+    <text class="agree-h2">平台提供的能力</text>
+    <view class="about-feature">
+      <view wx:for="{{features}}" wx:key="*this" class="about-feature__item">
+        <view class="about-feature__dot">
+          <view class="about-feature__tick"></view>
+        </view>
+        <text class="about-feature__text">{{item}}</text>
+      </view>
+    </view>
+
+    <text class="agree-h2">安全与秩序</text>
+    <text class="agree-p">所有文字与图片在发布前会经过内容安全检测，举报内容由管理员人工复核；违规内容将被下架，情节严重者限制功能或封禁账号。管理操作全程留痕，可追溯。</text>
+
+    <text class="agree-h2">我们要特别说明</text>
+    <text class="agree-p">本平台是公益项目，服务器与存储资源有限，若出现访问缓慢或功能临时不可用，请多包涵。平台不参与用户之间的任何交易，二手交易、兼职信息等请自行核实、当面交易、注意安全。</text>
+
+    <text class="agree-h2">与我们联系</text>
+    <text class="agree-p">反馈问题、举报违规、合作建议或申请注销账号，可通过「设置 → 联系客服」或社区内任意内容的「举报」入口联系我们。</text>
+    <text wx:if="{{contactEmail}}" class="agree-p">联系邮箱：{{contactEmail}}</text>
+
+    <text class="agree-h2">相关文档</text>
+    <text class="agree-p">使用本平台前，请同时阅读《用户协议》与《隐私政策》，均可在「设置」中查看。</text>
+  </view>
+
+  <view class="agree-bottom-space"></view>
+</scroll-view>

@@ -1,0 +1,7 @@
+<!--components/loading/loading.wxml-->
+<!--加载组件-->
+
+<view class="loading {{block ? 'loading--block' : ''}}">
+  <view class="loading__spinner"></view>
+  <text class="loading__text">{{text}}</text>
+</view>

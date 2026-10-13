@@ -1,0 +1,10 @@
+{
+  "name": "verify",
+  "version": "1.0.0",
+  "description": "学生认证云函数 - 校园邮箱验证码",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3",
+    "nodemailer": "^6.9.0"
+  }
+}

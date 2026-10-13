@@ -1,0 +1,9 @@
+{
+  "name": "lostfound",
+  "version": "1.0.0",
+  "description": "失物招领模块云函数 - 发布/列表/详情/关闭（事务同步 posts）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

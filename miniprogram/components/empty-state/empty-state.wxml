@@ -1,0 +1,8 @@
+<!--components/empty-state/empty-state.wxml-->
+<!--空状态组件-->
+
+<view class="empty-state">
+  <image class="empty-state__icon" src="{{icon}}" mode="aspectFit" />
+  <text class="empty-state__text">{{text}}</text>
+  <text wx:if="{{sub}}" class="empty-state__sub">{{sub}}</text>
+</view>

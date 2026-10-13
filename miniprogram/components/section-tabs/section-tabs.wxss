@@ -1,0 +1,42 @@
+/* components/section-tabs/section-tabs.wxss */
+/* 板块切换组件样式 */
+
+.section-tabs {
+  width: 100%;
+  background-color: var(--color-bg-card);
+  white-space: nowrap;
+}
+
+.section-tabs__inner {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-sm) var(--space-sm);
+  gap: var(--space-xs);
+}
+
+.section-tabs__item {
+  flex-shrink: 0;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-page);
+  transition: all 0.2s ease;
+}
+
+.section-tabs__item--hover {
+  opacity: 0.7;
+}
+
+.section-tabs__item--active {
+  background-color: var(--color-primary);
+}
+
+.section-tabs__text {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.section-tabs__item--active .section-tabs__text {
+  color: #FFFFFF;
+  font-weight: 600;
+}

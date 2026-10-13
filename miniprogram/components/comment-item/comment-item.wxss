@@ -1,0 +1,91 @@
+/* components/comment-item/comment-item.wxss */
+/* 评论项组件样式 */
+
+.comment-item {
+  display: flex;
+  padding: var(--space-sm) 0;
+}
+
+.comment-item__avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background-color: var(--color-bg-page);
+  flex-shrink: 0;
+}
+
+.comment-item__body {
+  flex: 1;
+  margin-left: var(--space-sm);
+  min-width: 0;
+}
+
+.comment-item__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comment-item__name {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.comment-item__time {
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+}
+
+.comment-item__reply-to {
+  margin-top: 4rpx;
+  font-size: var(--font-xs);
+  color: var(--color-primary);
+}
+
+.comment-item__content {
+  margin-top: var(--space-xs);
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.comment-item__footer {
+  margin-top: var(--space-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.comment-item__action {
+  display: flex;
+  align-items: center;
+  padding: 4rpx var(--space-xs);
+  border-radius: var(--radius-sm);
+}
+
+.comment-item__action--hover {
+  background-color: rgba(74, 144, 217, 0.08);
+}
+
+/* 图标 32rpx × 32rpx（评论内更小） */
+.comment-item__action-icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.comment-item__action-text {
+  margin-left: 4rpx;
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+}
+
+.comment-item__action-text--active {
+  color: var(--color-primary, #4A90D9);
+  font-weight: 600;
+}
+
+.comment-item__action-text--danger {
+  color: var(--color-secondary);
+}

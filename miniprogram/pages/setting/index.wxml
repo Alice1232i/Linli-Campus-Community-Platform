@@ -1,0 +1,112 @@
+<!--pages/setting/index.wxml-->
+<!--设置页 - 拉黑管理 + 其他设置项-->
+
+<navigation-bar title="设置" back="{{true}}"></navigation-bar>
+
+<scroll-view
+  class="setting-scroll"
+  type="list"
+  scroll-y
+  enhanced
+  show-scrollbar="{{false}}"
+  bindscrolltolower="onLoadMore"
+  refresher-enabled="{{true}}"
+  refresher-triggered="{{refreshing}}"
+  refresher-default-style="black"
+  bindrefresherrefresh="onRefresh"
+>
+  <!-- ============ 拉黑管理 ============ -->
+  <view class="setting-block-title">拉黑管理</view>
+
+  <block wx:if="{{blockList.length > 0}}">
+    <view class="setting-card card">
+      <view
+        wx:for="{{blockList}}"
+        wx:key="_id"
+        class="block-item {{index === blockList.length - 1 ? 'block-item--last' : ''}}"
+      >
+        <!-- 头像 -->
+        <image
+          class="block-item__avatar"
+          src="{{item.targetAvatar || item.avatar || '/images/icons/user.png'}}"
+          mode="aspectFill"
+        />
+        <!-- 昵称 -->
+        <text class="block-item__name">{{item.targetNickname || item.nickname || '未知用户'}}</text>
+        <!-- 解除拉黑按钮 -->
+        <view
+          class="block-item__unblock"
+          data-userid="{{item.userId}}"
+          data-index="{{index}}"
+          hover-class="block-item__unblock--hover"
+          bindtap="onUnblock"
+        >
+          <text>解除拉黑</text>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 空状态 -->
+  <empty-state
+    wx:else
+    text="暂无拉黑用户"
+    sub="拉黑后将在此处管理"
+    icon="/images/icons/user.png"
+  ></empty-state>
+
+  <!-- ============ 其他设置项 ============ -->
+  <view class="setting-block-title">其他</view>
+
+  <view class="setting-card card">
+    <!-- 联系客服 -->
+    <view
+      class="setting-item"
+      hover-class="setting-item--hover"
+      bindtap="contactCustomerService"
+    >
+      <text class="setting-item__name">联系客服</text>
+      <text class="setting-item__arrow">›</text>
+    </view>
+    <!-- 用户协议 / 隐私政策：拆成两条，避免旧实现只能进隐私政策、用户协议无入口 -->
+    <view
+      class="setting-item"
+      hover-class="setting-item--hover"
+      data-type="agreement"
+      bindtap="goDoc"
+    >
+      <text class="setting-item__name">用户协议</text>
+      <text class="setting-item__arrow">›</text>
+    </view>
+    <view
+      class="setting-item"
+      hover-class="setting-item--hover"
+      data-type="privacy"
+      bindtap="goDoc"
+    >
+      <text class="setting-item__name">隐私政策</text>
+      <text class="setting-item__arrow">›</text>
+    </view>
+    <!-- 关于我们 -->
+    <view
+      class="setting-item"
+      hover-class="setting-item--hover"
+      bindtap="goAbout"
+    >
+      <text class="setting-item__name">关于我们</text>
+      <text class="setting-item__arrow">›</text>
+    </view>
+    <!-- 清除缓存 -->
+    <view
+      class="setting-item setting-item--last"
+      hover-class="setting-item--hover"
+      bindtap="clearCache"
+    >
+      <text class="setting-item__name">清除缓存</text>
+      <text class="setting-item__arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 底部占位 -->
+  <view class="setting-bottom-space"></view>
+</scroll-view>

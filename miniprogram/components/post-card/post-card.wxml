@@ -1,0 +1,89 @@
+<!--components/post-card/post-card.wxml-->
+<!--帖子列表项组件（无卡片样式，用底边线分隔，参考校园墙布局）-->
+
+<view class="post-item {{isSold ? 'post-item--sold' : ''}}" bindtap="onTapCard" hover-class="post-item--hover">
+  <!-- 左侧头像 -->
+  <view class="post-item__avatar-wrap">
+    <image
+      class="post-item__avatar"
+      src="{{authorAvatar || post.author.avatarUrl || '/images/icons/user.png'}}"
+      mode="aspectFill"
+    />
+  </view>
+
+  <!-- 右侧内容区 -->
+  <view class="post-item__main">
+    <!-- 第一行：用户名 + 置顶/精华标识 + 板块标签 + 时间 -->
+    <view class="post-item__header">
+      <text class="post-item__name">{{post.author.nickname || post.author.nickName || '匿名用户'}}</text>
+      <!-- 置顶标识：红色小标签 -->
+      <view wx:if="{{isTop}}" class="post-item__badge post-item__badge--top">
+        <text>置顶</text>
+      </view>
+      <!-- 精华标识：金色小标签 -->
+      <view wx:if="{{isEssence}}" class="post-item__badge post-item__badge--essence">
+        <text>精华</text>
+      </view>
+      <!-- 二手帖：价格标签优先显示 -->
+      <view wx:if="{{priceText}}" class="post-item__price-tag {{isSold ? 'post-item__price-tag--sold' : ''}}">
+        <text>{{isSold ? '已售' : priceText}}</text>
+      </view>
+      <!-- 板块彩色小标签 -->
+      <view wx:elif="{{post.section}}" class="post-item__section-tag" style="color:{{sectionColor}};background-color:{{sectionBgColor}};">
+        <text>{{sectionName}}</text>
+      </view>
+      <text class="post-item__time">{{timeText}}</text>
+    </view>
+
+    <!-- 标题（可选） -->
+    <text wx:if="{{post.title}}" class="post-item__title">{{post.title}}</text>
+
+    <!-- 正文+图片布局：首页只显示1张图片，多图加数量角标 -->
+    <!-- 有图时统一左右布局：文字左图右 -->
+    <view wx:if="{{post.images && post.images.length}}" class="post-item__body">
+      <text wx:if="{{post.content}}" class="post-item__content post-item__content--inline">{{displayContentInline}}</text>
+      <!-- 只显示第一张图，详情页可查看全部 -->
+      <view class="post-item__img-wrap">
+        <image
+          class="post-item__img--single"
+          src="{{post.images[0]}}"
+          mode="aspectFit"
+          lazy-load
+        />
+        <!-- 多图角标：右下角显示总数 -->
+        <view wx:if="{{post.images.length > 1}}" class="post-item__img-badge">
+          <text>{{post.images.length}}张</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 纯文字（无图） -->
+    <text wx:elif="{{post.content}}" class="post-item__content">{{displayContent}}</text>
+
+    <!-- 热评前置：最热一级评论（即刻式，后端 feed 附加，无则不显示） -->
+    <view wx:if="{{post.hotComment && post.hotComment.content}}" class="post-item__hotc">
+      <text class="post-item__hotc-label">热评</text>
+      <text class="post-item__hotc-text">{{post.hotComment.authorName}}：{{post.hotComment.content}}</text>
+    </view>
+
+    <!-- 底部操作栏 -->
+    <view class="post-item__footer">
+      <view class="post-item__action" catchtap="onTapLike" hover-class="post-item__action--hover">
+        <image
+          class="post-item__action-icon"
+          src="{{liked ? '/images/icons/detail/like_filled.png' : '/images/icons/detail/like_outline.png'}}"
+          mode="aspectFit"
+        />
+        <text class="post-item__action-text {{liked ? 'post-item__action-text--active' : ''}}">{{likeText}}</text>
+      </view>
+      <view class="post-item__action" hover-class="post-item__action--hover">
+        <image
+          class="post-item__action-icon"
+          src="/images/icons/detail/comment.png"
+          mode="aspectFit"
+        />
+        <text class="post-item__action-text">{{commentText}}</text>
+      </view>
+    </view>
+  </view>
+</view>

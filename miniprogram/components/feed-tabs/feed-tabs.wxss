@@ -1,0 +1,56 @@
+/* components/feed-tabs/feed-tabs.wxss */
+/* 内容排序 Tab 样式（下划线风格） */
+
+.feed-tabs {
+  width: 100%;
+  background-color: var(--color-bg-card);
+}
+
+/* 4 等分：flexbox 横向排列，Skyline 下比 grid 更可靠 */
+.feed-tabs__inner {
+  display: flex;
+  flex-direction: row;
+  padding: 0 var(--space-sm);
+}
+
+.feed-tabs__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) 0 var(--space-xs);
+  position: relative;
+}
+
+.feed-tabs__item--hover {
+  opacity: 0.7;
+}
+
+.feed-tabs__text {
+  font-size: var(--font-md);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  transition: color 0.2s ease;
+}
+
+.feed-tabs__item--active .feed-tabs__text {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+/* 下划线：scaleX 生长动画，规避百分比定位，Skyline 安全 */
+.feed-tabs__underline {
+  width: 48rpx;
+  height: 6rpx;
+  margin-top: 8rpx;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s ease;
+}
+
+.feed-tabs__item--active .feed-tabs__underline {
+  transform: scaleX(1);
+}

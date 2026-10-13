@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "navigation-bar": "../../../components/navigation-bar/navigation-bar",
+    "image-uploader": "../../../components/image-uploader/image-uploader"
+  }
+}

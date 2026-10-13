@@ -1,0 +1,127 @@
+<!--pages/user/login/index.wxml-->
+<!--登录引导页：品牌区 + 价值点 + 合规同意 + 登录；首次登录引导完善头像昵称-->
+
+<view class="login-page">
+  <!--
+    自定义导航栏
+    本页全部由 wx.navigateTo / redirectTo 进入，栈内存在上一页，故提供返回按钮，
+    避免用户「进来就出不去」（此前 back=false 无返回，只能依赖系统侧滑）
+  -->
+  <navigation-bar title="登录" back="{{true}}"></navigation-bar>
+
+  <!-- ==================== 步骤一：登录引导 ==================== -->
+  <view wx:if="{{step === 'intro'}}" class="login-body">
+
+    <!-- 品牌区：flex:1 吸收剩余空间，Logo 在剩余区域内垂直居中 -->
+    <view class="login-hero">
+      <!-- 品牌标识：官方 Logo（圆形 PNG，自带透明圆边） -->
+      <image class="brand-logo" src="/images/logo.png" mode="aspectFit" />
+      <text class="login-app-name">临里校园</text>
+      <text class="login-slogan">你的校园生活助手</text>
+    </view>
+
+    <!-- 价值点：说明登录后能做什么，同时填充中部留白 -->
+    <view class="login-features">
+      <view class="feature" wx:for="{{features}}" wx:key="*this">
+        <view class="feature__dot">
+          <view class="feature__tick"></view>
+        </view>
+        <text class="feature__text">{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 操作区：贴底，保证「按钮在拇指可及处」 -->
+    <view class="login-actions">
+      <!-- 微信登录按钮：微信官方绿 #07C160 + 微信标识 -->
+      <button
+        class="login-btn"
+        hover-class="login-btn--hover"
+        loading="{{loading}}"
+        disabled="{{loading}}"
+        bindtap="onLogin"
+      >
+        <view class="login-btn__inner">
+          <view class="wx-mark">
+            <view class="wx-mark__big"></view>
+            <view class="wx-mark__small"></view>
+          </view>
+          <text class="login-btn__text">微信登录</text>
+        </view>
+      </button>
+
+      <!-- 协议同意：默认不勾选，需用户主动同意 -->
+      <view class="login-agree">
+        <view
+          class="login-agree__box {{agreed ? 'is-checked' : ''}}"
+          hover-class="login-agree__box--hover"
+          bindtap="onToggleAgree"
+        >
+          <view class="login-agree__tick" wx:if="{{agreed}}"></view>
+        </view>
+        <!--
+          使用 flex-wrap 排布：4 段文案作为 flex item 参与成行
+          修复此前各 <text> 被逐行断开成 4 行的问题（Skyline 下 inline 行盒合并不可靠）
+        -->
+        <view class="login-agree__text">
+          <text class="login-agree__label" bindtap="onToggleAgree">我已阅读并同意</text>
+          <text class="login-agree__link" catchtap="onAgreement" data-type="agreement">《用户协议》</text>
+          <text class="login-agree__label">与</text>
+          <text class="login-agree__link" catchtap="onAgreement" data-type="privacy">《隐私政策》</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ==================== 步骤二：完善资料 ==================== -->
+  <view wx:else class="login-body login-body--profile">
+    <view class="login-hero login-hero--profile">
+      <text class="login-app-name">完善资料</text>
+      <text class="login-slogan">让同学更容易认出你</text>
+    </view>
+
+    <view class="profile-card">
+      <!-- 头像：button open-type="chooseAvatar" 可直取微信头像 -->
+      <button
+        class="avatar-btn"
+        open-type="chooseAvatar"
+        bind:chooseavatar="onChooseAvatar"
+        hover-class="avatar-btn--hover"
+      >
+        <image class="avatar-img" src="{{avatar || defaultAvatar}}" mode="aspectFill" />
+      </button>
+      <text class="avatar-tip">点击选择微信头像</text>
+
+      <!-- 昵称：input type="nickname" 可唤起微信昵称填写 -->
+      <view class="profile-field">
+        <text class="profile-field__label">昵称</text>
+        <input
+          class="profile-field__input"
+          type="nickname"
+          placeholder="点击此处使用微信昵称"
+          placeholder-class="profile-field__ph"
+          value="{{nickname}}"
+          bindinput="onNicknameInput"
+          bindchange="onNicknameInput"
+        />
+      </view>
+    </view>
+
+    <view class="login-actions">
+      <button
+        class="login-btn"
+        hover-class="login-btn--hover"
+        loading="{{saving}}"
+        disabled="{{saving}}"
+        bindtap="onSubmitProfile"
+      >
+        <view class="login-btn__inner">
+          <text class="login-btn__text">完成</text>
+        </view>
+      </button>
+
+      <view class="login-skip" hover-class="login-skip--hover" bindtap="onSkipProfile">
+        <text>暂不设置，先逛逛</text>
+      </view>
+    </view>
+  </view>
+</view>

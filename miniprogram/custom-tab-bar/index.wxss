@@ -1,0 +1,149 @@
+/* custom-tab-bar/index.wxss */
+/* 自定义底部 TabBar 样式：底部固定、白底、顶部细边框、5 项等分 flex */
+/* Skyline 模式要求：根节点 position: absolute + pointer-events: auto（见官方文档） */
+/* 注意：自定义 TabBar 是特殊组件，可能不继承 page 的 CSS 变量，故所有 var() 均带回退值 */
+
+/* ============ 容器 ============ */
+.tab-bar {
+  pointer-events: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background-color: var(--color-bg-card, #FFFFFF);
+  /* 顶部细边框 */
+  border-top: 2rpx solid var(--color-border, #E5E7EB);
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+/* 内部 flex 容器，5 项等分 */
+.tab-bar__inner {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 88rpx;
+  width: 100%;
+}
+
+/* 底部安全区占位（Home 指示器） */
+.tab-bar__safe-area {
+  height: env(safe-area-inset-bottom);
+}
+
+/* ============ 普通 Tab 项 ============ */
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 8rpx 0;
+  box-sizing: border-box;
+}
+
+/* 点击态 */
+.tab-item--hover {
+  opacity: 0.7;
+}
+
+/* 图标容器：相对定位，承载角标 */
+.tab-item__icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 图标 80rpx × 80rpx（放大后） */
+.tab-item__icon {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+/* ===== 消息未读角标 ===== */
+/* 绝对定位在图标右上角，红色圆形/胶囊形 */
+.tab-item__badge {
+  position: absolute;
+  top: -6rpx;
+  right: -6rpx;
+  min-width: 32rpx;
+  height: 32rpx;
+  padding: 0 8rpx;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-danger);
+  border-radius: 999rpx;
+  /* 白色细边框，在浅色图标上更醒目 */
+  border: 2rpx solid #FFFFFF;
+  z-index: 10;
+}
+
+/* 角标文字：白色、小字号 */
+.tab-item__badge-text {
+  font-size: 20rpx;
+  color: #FFFFFF;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* 两位数时缩小字号避免溢出 */
+.tab-item__badge-text--double {
+  font-size: 18rpx;
+}
+
+/* 文字 20rpx */
+.tab-item__text {
+  margin-top: 4rpx;
+  font-size: 20rpx;
+  color: #6B7280;
+  line-height: 1.2;
+}
+
+/* 选中态：文字变主色（Skyline 不支持 filter，图标本身已是蓝色） */
+.tab-item--active .tab-item__text {
+  color: #4A90D9;
+  font-weight: 600;
+}
+
+/* ============ 中间发布按钮：凸起圆形大按钮 ============ */
+.tab-item--center {
+  position: relative;
+  justify-content: flex-end;
+  padding-bottom: 12rpx;
+}
+
+/* 凸起圆形按钮：白色底圈保持原大尺寸，仅图标缩小 */
+.tab-item__center-btn {
+  position: absolute;
+  top: -15rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.12);
+  flex-direction: column;
+}
+
+/* 中间按钮图标：缩小 50%，置于白色底圈中心 */
+.tab-item__center-icon {
+  width: 70rpx;
+  height: 70rpx;
+  margin-bottom:10rpx; /* 图标和文字拉开距离 */
+}
+
+/* 中间按钮文字：上边距，避免与凸起圆形按钮重叠 */
+.tab-item__text--center {
+  margin-top: 60rpx;
+  color: #4A90D9;
+  font-weight: 600;
+}

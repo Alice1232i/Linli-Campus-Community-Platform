@@ -1,0 +1,9 @@
+{
+  "name": "post",
+  "version": "1.0.0",
+  "description": "帖子模块云函数 - 发帖/信息流/详情/删除/我的帖子/他人帖子",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

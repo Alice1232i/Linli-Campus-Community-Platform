@@ -1,0 +1,208 @@
+/* pages/section/list/index.wxss */
+/* 板块专区页 - 各板块独立内容页面 */
+
+.section-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.section-scroll {
+  flex: 1;
+  height: 0;
+}
+
+/* ===== 板块页头：紧凑白底一行式 ===== */
+.section-head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20rpx var(--space-md);
+  background-color: var(--color-bg-card);
+  border-bottom: 1rpx solid var(--color-divider);
+}
+
+.section-head__icon {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.section-head__icon-img {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.section-head__info {
+  display: flex;
+  flex-direction: column;
+  margin-left: var(--space-md);
+  flex: 1;
+  min-width: 0;
+}
+
+.section-head__name-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.section-head__name {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* 板块身份标识：6rpx 小圆点（板块色只在这里出现） */
+.section-head__dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  margin-left: var(--space-xs);
+}
+
+.section-head__meta {
+  margin-top: 2rpx;
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+}
+
+/* ===== 关注按钮 ===== */
+.section-follow {
+  flex-shrink: 0;
+  margin-left: var(--space-sm);
+  padding: 8rpx 24rpx;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  font-size: var(--font-sm);
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.section-follow--on {
+  background-color: var(--color-bg-page);
+  color: var(--color-text-secondary);
+  font-weight: 400;
+}
+
+.section-follow--hover {
+  opacity: 0.7;
+}
+
+/* ===== 置顶公告条 ===== */
+.section-pinned {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin: var(--space-sm) var(--space-md) 0;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-bg-page);
+  border-radius: var(--radius-md);
+}
+
+.section-pinned--hover {
+  opacity: 0.7;
+}
+
+.section-pinned__label {
+  flex-shrink: 0;
+  margin-right: var(--space-xs);
+  padding: 0 8rpx;
+  font-size: var(--font-xs);
+  line-height: 1.6;
+  color: var(--color-warning);
+  background-color: rgba(245, 166, 35, 0.12);
+  border-radius: var(--radius-sm);
+}
+
+.section-pinned__text {
+  font-size: var(--font-sm);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* ===== 排序 Tab ===== */
+.section-tabs-bar {
+  padding: 0 var(--space-md);
+  background-color: var(--color-bg-card);
+  border-bottom: 2rpx solid var(--color-divider);
+}
+
+/* ===== 底部没有更多 ===== */
+.section-end {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg) 0;
+}
+
+.section-end__text {
+  font-size: var(--font-sm);
+  color: var(--color-text-placeholder);
+}
+
+/* ===== 封禁用户提示 ===== */
+.section-banned {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.section-banned__text {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-danger);
+  margin-bottom: 16rpx;
+}
+
+.section-banned__sub {
+  font-size: var(--font-sm);
+  color: var(--color-text-placeholder);
+}
+
+/* ===== 底部留白 ===== */
+.section-bottom-space {
+  height: 120rpx;
+}
+
+/* ===== 右下角浮动发帖按钮 ===== */
+.section-fab {
+  position: fixed;
+  right: var(--space-md);
+  bottom: 120rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  box-shadow: 0 4rpx 12rpx rgba(26, 26, 46, 0.18);
+}
+
+.section-fab--hover {
+  opacity: 0.8;
+  transform: scale(0.95);
+}
+
+.section-fab__icon {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.section-fab__text {
+  margin-left: var(--space-xs);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: #FFFFFF;
+}

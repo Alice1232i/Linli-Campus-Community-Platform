@@ -1,0 +1,35 @@
+/* components/loading/loading.wxss */
+/* 加载组件样式 */
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading--block {
+  width: 100%;
+  padding: var(--space-md) 0;
+}
+
+/* 旋转动画圆环 */
+.loading__spinner {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: var(--space-xs);
+  border: 4rpx solid var(--color-divider);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: loading-spin 0.8s linear infinite;
+}
+
+.loading__text {
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

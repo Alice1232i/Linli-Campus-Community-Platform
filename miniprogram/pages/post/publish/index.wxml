@@ -1,0 +1,195 @@
+<!--pages/post/publish/index.wxml-->
+<!--发帖页 - 小红书式编辑页
+     结构：图片横滑条（含添加）-> 标题 -> 正文 -> 板块（必选）-> 二手信息（条件）
+           -> 附加项（话题/匿名）-> 底部固定操作条（存草稿 / 发布） -->
+
+<navigation-bar title="{{editMode ? '编辑帖子' : '发布帖子'}}" back="{{true}}"></navigation-bar>
+
+<view class="pe-page">
+  <scroll-view
+    class="pe-scroll"
+    type="list"
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+  >
+    <!-- 编辑模式提示：仅可修改标题/正文/标签，图片保持不变 -->
+    <view wx:if="{{editMode}}" class="pe-edit-tip">
+      <text>编辑模式：可修改标题、正文与标签；图片暂不支持修改，将保持不变。</text>
+    </view>
+
+    <!-- 1. 图片横滑预览 + 添加按钮 -->
+    <scroll-view class="pe-images" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="pe-images__row">
+        <view class="pe-images__item" wx:for="{{images}}" wx:key="*this">
+          <image
+            class="pe-images__img"
+            src="{{item}}"
+            mode="aspectFill"
+            data-index="{{index}}"
+            bindtap="onPreviewImage"
+          />
+          <view
+            class="pe-images__del"
+            data-index="{{index}}"
+            catchtap="onRemoveImage"
+            hover-class="pe-images__del--hover"
+          >
+            <text class="pe-images__del-icon">×</text>
+          </view>
+          <!-- 多图时显示顺序角标 -->
+          <view wx:if="{{images.length > 1}}" class="pe-images__order">
+            <text>{{index + 1}}</text>
+          </view>
+        </view>
+
+        <view
+          wx:if="{{images.length < 9}}"
+          class="pe-images__add"
+          hover-class="pe-images__add--hover"
+          bindtap="onAddImages"
+        >
+          <text class="pe-images__add-icon">+</text>
+          <text class="pe-images__add-text">{{images.length ? images.length + '/9' : '添加图片'}}</text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- 2. 标题（无边框大字） -->
+    <input
+      class="pe-title"
+      value="{{title}}"
+      placeholder="添加标题（选填）"
+      placeholder-class="pe-placeholder"
+      maxlength="50"
+      bindinput="onTitleInput"
+    />
+
+    <!-- 3. 正文（无边框） -->
+    <textarea
+      class="pe-content"
+      value="{{content}}"
+      placeholder="分享你的校园生活..."
+      placeholder-class="pe-placeholder"
+      maxlength="2000"
+      auto-height
+      bindinput="onContentInput"
+    ></textarea>
+
+    <!-- 4. 板块选择（必选） -->
+    <view class="pe-row">
+      <text class="pe-row__label">板块</text>
+      <picker
+        class="pe-row__picker"
+        mode="selector"
+        range="{{sections}}"
+        range-key="name"
+        value="{{sectionIndex < 0 ? 0 : sectionIndex}}"
+        bindchange="onSectionChange"
+      >
+        <view class="pe-row__value">
+          <text class="{{sectionIndex < 0 ? 'pe-row__placeholder' : ''}}">{{sectionIndex < 0 ? '请选择板块（必选）' : sections[sectionIndex].name}}</text>
+          <text class="pe-row__arrow">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 二手交易信息（仅二手板块显示） -->
+    <view wx:if="{{section === 'secondhand'}}" class="pe-trade card">
+      <view class="publish-row">
+        <text class="publish-row__label">类型</text>
+        <view class="trade-type-switch">
+          <view
+            class="trade-type-option {{tradeType === 'sell' ? 'trade-type-option--active' : ''}}"
+            hover-class="trade-type-option--hover"
+            data-type="sell"
+            bindtap="onTradeTypeChange"
+          >出售</view>
+          <view
+            class="trade-type-option {{tradeType === 'buy' ? 'trade-type-option--active' : ''}}"
+            hover-class="trade-type-option--hover"
+            data-type="buy"
+            bindtap="onTradeTypeChange"
+          >求购</view>
+        </view>
+      </view>
+
+      <view class="publish-row">
+        <text class="publish-row__label">价格</text>
+        <view class="trade-price-input">
+          <text class="trade-price-symbol">¥</text>
+          <input
+            class="trade-price-field"
+            type="digit"
+            value="{{tradePrice}}"
+            placeholder="0.00"
+            placeholder-class="publish-placeholder"
+            maxlength="10"
+            bindinput="onPriceInput"
+          />
+        </view>
+      </view>
+
+      <view class="publish-row">
+        <text class="publish-row__label">成色</text>
+        <picker
+          class="publish-row__picker"
+          mode="selector"
+          range="{{conditionOptions}}"
+          value="{{conditionIndex}}"
+          bindchange="onConditionChange"
+        >
+          <view class="publish-row__value">
+            <text>{{tradeCondition}}</text>
+            <text class="publish-row__arrow">›</text>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 5. 附加项：话题标签 -->
+    <view class="pe-row">
+      <text class="pe-row__label"># 话题</text>
+      <input
+        class="pe-row__input"
+        value="{{tagInput}}"
+        placeholder="多个标签用逗号分隔（选填）"
+        placeholder-class="pe-placeholder"
+        maxlength="50"
+        bindinput="onTagInput"
+      />
+    </view>
+
+    <!-- 附加项：匿名发布 -->
+    <view class="pe-row">
+      <text class="pe-row__label">匿名发布</text>
+      <switch
+        checked="{{isAnonymous}}"
+        bindchange="onAnonymousChange"
+        color="#4A90D9"
+      />
+    </view>
+
+    <!-- 底部留白，避免被固定操作条遮挡 -->
+    <view class="pe-bottom-space"></view>
+  </scroll-view>
+
+  <!-- 6. 底部固定操作条：存草稿 + 发布 -->
+  <view class="pe-bar">
+    <view
+      wx:if="{{!editMode}}"
+      class="pe-bar__draft"
+      hover-class="pe-bar__draft--hover"
+      bindtap="onSaveDraft"
+    >
+      <text>存草稿</text>
+    </view>
+    <view
+      class="pe-bar__submit {{(submitting || !section || (!content && !images.length)) ? 'pe-bar__submit--disabled' : ''}}"
+      hover-class="pe-bar__submit--hover"
+      bindtap="onSubmit"
+    >
+      <text>{{editMode ? '保存' : '发布'}}</text>
+    </view>
+  </view>
+</view>

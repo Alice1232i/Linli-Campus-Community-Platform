@@ -1,0 +1,49 @@
+<!-- custom-tab-bar/index.wxml -->
+<!-- 自定义底部 TabBar：5 个 Tab，中间"发布"为凸起圆形大按钮 -->
+<!-- 消息 Tab 显示未读角标：数字（1-99）/ 99+ / 红点 -->
+
+<view class="tab-bar">
+  <view class="tab-bar__inner">
+    <!-- 遍历 Tab 列表 -->
+    <block wx:for="{{list}}" wx:key="index">
+      <!-- 中间凸起按钮：发布（唤起发布方式弹窗） -->
+      <view
+        wx:if="{{item.isCenter}}"
+        class="tab-item tab-item--center"
+        data-index="{{index}}"
+        bindtap="onTapCenter"
+        hover-class="tab-item--hover"
+      >
+        <view class="tab-item__center-btn">
+          <image class="tab-item__center-icon" src="{{item.iconPath}}" mode="aspectFit" />
+        </view>
+        <text class="tab-item__text tab-item__text--center">{{item.text}}</text>
+      </view>
+
+      <!-- 普通 Tab 项 -->
+      <view
+        wx:else
+        class="tab-item {{selected === index ? 'tab-item--active' : ''}}"
+        data-index="{{index}}"
+        bindtap="switchTab"
+        hover-class="tab-item--hover"
+      >
+        <!-- 图标容器：相对定位，用于承载角标 -->
+        <view class="tab-item__icon-wrap">
+          <image class="tab-item__icon" src="{{item.iconPath}}" mode="aspectFit" />
+          <!-- 消息未读角标：仅消息 Tab（index=3）且未读数 > 0 时显示 -->
+          <view wx:if="{{index === 3 && unreadCount > 0}}" class="tab-item__badge">
+            <!-- 未读数 1-9 显示红点+数字，10-99 显示数字，>99 显示 99+ -->
+            <text wx:if="{{unreadCount > 99}}" class="tab-item__badge-text">99+</text>
+            <text wx:elif="{{unreadCount > 9}}" class="tab-item__badge-text tab-item__badge-text--double">{{unreadCount}}</text>
+            <text wx:else class="tab-item__badge-text">{{unreadCount}}</text>
+          </view>
+        </view>
+        <text class="tab-item__text">{{item.text}}</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- 底部安全区占位（适配 Home 指示器） -->
+  <view class="tab-bar__safe-area"></view>
+</view>

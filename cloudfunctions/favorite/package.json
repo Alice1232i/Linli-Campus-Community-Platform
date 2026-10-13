@@ -1,0 +1,9 @@
+{
+  "name": "favorite",
+  "version": "1.0.0",
+  "description": "收藏模块云函数 - 收藏/取消收藏/检查/列表",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

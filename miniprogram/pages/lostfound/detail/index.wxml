@@ -1,0 +1,118 @@
+<!--pages/lostfound/detail/index.wxml-->
+<!--招领详情页 - 物品信息 + 图片预览 + 操作按钮-->
+
+<!-- 自定义导航栏，标题"招领详情" -->
+<navigation-bar title="招领详情" back="{{true}}"></navigation-bar>
+
+<!-- 加载中 -->
+<loading wx:if="{{loading}}" text="加载中..."></loading>
+
+<!-- 加载失败：提供「重新加载」入口，避免永久空白页（P0-4） -->
+<view wx:elif="{{loadError}}" class="load-error">
+  <text class="load-error__text">{{loadErrorText || '加载失败，请检查网络后重试'}}</text>
+  <view class="btn-secondary load-error__btn" hover-class="load-error__btn--hover" bindtap="onRetry">重新加载</view>
+</view>
+
+<!-- 详情内容 -->
+<block wx:elif="{{detail}}">
+  <scroll-view
+    class="lfd-scroll"
+    type="list"
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+  >
+    <!-- 物品信息卡片 -->
+    <view class="lfd-card card">
+      <view class="lfd-card__header">
+        <text class="lfd-card__name">{{detail.itemName || '未命名物品'}}</text>
+        <text class="lfd-card__kind" style="color:{{detail._kindColor}};background-color:{{detail._kindColor}}1A;">{{detail._kindName}}</text>
+      </view>
+      <view class="lfd-card__meta" wx:if="{{detail.category}}">
+        <text class="lfd-card__meta-label">分类</text>
+        <text class="lfd-card__meta-value">{{detail.category}}</text>
+      </view>
+      <view class="lfd-card__meta">
+        <text class="lfd-card__meta-label">地点</text>
+        <text class="lfd-card__meta-value">{{detail.location || '未知'}}</text>
+      </view>
+      <!-- 地图预览（有经纬度时展示，点击可打开微信内置地图查看） -->
+      <view
+        wx:if="{{detail.latitude && detail.longitude}}"
+        class="lfd-map-wrap"
+        bindtap="onOpenLocation"
+      >
+        <map
+          class="lfd-map"
+          latitude="{{detail.latitude}}"
+          longitude="{{detail.longitude}}"
+          scale="{{16}}"
+          markers="{{detail._markers}}"
+          enable-zoom="{{false}}"
+          enable-scroll="{{false}}"
+          enable-rotate="{{false}}"
+        ></map>
+        <view class="lfd-map-tip">
+          <text>点击查看大地图</text>
+        </view>
+      </view>
+      <view class="lfd-card__meta" wx:if="{{detail._eventTimeText}}">
+        <text class="lfd-card__meta-label">时间</text>
+        <text class="lfd-card__meta-value">{{detail._eventTimeText}}</text>
+      </view>
+    </view>
+
+    <!-- 图片网格 -->
+    <view class="lfd-card card" wx:if="{{detail.images && detail.images.length}}">
+      <view class="lfd-card__section-title">物品图片</view>
+      <view class="lfd-grid">
+        <image
+          wx:for="{{detail.images}}"
+          wx:key="*this"
+          class="lfd-grid__img"
+          src="{{item}}"
+          mode="aspectFill"
+          data-src="{{item}}"
+          bindtap="onTapImage"
+        />
+      </view>
+    </view>
+
+    <!-- 描述 -->
+    <view class="lfd-card card" wx:if="{{detail.description}}">
+      <view class="lfd-card__section-title">详细描述</view>
+      <text class="lfd-card__desc">{{detail.description}}</text>
+    </view>
+
+    <!-- 发布人信息 -->
+    <view class="lfd-card card" wx:if="{{detail.publisher}}">
+      <view class="lfd-card__section-title">发布人</view>
+      <view class="lfd-publisher">
+        <image
+          class="lfd-publisher__avatar"
+          src="{{detail.publisher.avatarUrl || detail.publisher.avatar || '/images/icons/user.png'}}"
+          mode="aspectFill"
+        />
+        <view class="lfd-publisher__info">
+          <text class="lfd-publisher__name">{{detail.publisher.nickname || detail.publisher.nickName || '匿名用户'}}</text>
+          <text class="lfd-publisher__time" wx:if="{{detail._createdAtText}}">发布于 {{detail._createdAtText}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部留白 -->
+    <view class="lfd-bottom-space"></view>
+  </scroll-view>
+
+  <!-- 底部操作按钮 -->
+  <view class="lfd-actions safe-area-bottom">
+    <view
+      wx:if="{{isOwner}}"
+      class="lfd-btn lfd-btn--primary"
+      bindtap="onClose"
+      hover-class="lfd-btn--hover"
+    >
+      <text>关闭招领</text>
+    </view>
+  </view>
+</block>

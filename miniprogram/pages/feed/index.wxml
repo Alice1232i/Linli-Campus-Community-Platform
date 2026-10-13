@@ -1,0 +1,211 @@
+<!--pages/feed/index.wxml-->
+<!--首页 - 社区信息流（改版：搜索栏 + Banner + 功能宫格 + 排序Tab + 帖子流）-->
+
+<view class="feed-page">
+  <!-- 自定义导航栏：左上角为「定位学校」选择入口，搜索入口移至内容区 -->
+  <navigation-bar title="临里校园" back="{{false}}">
+    <!--
+      左上角学校入口（left 插槽仅在 back=false 时渲染，见 components/navigation-bar/navigation-bar.wxml）
+      注意：left 区域被组件内联样式固定为「屏幕宽 - 胶囊左边界」≈95px，故此处只用 shortName（≤4 字），
+      全称在选择面板里展示，避免撑破导航栏
+    -->
+    <view
+      slot="left"
+      class="nav-school"
+      hover-class="nav-school--hover"
+      bindtap="onOpenSchoolPicker"
+    >
+      <image class="nav-school__icon" src="/images/icons/location.png" mode="aspectFit" />
+      <text class="nav-school__name">{{currentSchool.shortName}}</text>
+      <view class="nav-school__chevron"></view>
+    </view>
+  </navigation-bar>
+
+  <!-- 滚动区：flex:1 占满剩余空间 -->
+  <scroll-view
+    class="feed-scroll"
+    type="list"
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    bindscrolltolower="onLoadMore"
+    refresher-enabled="{{true}}"
+    refresher-triggered="{{refresherTriggered}}"
+    bindrefresherrefresh="onRefresherRefresh"
+    refresher-default-style="black"
+  >
+    <!-- 1. 搜索栏（pill 形，点击跳转搜索页） -->
+    <view class="feed-search" bindtap="onTapSearch" hover-class="feed-search--hover">
+      <image class="feed-search__icon" src="/images/icons/search.png" mode="aspectFit" />
+      <text class="feed-search__placeholder">搜索帖子、话题、同学</text>
+    </view>
+
+    <!-- 2. Banner 轮播（手动控制自动播放，支持每张不同停留时间） -->
+    <swiper
+      class="feed-banner"
+      circular
+      current="{{bannerCurrent}}"
+      duration="{{500}}"
+      indicator-dots
+      indicator-color="rgba(255,255,255,0.4)"
+      indicator-active-color="#FFFFFF"
+      bindchange="onBannerChange"
+    >
+      <swiper-item wx:for="{{banners}}" wx:key="id">
+        <view class="feed-banner__slide" data-link="{{item.link}}" bindtap="onTapBanner">
+          <image class="feed-banner__image" src="{{item.image}}" mode="aspectFill" />
+        </view>
+      </swiper-item>
+    </swiper>
+
+    <!-- 3. 功能导航宫格（可折叠：默认展开八宫格，折叠后仅保留 4 个高频功能） -->
+    <view class="feed-grid">
+      <!-- 常驻高频功能行（始终展示） -->
+      <view class="feed-grid__row">
+        <view
+          wx:for="{{gridPinnedItems}}"
+          wx:key="key"
+          class="feed-grid__item"
+          data-key="{{item.key}}"
+          data-type="{{item.type}}"
+          data-url="{{item.url}}"
+          data-section="{{item.section}}"
+          bindtap="onTapGridItem"
+          hover-class="feed-grid__item--hover"
+        >
+          <view class="feed-grid__icon-wrap" style="background-color:{{item.color}}1A;">
+            <image class="feed-grid__icon" src="{{item.icon}}" mode="aspectFit" />
+          </view>
+          <text class="feed-grid__name">{{item.name}}</text>
+        </view>
+      </view>
+
+      <!-- 展开后的额外功能行（折叠时高度归零 + 淡出，平滑过渡） -->
+      <view class="feed-grid__row feed-grid__row--extra {{gridCollapsed ? 'is-collapsed' : ''}}">
+        <view
+          wx:for="{{gridExtraItems}}"
+          wx:key="key"
+          class="feed-grid__item"
+          data-key="{{item.key}}"
+          data-type="{{item.type}}"
+          data-url="{{item.url}}"
+          data-section="{{item.section}}"
+          bindtap="onTapGridItem"
+          hover-class="feed-grid__item--hover"
+        >
+          <view class="feed-grid__icon-wrap" style="background-color:{{item.color}}1A;">
+            <image class="feed-grid__icon" src="{{item.icon}}" mode="aspectFit" />
+          </view>
+          <text class="feed-grid__name">{{item.name}}</text>
+        </view>
+      </view>
+
+      <!-- 折叠 / 展开切换按钮 -->
+      <view class="feed-grid__toggle" bindtap="onToggleGrid" hover-class="feed-grid__toggle--hover">
+        <text class="feed-grid__toggle-text">{{gridCollapsed ? '展开更多' : '收起'}}</text>
+        <view class="feed-grid__chevron {{gridCollapsed ? '' : 'feed-grid__chevron--up'}}"></view>
+      </view>
+    </view>
+
+    <!-- 4. 内容排序 Tab（下划线风格） -->
+    <view class="feed-tabs-bar">
+      <feed-tabs
+        tabs="{{sortTabs}}"
+        active="{{currentSort}}"
+        bind:change="onSortChange"
+      ></feed-tabs>
+    </view>
+
+    <!-- 板块筛选指示条（点击宫格社区板块后出现，可清除） -->
+    <view wx:if="{{currentSection}}" class="feed-section-chip">
+      <text class="feed-section-chip__text">{{currentSectionName}}</text>
+      <view class="feed-section-chip__close" hover-class="feed-section-chip__close--hover" bindtap="onClearSection">
+        <image class="feed-section-chip__close-icon" src="/images/icons/close.png" mode="aspectFit" />
+      </view>
+    </view>
+
+    <!-- 5. 帖子列表 -->
+    <loading wx:if="{{firstLoading}}" text="加载中..."></loading>
+
+    <!-- 封禁用户专属提示 -->
+    <view wx:elif="{{isBanned}}" class="feed-banned">
+      <text class="feed-banned__text">您的账号已被封禁</text>
+      <text class="feed-banned__sub">封禁期间无法浏览社区内容</text>
+    </view>
+
+    <block wx:elif="{{posts.length}}">
+      <post-card
+        wx:for="{{posts}}"
+        wx:key="_id"
+        post="{{item}}"
+        liked="{{likedMap[item._id]}}"
+        bind:cardtap="onPostTap"
+        bind:liketap="onLikeTap"
+      ></post-card>
+
+      <!-- 底部加载更多 / 没有更多 -->
+      <loading wx:if="{{loading}}" text="加载更多..."></loading>
+      <view wx:elif="{{!hasMore}}" class="feed-end">
+        <text class="feed-end__text">没有更多了</text>
+      </view>
+    </block>
+
+    <!-- 空状态 -->
+    <empty-state
+      wx:else
+      text="还没有帖子"
+      sub="快来发布第一条吧"
+    ></empty-state>
+
+    <!-- 底部留白 -->
+    <view class="feed-bottom-space"></view>
+  </scroll-view>
+
+  <!-- ===== 学校选择弹窗（左上角「定位学校」入口触发） =====
+       放在 scroll-view 之外：避免被滚动区裁剪；遮罩 z-index 高于自定义 TabBar（999） -->
+  <view wx:if="{{schoolPickerVisible}}" class="school-mask" bindtap="onCloseSchoolPicker">
+    <!-- catchtap 阻止冒泡，点面板内部不会关闭 -->
+    <view class="school-panel" catchtap="onNoop">
+      <view class="school-panel__head">
+        <view class="school-panel__titles">
+          <text class="school-panel__title">选择学校</text>
+          <text class="school-panel__sub">按定位推荐，可随时切换</text>
+        </view>
+        <view
+          class="school-panel__close"
+          hover-class="school-panel__close--hover"
+          catchtap="onCloseSchoolPicker"
+        >
+          <image class="school-panel__close-icon" src="/images/icons/close.png" mode="aspectFit" />
+        </view>
+      </view>
+
+      <scroll-view class="school-panel__list" scroll-y enhanced show-scrollbar="{{false}}">
+        <!-- 内层容器承接条目间距：Skyline 下不用兄弟选择器（+），统一用 flex + gap（与发布页写法一致） -->
+        <view class="school-panel__items">
+          <view
+            wx:for="{{schoolList}}"
+            wx:key="id"
+            class="school-item {{item.id === currentSchool.id ? 'is-active' : ''}}"
+            data-id="{{item.id}}"
+            bindtap="onSelectSchool"
+            hover-class="school-item--hover"
+          >
+            <view class="school-item__body">
+              <view class="school-item__top">
+                <text class="school-item__name">{{item.name}}</text>
+                <view wx:if="{{item.recommended}}" class="school-item__tag">推荐</view>
+              </view>
+              <text class="school-item__city">{{item.city}}</text>
+            </view>
+            <view wx:if="{{item.id === currentSchool.id}}" class="school-item__check">
+              <view class="school-item__check-tick"></view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+
+      <text class="school-panel__foot">更多学校持续接入中</text>
+    </view>
+  </view>
+</view>

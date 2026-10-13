@@ -1,0 +1,167 @@
+<!--pages/search/index.wxml-->
+<!--全局搜索页 - 支持搜索帖子 / 话题 / 同学-->
+
+<navigation-bar title="搜索" back="{{true}}"></navigation-bar>
+
+<view class="search-page">
+  <!-- 搜索输入栏 -->
+  <view class="search-bar">
+    <view class="search-bar__input-wrap">
+      <image class="search-bar__icon" src="/images/icons/search.png" mode="aspectFit" />
+      <input
+        class="search-bar__input"
+        type="text"
+        placeholder="搜索帖子、话题、同学"
+        placeholder-class="search-bar__placeholder"
+        value="{{keyword}}"
+        bindinput="onInput"
+        bindconfirm="onSearch"
+        confirm-type="search"
+      />
+      <view
+        wx:if="{{keyword}}"
+        class="search-bar__clear-wrap"
+        hover-class="search-bar__clear--hover"
+        bindtap="onClearInput"
+      >
+        <image class="search-bar__clear" src="/images/icons/close_circle.png" mode="aspectFit" />
+      </view>
+    </view>
+    <text class="search-bar__btn" bindtap="onSearch">搜索</text>
+  </view>
+
+  <!-- 搜索类型 Tab -->
+  <view class="search-tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="search-tabs__item {{activeTab === item.key ? 'search-tabs__item--active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="onSwitchTab"
+      hover-class="search-tabs__item--hover"
+    >
+      <text>{{item.name}}</text>
+    </view>
+  </view>
+
+  <scroll-view
+    class="search-scroll"
+    type="list"
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    bindscrolltolower="onReachBottom"
+  >
+    <!-- 搜索历史区（未搜索时展示） -->
+    <view wx:if="{{!hasSearched && historyList.length > 0}}" class="history-section">
+      <view class="history-header">
+        <text class="history-header__title">搜索历史</text>
+        <text class="history-header__clear" bindtap="onClearHistory">清空</text>
+      </view>
+      <view class="history-tags">
+        <view
+          wx:for="{{historyList}}"
+          wx:key="*this"
+          class="history-tag"
+          data-keyword="{{item}}"
+          bindtap="onTapHistory"
+          hover-class="history-tag--hover"
+        >
+          <text>{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 搜索结果区 -->
+    <view wx:if="{{hasSearched}}" class="result-section">
+      <!-- 结果统计 -->
+      <view wx:if="{{total > 0}}" class="result-count">
+        <text>共找到 {{total}} 条结果</text>
+      </view>
+
+      <!-- ===== 帖子/话题搜索结果 ===== -->
+      <block wx:if="{{activeTab === 'post' || activeTab === 'tag'}}">
+        <view
+          wx:for="{{resultList}}"
+          wx:key="_id"
+          class="result-item card"
+          data-id="{{item._id}}"
+          bindtap="onTapPost"
+          hover-class="result-item--hover"
+        >
+          <!-- 帖子标题 -->
+          <text class="result-item__title" wx:if="{{item.title}}">{{item.title}}</text>
+          <!-- 帖子内容摘要（JS 截断，Skyline 无 line-clamp 兜底） -->
+          <text class="result-item__content">{{item._contentText}}</text>
+          <!-- 标签（话题搜索时高亮显示匹配的标签） -->
+          <view wx:if="{{item.tags && item.tags.length}}" class="result-item__tags">
+            <text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this" class="result-item__tag">#{{tag}}</text>
+          </view>
+          <!-- 底部信息：作者 + 时间 + 统计 -->
+          <view class="result-item__footer">
+            <text class="result-item__author">{{item.author.nickname || '匿名用户'}}</text>
+            <text class="result-item__time">{{item._timeText}}</text>
+            <view class="result-item__stats">
+              <text class="result-item__stat">{{item.stats.likes}}赞</text>
+              <text class="result-item__stat">{{item.stats.comments}}评</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- ===== 同学搜索结果 ===== -->
+      <block wx:if="{{activeTab === 'user'}}">
+        <view
+          wx:for="{{resultList}}"
+          wx:key="_id"
+          class="user-item card"
+          data-id="{{item._id}}"
+
+          bindtap="onTapUser"
+          hover-class="user-item--hover"
+        >
+          <!-- 头像 + 信息行 -->
+          <view class="user-item__header">
+            <image
+              class="user-item__avatar"
+              src="{{item.avatar || '/images/icons/user.png'}}"
+              mode="aspectFill"
+            />
+            <view class="user-item__info">
+              <view class="user-item__name-row">
+                <text class="user-item__name">{{item.nickname || '匿名用户'}}</text>
+                <view wx:if="{{item.verifyBadge}}" class="user-item__badge">认证</view>
+              </view>
+              <text wx:if="{{item.campus}}" class="user-item__campus">{{item.campus}}</text>
+              <text wx:if="{{item.bio}}" class="user-item__bio">{{item.bio}}</text>
+            </view>
+          </view>
+          <!-- 统计数据 -->
+          <view class="user-item__stats">
+            <text class="user-item__stat">{{item.stats.postCount || 0}} 帖子</text>
+            <text class="user-item__stat">{{item.stats.likeCount || 0}} 获赞</text>
+          </view>
+        </view>
+      </block>
+
+      <!-- 加载中 -->
+      <loading wx:if="{{searching}}" text="搜索中..." />
+
+      <!-- 无更多数据 -->
+      <view wx:if="{{!hasMore && resultList.length > 0 && !searching}}" class="result-end">
+        <text>没有更多了</text>
+      </view>
+
+      <!-- 空状态 -->
+      <empty-state
+        wx:if="{{!searching && resultList.length === 0}}"
+        icon="/images/icons/search_round.png"
+        text="未找到相关内容"
+        sub="换个关键词试试吧"
+      />
+    </view>
+
+    <!-- 底部留白 -->
+    <view class="search-bottom-space"></view>
+  </scroll-view>
+</view>

@@ -1,0 +1,225 @@
+<!--pages/post/detail/index.wxml-->
+<!--帖子详情页-->
+
+<!-- 自定义导航栏，标题"帖子详情" -->
+<navigation-bar title="帖子详情" back="{{true}}">
+  <view wx:if="{{post && post.isOwner}}" slot="right" class="detail-nav-edit" hover-class="detail-nav-edit--hover" bindtap="onEditPost">
+    <text>编辑</text>
+  </view>
+</navigation-bar>
+
+<!-- 加载中 -->
+<view wx:if="{{loading}}" class="detail-loading-wrap">
+  <loading text="加载中..."></loading>
+</view>
+
+<!-- 加载失败：提供「重新加载」入口，避免永久空白页（P0-4） -->
+<view wx:elif="{{loadError}}" class="load-error">
+  <text class="load-error__text">{{loadErrorText || '加载失败，请检查网络后重试'}}</text>
+  <view class="btn-secondary load-error__btn" hover-class="load-error__btn--hover" bindtap="onRetry">重新加载</view>
+</view>
+
+<!-- 内容区 -->
+<block wx:elif="{{post}}">
+  <scroll-view
+    class="detail-scroll"
+    type="list"
+    scroll-y
+    enhanced
+    show-scrollbar="{{false}}"
+    bindscrolltolower="onLoadMoreComments"
+  >
+    <!-- 帖子正文区 -->
+    <view class="detail-post card">
+      <!-- 作者信息行 -->
+      <view class="detail-author" bindtap="onTapAuthor">
+        <image
+          class="detail-author__avatar"
+          src="{{post.author.avatar || post.author.avatarUrl || '/images/icons/user.png'}}"
+          mode="aspectFill"
+        />
+        <view class="detail-author__info">
+          <text class="detail-author__name">{{post.author.nickname || post.author.nickName || '匿名用户'}}</text>
+          <text class="detail-author__time">{{timeText}}</text>
+        </view>
+        <!-- 板块彩色标签：底色由 sectionColor 控制 -->
+        <view wx:if="{{post.section}}" class="detail-author__section-tag" style="background-color:{{sectionColor}};">
+          <text>{{sectionName}}</text>
+        </view>
+        <!-- 置顶标识 -->
+        <view wx:if="{{isTop}}" class="detail-author__badge detail-author__badge--top">
+          <text>置顶</text>
+        </view>
+        <!-- 精华标识 -->
+        <view wx:if="{{isEssence}}" class="detail-author__badge detail-author__badge--essence">
+          <text>精华</text>
+        </view>
+      </view>
+
+      <!-- 标题 -->
+      <text wx:if="{{post.title}}" class="detail-title">{{post.title}}</text>
+
+      <!-- 正文（rich-text 渲染） -->
+      <rich-text wx:if="{{contentNodes.length}}" class="detail-content" nodes="{{contentNodes}}"></rich-text>
+
+      <!-- 图片网格 -->
+      <view wx:if="{{post.images && post.images.length}}" class="detail-images">
+        <image
+          wx:for="{{post.images}}"
+          wx:key="*this"
+          class="detail-images__img detail-images__img--{{post.images.length === 1 ? 'one' : 'multi'}} {{index % 3 === 2 ? 'detail-images__img--last-col' : ''}}"
+          src="{{item}}"
+          mode="{{post.images.length === 1 ? 'widthFix' : 'aspectFill'}}"
+          data-src="{{item}}"
+          bindtap="onTapImage"
+          lazy-load
+        />
+      </view>
+
+      <!-- 标签 -->
+      <view wx:if="{{post.tags && post.tags.length}}" class="detail-tags">
+        <view wx:for="{{post.tags}}" wx:key="*this" class="tag">#{{item}}</view>
+      </view>
+
+      <!-- 二手交易信息卡片 -->
+      <view wx:if="{{post.tradeInfo}}" class="detail-trade">
+        <view class="detail-trade__header">
+          <view class="detail-trade__type-tag detail-trade__type-tag--{{post.tradeInfo.tradeType}}">
+            <text>{{post.tradeInfo.tradeType === 'buy' ? '求购' : '出售'}}</text>
+          </view>
+          <text wx:if="{{post.tradeInfo.isSold}}" class="detail-trade__sold-badge">已售</text>
+        </view>
+        <view class="detail-trade__price-row">
+          <text class="detail-trade__price">¥{{post.tradeInfo.price}}</text>
+          <text class="detail-trade__condition">成色：{{post.tradeInfo.condition}}</text>
+        </view>
+        <view class="detail-trade__hint">
+          <text>感兴趣可在下方评论区留言，或交换微信联系</text>
+        </view>
+      </view>
+
+      <!-- 底部操作栏：左侧互动组（点赞/评论/收藏），右侧操作组（分享/举报） -->
+      <view class="detail-actions">
+        <!-- 左侧互动组 -->
+        <view class="detail-actions__group">
+          <!-- 点赞：空心爱心 → 实心爱心 -->
+          <view class="detail-actions__item" bindtap="onTapLike" hover-class="detail-actions__item--hover">
+            <image
+              class="detail-actions__icon"
+              src="{{liked ? '/images/icons/detail/like_filled.png' : '/images/icons/detail/like_outline.png'}}"
+              mode="aspectFit"
+            />
+            <text class="detail-actions__num {{liked ? 'detail-actions__num--active' : ''}}">{{likeText}}</text>
+          </view>
+          <!-- 评论：气泡图标 -->
+          <view class="detail-actions__item" bindtap="onLoadMoreComments" hover-class="detail-actions__item--hover">
+            <image
+              class="detail-actions__icon"
+              src="/images/icons/detail/comment.png"
+              mode="aspectFit"
+            />
+            <text class="detail-actions__num">{{commentCountText}}</text>
+          </view>
+          <!-- 收藏：空心星星 → 实心星星 -->
+          <view class="detail-actions__item" bindtap="onTapFavorite" hover-class="detail-actions__item--hover">
+            <image
+              class="detail-actions__icon"
+              src="{{favorited ? '/images/icons/detail/fav_filled.png' : '/images/icons/detail/fav_outline.png'}}"
+              mode="aspectFit"
+            />
+            <!-- 占位文字：保证与点赞/评论图标垂直对齐 -->
+            <text class="detail-actions__num detail-actions__num--placeholder">收藏</text>
+          </view>
+        </view>
+        <!-- 右侧操作组：分享 + 举报紧贴排列，举报在最右 -->
+        <view class="detail-actions__group detail-actions__group--right">
+          <!-- 分享：箭头图标（保留 button open-type=share） -->
+          <button class="detail-actions__item detail-actions__share" open-type="share" hover-class="detail-actions__item--hover">
+            <image
+              class="detail-actions__icon"
+              src="/images/icons/detail/share.png"
+              mode="aspectFit"
+            />
+            <!-- 占位文字：保证与点赞/评论图标垂直对齐 -->
+            <text class="detail-actions__num detail-actions__num--placeholder">分享</text>
+          </button>
+          <!-- 举报：与分享按钮同等大小的图标按钮 -->
+          <view class="detail-actions__item" bindtap="onReport" hover-class="detail-actions__item--hover">
+            <image
+              class="detail-actions__icon detail-actions__icon--report"
+              src="/images/icons/detail/jubao.png"
+              mode="aspectFit"
+            />
+            <text class="detail-actions__num detail-actions__item--report-num">举报</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 评论区分隔线 -->
+    <view class="detail-comments-header">
+      <text class="detail-comments-header__text">全部评论</text>
+      <text class="detail-comments-header__count">{{commentCountText}}</text>
+    </view>
+
+    <!-- 评论列表 -->
+    <view class="detail-comments card">
+      <block wx:if="{{comments.length}}">
+        <comment-item
+          wx:for="{{comments}}"
+          wx:key="_id"
+          comment="{{item}}"
+          liked="{{item._liked}}"
+          is-owner="{{item.isMine}}"
+          bind:reply="onTapReply"
+          bind:liketap="onTapCommentLike"
+          bind:delete="onDeleteComment"
+        ></comment-item>
+      </block>
+
+      <!-- 评论加载更多 -->
+      <loading wx:if="{{commentLoading}}" text="加载评论..."></loading>
+
+      <!-- 无评论空状态 -->
+      <empty-state
+        wx:if="{{!comments.length && !commentLoading}}"
+        text="还没有评论"
+        sub="快来抢沙发吧"
+      ></empty-state>
+
+      <!-- 没有更多评论 -->
+      <view wx:if="{{comments.length && !commentHasMore && !commentLoading}}" class="detail-comments-end">
+        <text class="detail-comments-end__text">没有更多评论了</text>
+      </view>
+    </view>
+
+    <!-- 底部留白（避免被输入栏遮挡） -->
+    <view class="detail-bottom-space"></view>
+  </scroll-view>
+
+  <!-- 底部固定评论输入栏 -->
+  <view class="detail-comment-bar safe-area-bottom">
+    <view class="detail-comment-bar__inner">
+      <view class="detail-comment-bar__input-wrap">
+        <text wx:if="{{replyHint}}" class="detail-comment-bar__hint">{{replyHint}}</text>
+        <input
+          class="detail-comment-bar__input"
+          value="{{commentText}}"
+          focus="{{commentFocus}}"
+          placeholder="{{replyHint ? '回复评论...' : '写评论...'}}"
+          placeholder-class="detail-comment-bar__placeholder"
+          confirm-type="send"
+          bindinput="onCommentInput"
+          bindconfirm="onSubmitComment"
+        />
+      </view>
+      <view
+        class="detail-comment-bar__send {{commentText && !submittingComment ? '' : 'detail-comment-bar__send--disabled'}}"
+        bindtap="onSubmitComment"
+        hover-class="detail-comment-bar__send--hover"
+      >
+        <text class="detail-comment-bar__send-text">{{submittingComment ? '发送中' : '发送'}}</text>
+      </view>
+    </view>
+  </view>
+</block>

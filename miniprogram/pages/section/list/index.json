@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "navigation-bar": "../../../components/navigation-bar/navigation-bar",
+    "feed-tabs": "../../../components/feed-tabs/feed-tabs",
+    "post-card": "../../../components/post-card/post-card",
+    "empty-state": "../../../components/empty-state/empty-state",
+    "loading": "../../../components/loading/loading"
+  }
+}

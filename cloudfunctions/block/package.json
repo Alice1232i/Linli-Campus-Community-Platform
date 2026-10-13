@@ -1,0 +1,9 @@
+{
+  "name": "block",
+  "version": "1.0.0",
+  "description": "拉黑模块云函数 - 拉黑/取消拉黑/拉黑列表",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

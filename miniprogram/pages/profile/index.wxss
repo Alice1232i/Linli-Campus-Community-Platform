@@ -1,0 +1,237 @@
+/* pages/profile/index.wxss */
+/* 我的页 - 渐变顶部卡片 + 统计数据条 + 功能入口列表 */
+
+/* 页面容器：纵向 flex 占满整屏 */
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* 滚动区：占据剩余空间 */
+.profile-scroll {
+  flex: 1;
+}
+
+/* ============ 顶部用户信息卡片（主色到浅色渐变） ============ */
+.user-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: var(--space-xl) var(--space-lg);
+  background: linear-gradient(135deg, #4A90D9 0%, #8AB8E8 100%);
+}
+.user-card--hover {
+  opacity: 0.9;
+}
+
+/* 头像：120rpx 圆形带白色边框 */
+.user-card__avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+
+.user-card__info {
+  flex: 1;
+  margin-left: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.user-card__name-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.user-card__name {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+/* 认证徽章 */
+.user-card__badge {
+  margin-left: var(--space-sm);
+  padding: 2rpx var(--space-sm);
+  font-size: var(--font-xs);
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-full);
+  line-height: 1.4;
+}
+
+/* 账号状态标签（封禁/禁言） */
+.user-card__status {
+  margin-left: var(--space-sm);
+  padding: 2rpx var(--space-sm);
+  font-size: var(--font-xs);
+  border-radius: var(--radius-full);
+  line-height: 1.4;
+}
+
+.user-card__status--banned {
+  color: #FFFFFF;
+  background-color: var(--color-danger);
+}
+
+.user-card__status--muted {
+  color: #FFFFFF;
+  background-color: var(--color-warning);
+}
+
+/* 封禁/禁言提示横幅 */
+.account-notice {
+  margin: var(--space-sm) 0;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.account-notice--banned {
+  background-color: #FFF0F0;
+  border: 1rpx solid #FFD0D0;
+}
+
+.account-notice--muted {
+  background-color: #FFF8E7;
+  border: 1rpx solid #FFE4B5;
+}
+
+.account-notice__title {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--color-danger);
+  margin-bottom: 8rpx;
+}
+
+.account-notice--muted .account-notice__title {
+  color: var(--color-warning);
+}
+
+.account-notice__desc {
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+/* 院系信息：学院 · 专业 · 届数（编辑资料填写后展示） */
+.user-card__meta {
+  margin-top: 6rpx;
+  font-size: var(--font-xs);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.user-card__sub {
+  margin-top: var(--space-xs);
+  font-size: var(--font-sm);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ============ 统计数据条（flex 等分） ============ */
+.stats-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: var(--space-md);
+  padding: var(--space-lg) 0;
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+.stats-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8rpx 0;
+  border-radius: var(--radius-sm);
+}
+.stats-item--hover {
+  background-color: var(--color-bg-hover, rgba(0, 0, 0, 0.04));
+}
+.stats-item__num {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+.stats-item__label {
+  margin-top: var(--space-xs);
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+}
+.stats-divider {
+  width: 2rpx;
+  height: 48rpx;
+  background-color: var(--color-divider);
+}
+
+/* ============ 功能入口列表 ============ */
+.entry-list {
+  margin: 0 var(--space-md) var(--space-md);
+  padding: 0;
+  overflow: hidden;
+}
+
+/* 每项 88rpx 高，左图标 40rpx，右箭头 */
+.entry-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 88rpx;
+  padding: 0 var(--space-md);
+  border-bottom: 2rpx solid var(--color-divider);
+}
+.entry-item--last {
+  border-bottom: none;
+}
+.entry-item--hover {
+  background-color: var(--color-bg-page);
+}
+.entry-item__icon {
+  width: 40rpx;
+  height: 40rpx;
+  flex-shrink: 0;
+}
+.entry-item__name {
+  flex: 1;
+  margin-left: var(--space-md);
+  font-size: var(--font-md);
+  color: var(--color-text-primary);
+}
+/* 未认证标签 */
+.entry-item__tag {
+  margin-right: var(--space-sm);
+  padding: 2rpx var(--space-sm);
+  font-size: var(--font-xs);
+  color: var(--color-secondary);
+  background-color: rgba(255, 107, 107, 0.1);
+  border-radius: var(--radius-full);
+  line-height: 1.4;
+}
+
+/* ============ 退出登录按钮（底部，红色文字） ============ */
+.logout-btn {
+  margin: 0 var(--space-md) var(--space-lg);
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  font-size: var(--font-md);
+  color: var(--color-secondary);
+}
+.logout-btn--hover {
+  opacity: 0.7;
+}
+
+/* 底部占位（避开固定 TabBar + 安全区） */
+.bottom-spacer {
+  height: calc(var(--tabbar-height) + env(safe-area-inset-bottom));
+}

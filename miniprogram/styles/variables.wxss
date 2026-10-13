@@ -1,0 +1,65 @@
+/**
+ * variables.wxss
+ * 临里校园 - 校园活力风设计 token
+ * 明快多彩配色，统一全局视觉变量
+ * 变量声明在 page 选择器下，保证全局可用
+ */
+
+page {
+  /* ============ 主题色 ============ */
+  /* 主色：活力蓝 */
+  --color-primary: #4A90D9;
+  /* 主色衍生：10% 透明底（标签/选中底色，收编硬编码 rgba(74,144,217,.1)） */
+  --color-primary-10: rgba(74, 144, 217, 0.1);
+  /* 辅助色：珊瑚红 / 明黄 / 清新绿 */
+  --color-secondary: #FF6B6B;
+  --color-accent: #FFD93D;
+  --color-success: #6BCF7F;
+
+  /* ============ 语义色（一色一义） ============ */
+  --color-danger: #FF6B6B;           /* 危险/删除/封禁/角标（统一替代 #FF3B30 等散用红） */
+  --color-warning: #F5A623;          /* 警示/精华/禁言（统一替代 #F39C12 等散用橙） */
+
+  /* ============ 文字色 ============ */
+  --color-text-primary: #1A1A2E;     /* 主文字 */
+  --color-text-secondary: #6B7280;   /* 次级文字 */
+  --color-text-placeholder: #9CA3AF; /* 占位文字（仅限输入占位/装饰性提示） */
+  --color-text-time: #B0B6BF;        /* 时间戳/弱信息（对比度高于 #BBBBBB，需 ≥24rpx） */
+
+  /* ============ 背景色 ============ */
+  --color-bg-page: #F5F7FA;          /* 页面背景 */
+  --color-bg-card: #FFFFFF;          /* 卡片背景 */
+  --color-bg-mask: rgba(0, 0, 0, 0.5); /* 遮罩层 */
+
+  /* ============ 边框色 ============ */
+  --color-border: #E5E7EB;           /* 普通边框 */
+  --color-divider: #F3F4F6;          /* 分割线 */
+
+  /* ============ 圆角 ============ */
+  --radius-sm: 8rpx;
+  --radius-md: 16rpx;
+  --radius-lg: 24rpx;
+  --radius-full: 999rpx;             /* 胶囊/圆形 */
+
+  /* ============ 间距 ============ */
+  --space-xs: 8rpx;
+  --space-sm: 16rpx;
+  --space-md: 24rpx;
+  --space-lg: 32rpx;
+  --space-xl: 48rpx;
+
+  /* ============ 字号 ============ */
+  --font-xs: 20rpx;
+  --font-sm: 24rpx;
+  --font-md: 28rpx;
+  --font-lg: 32rpx;
+  --font-xl: 36rpx;
+  --font-xxl: 48rpx;
+
+  /* ============ 阴影 ============ */
+  --shadow-card: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);  /* 卡片阴影 */
+  --shadow-float: 0 8rpx 32rpx rgba(0, 0, 0, 0.12); /* 浮层阴影 */
+
+  /* ============ TabBar ============ */
+  --tabbar-height: 88rpx;
+}
